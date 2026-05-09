@@ -20,6 +20,13 @@ variable "kms_key_arn" { type = string }
 variable "instance_class" { type = string }
 variable "tags" { type = map(string) }
 
+// Read replica is off by default pre-launch — the admin console can read
+// from the writer at zero customer load. Flip on once query volume warrants.
+variable "enable_read_replica" {
+  type    = bool
+  default = false
+}
+
 resource "random_password" "master" {
   length           = 32
   special          = true
@@ -48,43 +55,47 @@ resource "aws_db_parameter_group" "this" {
 }
 
 resource "aws_db_instance" "writer" {
-  identifier                  = "kiris-${var.env}"
-  engine                      = "postgres"
-  engine_version              = "16.4"
-  instance_class              = var.instance_class
-  allocated_storage           = 100
-  max_allocated_storage       = 1000
-  storage_encrypted           = true
-  kms_key_id                  = var.kms_key_arn
-  db_name                     = "kiris"
-  username                    = "kiris_master"
-  password                    = random_password.master.result
-  parameter_group_name        = aws_db_parameter_group.this.name
-  db_subnet_group_name        = aws_db_subnet_group.this.name
-  vpc_security_group_ids      = [var.db_sg_id]
-  multi_az                    = true
-  backup_retention_period     = 35
-  backup_window               = "07:00-08:00"
-  maintenance_window          = "Sun:08:00-Sun:09:00"
-  deletion_protection         = true
-  skip_final_snapshot         = false
-  final_snapshot_identifier   = "kiris-${var.env}-final"
-  performance_insights_enabled = true
+  identifier            = "kiris-${var.env}"
+  engine                = "postgres"
+  engine_version        = "16.4"
+  instance_class        = var.instance_class
+  allocated_storage     = 20
+  max_allocated_storage = 200
+  storage_encrypted     = true
+  kms_key_id            = var.kms_key_arn
+  db_name               = "kiris"
+  username              = "kiris_master"
+  password              = random_password.master.result
+  parameter_group_name  = aws_db_parameter_group.this.name
+  db_subnet_group_name  = aws_db_subnet_group.this.name
+  vpc_security_group_ids = [var.db_sg_id]
+  // TODO: re-enable multi_az before first paying customer or before signing any BAA — required for HIPAA tier.
+  multi_az                  = false
+  backup_retention_period   = 35
+  backup_window             = "07:00-08:00"
+  maintenance_window        = "Sun:08:00-Sun:09:00"
+  deletion_protection       = true
+  skip_final_snapshot       = false
+  final_snapshot_identifier = "kiris-${var.env}-final"
+  // Performance Insights stays on; retention defaults to 7 days (free tier on t4g/t3).
+  // Do NOT set performance_insights_retention_period — leaving it unset is the free path.
+  performance_insights_enabled    = true
   performance_insights_kms_key_id = var.kms_key_arn
   enabled_cloudwatch_logs_exports = ["postgresql"]
-  publicly_accessible         = false
-  tags                        = var.tags
+  publicly_accessible             = false
+  tags                            = var.tags
 }
 
 resource "aws_db_instance" "reader" {
-  identifier                  = "kiris-${var.env}-reader"
-  replicate_source_db         = aws_db_instance.writer.identifier
-  instance_class              = var.instance_class
-  publicly_accessible         = false
+  count                        = var.enable_read_replica ? 1 : 0
+  identifier                   = "kiris-${var.env}-reader"
+  replicate_source_db          = aws_db_instance.writer.identifier
+  instance_class               = var.instance_class
+  publicly_accessible          = false
   performance_insights_enabled = true
-  storage_encrypted           = true
-  kms_key_id                  = var.kms_key_arn
-  tags                        = merge(var.tags, { role = "reader" })
+  storage_encrypted            = true
+  kms_key_id                   = var.kms_key_arn
+  tags                         = merge(var.tags, { role = "reader" })
 }
 
 # Master credentials live in Secrets Manager; the app role rotates via IAM.
@@ -106,5 +117,7 @@ resource "aws_secretsmanager_secret_version" "master" {
 }
 
 output "writer_endpoint" { value = aws_db_instance.writer.endpoint }
-output "reader_endpoint" { value = aws_db_instance.reader.endpoint }
+output "reader_endpoint" {
+  value = var.enable_read_replica ? aws_db_instance.reader[0].endpoint : null
+}
 output "master_secret_arn" { value = aws_secretsmanager_secret.master.arn }

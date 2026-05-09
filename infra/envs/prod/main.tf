@@ -47,13 +47,15 @@ module "kms" {
 }
 
 module "rds" {
-  source         = "../../modules/rds"
-  env            = var.env
-  subnet_ids     = module.network.db_subnet_ids
-  db_sg_id       = module.network.db_sg_id
-  kms_key_arn    = module.kms.standard_arn
-  instance_class = "db.r6g.large"
-  tags           = var.tags
+  source      = "../../modules/rds"
+  env         = var.env
+  subnet_ids  = module.network.db_subnet_ids
+  db_sg_id    = module.network.db_sg_id
+  kms_key_arn = module.kms.standard_arn
+  // TODO: bump to db.r6g.large before first paying customer; buy 1-yr RI at that point.
+  instance_class = "db.t4g.medium"
+  // TODO: set enable_read_replica = true once admin console has real query load.
+  tags = var.tags
 }
 
 module "s3" {
