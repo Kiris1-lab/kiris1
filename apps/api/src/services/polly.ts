@@ -1,4 +1,4 @@
-import { PollyClient, SynthesizeSpeechCommand } from "@aws-sdk/client-polly";
+import { PollyClient, SynthesizeSpeechCommand, type VoiceId } from "@aws-sdk/client-polly";
 import { loadEnv } from "../env.js";
 
 /**
@@ -16,7 +16,7 @@ function getClient(): PollyClient {
 
 export interface NarrationInput {
   text: string;
-  voice: string;          // e.g. "Joanna"
+  voice: string; // e.g. "Joanna"
   engine: "neural" | "generative";
 }
 
@@ -31,7 +31,9 @@ export async function synthesize(input: NarrationInput): Promise<NarrationOutput
   const out = await getClient().send(
     new SynthesizeSpeechCommand({
       Text: input.text,
-      VoiceId: input.voice,
+      // SDK types VoiceId as a closed string-literal union; the route validates
+      // via Zod and Polly returns a clear runtime error for unknown voices.
+      VoiceId: input.voice as VoiceId,
       Engine: input.engine,
       OutputFormat: "mp3",
     }),

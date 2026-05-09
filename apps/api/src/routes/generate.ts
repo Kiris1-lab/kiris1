@@ -1,10 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
-import {
-  buildExpressPrompt,
-  buildSlideHelperPrompt,
-  validateModule,
-} from "@kiris/learning-engine";
+import { buildExpressPrompt, buildSlideHelperPrompt, validateModule } from "@kiris/learning-engine";
 import { scrubText } from "@kiris/scrubber";
 import { withTenant, schema } from "@kiris/db";
 import { generate } from "../services/anthropic.js";
@@ -45,7 +41,12 @@ const generateRoute: FastifyPluginAsync = async (app) => {
 
       // Pre-flight scrub on Standard tier.
       if (req.auth.tier === "standard") {
-        const probe = [parsed.data.title, parsed.data.audience, parsed.data.goal, parsed.data.materialsText ?? ""].join("\n\n");
+        const probe = [
+          parsed.data.title,
+          parsed.data.audience,
+          parsed.data.goal,
+          parsed.data.materialsText ?? "",
+        ].join("\n\n");
         const scrub = await scrubText(probe);
         if (scrub.decision === "block") {
           return reply.code(422).send({

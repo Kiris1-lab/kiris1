@@ -27,13 +27,7 @@ const PHI_TABLES = [
   "team_members",
 ] as const;
 
-const TENANT_TABLES = [
-  ...PHI_TABLES,
-  "users",
-  "audit_log",
-  "invoices",
-  "payment_methods",
-] as const;
+const TENANT_TABLES = [...PHI_TABLES, "users", "audit_log", "invoices", "payment_methods"] as const;
 
 /**
  * Returns the SQL needed to enable RLS on every relevant table and create the

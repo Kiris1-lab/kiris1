@@ -40,11 +40,7 @@ export const exportFormatEnum = pgEnum("export_format", [
   "html5",
 ]);
 export const phiDecisionEnum = pgEnum("phi_decision", ["allow", "confirm", "block"]);
-export const capRequestStatusEnum = pgEnum("cap_request_status", [
-  "pending",
-  "approved",
-  "denied",
-]);
+export const capRequestStatusEnum = pgEnum("cap_request_status", ["pending", "approved", "denied"]);
 export const capKindEnum = pgEnum("cap_kind", ["ai_credits", "narration_minutes"]);
 
 export const teams = pgTable(

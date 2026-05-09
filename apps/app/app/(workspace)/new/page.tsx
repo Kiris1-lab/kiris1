@@ -7,9 +7,9 @@ export const metadata = { title: "New module" };
 export default function NewModulePage() {
   return (
     <div className="mx-auto max-w-3xl">
-      <p className="text-caption uppercase text-text-tertiary">New module</p>
-      <h1 className="mt-1 text-display-md">How would you like to start?</h1>
-      <p className="mt-2 text-body-md text-text-secondary">
+      <p className="text-caption text-text-tertiary uppercase">New module</p>
+      <h1 className="text-display-md mt-1">How would you like to start?</h1>
+      <p className="text-body-md text-text-secondary mt-2">
         Both modes produce export-ready output. You can switch later.
       </p>
 
@@ -31,7 +31,7 @@ export default function NewModulePage() {
         />
       </div>
 
-      <p className="mt-8 text-body-sm text-text-tertiary">
+      <p className="text-body-sm text-text-tertiary mt-8">
         Standard tier: PHI is prohibited and pre-filtered before generation. Need PHI? Ask your
         org_admin to upgrade to the HIPAA tier.
       </p>
@@ -59,20 +59,20 @@ function ModeCard({
       href={href}
       className="group block rounded-lg outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
     >
-      <Card className="h-full transition-colors duration-state group-hover:border-accent">
+      <Card className="duration-state group-hover:border-accent h-full transition-colors">
         <CardBody className="flex h-full flex-col">
           <div className="flex items-center justify-between">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent-soft text-accent">
+            <div className="bg-accent-soft text-accent flex h-10 w-10 items-center justify-center rounded-md">
               {icon}
             </div>
             {recommended ? (
-              <span className="text-caption uppercase text-accent">Recommended</span>
+              <span className="text-caption text-accent uppercase">Recommended</span>
             ) : null}
           </div>
-          <h2 className="mt-4 text-heading-lg">{title}</h2>
+          <h2 className="text-heading-lg mt-4">{title}</h2>
           <p className="text-body-sm text-text-tertiary">{subtitle}</p>
-          <p className="mt-3 flex-1 text-body-md text-text-secondary">{body}</p>
-          <span className="mt-6 inline-flex items-center gap-2 text-body-sm font-medium text-accent">
+          <p className="text-body-md text-text-secondary mt-3 flex-1">{body}</p>
+          <span className="text-body-sm text-accent mt-6 inline-flex items-center gap-2 font-medium">
             Start with {title}
             <ArrowRight size={14} aria-hidden />
           </span>

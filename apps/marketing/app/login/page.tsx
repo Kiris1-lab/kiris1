@@ -9,9 +9,9 @@ export default function LoginPage() {
     <Section>
       <div className="mx-auto max-w-md">
         <h1 className="text-display-md">Log in</h1>
-        <p className="mt-3 text-body-md text-text-secondary">
-          Welcome back. We'll send you to{" "}
-          <code className="text-body-sm">app.kiris.ai</code> after authentication.
+        <p className="text-body-md text-text-secondary mt-3">
+          Welcome back. We&apos;ll send you to <code className="text-body-sm">app.kiris.ai</code>{" "}
+          after authentication.
         </p>
 
         <form className="mt-8 space-y-5" method="post" action="/api/login">
@@ -29,13 +29,13 @@ export default function LoginPage() {
           </Field>
           <button
             type="submit"
-            className="inline-flex h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+            className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-11 w-full items-center justify-center rounded-md px-5 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
           >
             Log in
           </button>
         </form>
 
-        <p className="mt-6 text-body-sm text-text-secondary">
+        <p className="text-body-sm text-text-secondary mt-6">
           New here?{" "}
           <Link href="/signup" className="underline">
             Get started
@@ -58,7 +58,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="text-body-sm font-medium text-text-primary">
+      <label htmlFor={htmlFor} className="text-body-sm text-text-primary font-medium">
         {label}
       </label>
       <div className="mt-1.5">{children}</div>

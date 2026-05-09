@@ -4,6 +4,15 @@ const nextConfig = {
   poweredByHeader: false,
   transpilePackages: ["@kiris/ui", "@kiris/billing", "@kiris/learning-engine", "@kiris/scorm"],
 
+  // Workspace packages use NodeNext-style ".js" specifiers on TS imports;
+  // webpack resolves the matching ".ts" / ".tsx" file at bundle time.
+  webpack: (config) => {
+    config.resolve.extensionAlias = {
+      ".js": [".ts", ".tsx", ".js", ".jsx"],
+    };
+    return config;
+  },
+
   async headers() {
     return [
       {

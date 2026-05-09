@@ -18,11 +18,11 @@ export default function PricingPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Pricing</p>
-            <h1 className="mt-3 text-display-lg">Simple, transparent pricing. No contracts.</h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
-              Every plan, every price, every overage rate is on this page. No "contact us for
-              pricing." No retention dark patterns. Cancel anytime in the customer portal.
+            <p className="text-caption text-accent uppercase">Pricing</p>
+            <h1 className="text-display-lg mt-3">Simple, transparent pricing. No contracts.</h1>
+            <p className="text-body-lg text-text-secondary mt-5">
+              Every plan, every price, every overage rate is on this page. No &quot;contact us for
+              pricing.&quot; No retention dark patterns. Cancel anytime in the customer portal.
             </p>
           </div>
         </Container>
@@ -55,7 +55,7 @@ export default function PricingPage() {
                 <h3 className="text-heading-lg">{ENTERPRISE.name}</h3>
                 <Badge variant="outline">Custom</Badge>
               </div>
-              <p className="mt-2 text-body-sm text-text-secondary">{ENTERPRISE.description}</p>
+              <p className="text-body-sm text-text-secondary mt-2">{ENTERPRISE.description}</p>
               <p className="mt-6">
                 <span className="text-display-md font-semibold">
                   ${ENTERPRISE.startsAtMonthlyUsd.toLocaleString()}
@@ -63,19 +63,19 @@ export default function PricingPage() {
                 <span className="text-body-md text-text-secondary"> /month and up</span>
               </p>
               <p className="text-body-sm text-text-tertiary">Annual only</p>
-              <ul className="mt-6 flex flex-1 flex-col gap-2 text-body-sm text-text-secondary">
+              <ul className="text-body-sm text-text-secondary mt-6 flex flex-1 flex-col gap-2">
                 <li className="flex gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden /> Volume seat
+                  <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden /> Volume seat
                   pricing
                 </li>
                 <li className="flex gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden /> SSO / SAML
+                  <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden /> SSO / SAML
                 </li>
                 <li className="flex gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden /> Custom DPA
+                  <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden /> Custom DPA
                 </li>
                 <li className="flex gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden /> Premium SLA
+                  <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden /> Premium SLA
                 </li>
               </ul>
               <CtaLink href="/contact-sales" className="mt-8" variant="secondary">
@@ -92,7 +92,11 @@ export default function PricingPage() {
           Overage rates
         </SectionHeading>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <RateCard label="AI credits" rate={`$${OVERAGE_RATES.aiCreditUsd}/credit`} sub="≈ 10K Claude tokens" />
+          <RateCard
+            label="AI credits"
+            rate={`$${OVERAGE_RATES.aiCreditUsd}/credit`}
+            sub="≈ 10K Claude tokens"
+          />
           <RateCard
             label="Narration · Neural"
             rate={`$${OVERAGE_RATES.narrationNeuralUsdPerMin}/min`}
@@ -120,7 +124,7 @@ export default function PricingPage() {
           <Card>
             <CardBody>
               <h3 className="text-heading-md">Monthly</h3>
-              <p className="mt-2 text-body-md text-text-secondary">
+              <p className="text-body-md text-text-secondary mt-2">
                 Cancel anytime. Access until the end of the current period. No partial refund.
               </p>
             </CardBody>
@@ -128,9 +132,8 @@ export default function PricingPage() {
           <Card>
             <CardBody>
               <h3 className="text-heading-md">Annual</h3>
-              <p className="mt-2 text-body-md text-text-secondary">
-                Cancel anytime. Two options: end-of-term (no refund) or immediate (prorated
-                refund).
+              <p className="text-body-md text-text-secondary mt-2">
+                Cancel anytime. Two options: end-of-term (no refund) or immediate (prorated refund).
               </p>
             </CardBody>
           </Card>
@@ -166,12 +169,12 @@ export default function PricingPage() {
           </Faq>
           <Faq q="When do overages get charged?">
             Caps soft-warn at 80% and hard-block at 100%. Your admin must approve any overage
-            request before it accrues. Approved overages bill on your next invoice at the
-            published rates above.
+            request before it accrues. Approved overages bill on your next invoice at the published
+            rates above.
           </Faq>
           <Faq q="How does HIPAA tier billing work?">
-            Click "Upgrade to HIPAA tier" anywhere in the app. Org_admin accepts our BAA, the
-            tier flag flips, and your invoice is prorated immediately for the difference.
+            Click &quot;Upgrade to HIPAA tier&quot; anywhere in the app. Org_admin accepts our BAA,
+            the tier flag flips, and your invoice is prorated immediately for the difference.
           </Faq>
         </div>
       </Section>
@@ -187,7 +190,7 @@ function PlanCard({ plan }: { plan: Plan }) {
           <h3 className="text-heading-lg">{plan.name}</h3>
           {plan.badge ? <Badge variant="neutral">{plan.badge}</Badge> : null}
         </div>
-        <p className="mt-2 text-body-sm text-text-secondary">{plan.description}</p>
+        <p className="text-body-sm text-text-secondary mt-2">{plan.description}</p>
         <p className="mt-6">
           <span className="text-display-md font-semibold">${plan.monthlyUsd}</span>
           <span className="text-body-md text-text-secondary"> /month</span>
@@ -195,31 +198,31 @@ function PlanCard({ plan }: { plan: Plan }) {
         <p className="text-body-sm text-text-tertiary">
           or ${plan.annualUsd.toLocaleString()}/yr (2 months free)
         </p>
-        <ul className="mt-6 flex flex-1 flex-col gap-2 text-body-sm text-text-secondary">
+        <ul className="text-body-sm text-text-secondary mt-6 flex flex-1 flex-col gap-2">
           <li className="flex gap-2">
-            <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+            <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
             {plan.seatsIncluded} seat{plan.seatsIncluded > 1 ? "s" : ""} included
             {plan.extraSeatUsd ? `, then $${plan.extraSeatUsd}/seat` : ""}
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+            <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
             {plan.modulesPerMonth} modules/month
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+            <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
             {plan.aiCreditsPerSeat} AI credits/seat/month
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+            <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
             {plan.narrationMinPerSeat} narration min/seat/month
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+            <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
             {plan.storageGb} GB storage
           </li>
           {plan.tier === "hipaa" ? (
             <li className="flex gap-2">
-              <CheckCircle2 size={16} className="mt-0.5 text-accent" aria-hidden />
+              <CheckCircle2 size={16} className="text-accent mt-0.5" aria-hidden />
               BAA, HIPAA-scoped infra, MFA required
             </li>
           ) : null}
@@ -236,9 +239,9 @@ function RateCard({ label, rate, sub }: { label: string; rate: string; sub: stri
   return (
     <Card>
       <CardBody>
-        <p className="text-caption uppercase text-text-tertiary">{label}</p>
-        <p className="mt-2 text-heading-lg">{rate}</p>
-        <p className="mt-1 text-body-sm text-text-secondary">{sub}</p>
+        <p className="text-caption text-text-tertiary uppercase">{label}</p>
+        <p className="text-heading-lg mt-2">{rate}</p>
+        <p className="text-body-sm text-text-secondary mt-1">{sub}</p>
       </CardBody>
     </Card>
   );
@@ -248,7 +251,7 @@ function Faq({ q, children }: { q: string; children: React.ReactNode }) {
   return (
     <div>
       <h3 className="text-heading-md">{q}</h3>
-      <p className="mt-2 text-body-md text-text-secondary">{children}</p>
+      <p className="text-body-md text-text-secondary mt-2">{children}</p>
     </div>
   );
 }

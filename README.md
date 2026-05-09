@@ -72,22 +72,22 @@ Secrets Manager and rotate quarterly (DESIGN §6, §12).
 The following accounts are required to take this beyond the marketing site. Owner
 should provision and store credentials in a password manager + Secrets Manager.
 
-| Service                | Used by              | Phase | Notes                                                      |
-| ---------------------- | -------------------- | ----- | ---------------------------------------------------------- |
-| **Vercel**             | `apps/marketing`     | 1     | Connect this repo; root dir = `apps/marketing`.            |
-| **AWS** (us-east-1)    | infra, app, api      | 1     | Sign BAA via Artifact before HIPAA tier.                   |
-| AWS Cognito            | customer auth        | 1     | User pool per environment; MFA optional Standard.          |
-| AWS RDS Postgres 16    | primary DB           | 1     | KMS-encrypted, RLS enforced.                               |
-| AWS S3                 | assets, exports      | 1     | KMS CMK, no public ACLs, signed URLs ≤ 5 min.              |
-| AWS KMS                | envelope encryption  | 1     | One CMK per HIPAA tenant in Phase 2.                       |
-| AWS Polly              | narration TTS        | 1     | Neural + Generative voices.                                |
-| AWS Comprehend Medical | PHI scrubber         | 1     | `DetectPHIV2` for Standard tier.                           |
-| AWS Textract           | image OCR            | 1     | Pre-step before Comprehend Medical on images.              |
-| **Anthropic API**      | AI generation        | 1     | Two keys: standard + BAA-covered (Phase 2).                |
-| **Stripe**             | billing              | 1     | Stripe + Stripe Tax + Stripe Invoicing + Customer Portal.  |
-| **Sentry**             | error tracking       | 1     | Has BAA; PHI-scrubbed before send.                         |
-| **GitHub Actions**     | CI                   | 1     | Built-in; configured under `.github/workflows/`.           |
-| Google Workspace SSO   | internal admin auth  | 1     | Hardware key MFA mandatory for staff (`apps/admin`).       |
+| Service                | Used by             | Phase | Notes                                                     |
+| ---------------------- | ------------------- | ----- | --------------------------------------------------------- |
+| **Vercel**             | `apps/marketing`    | 1     | Connect this repo; root dir = `apps/marketing`.           |
+| **AWS** (us-east-1)    | infra, app, api     | 1     | Sign BAA via Artifact before HIPAA tier.                  |
+| AWS Cognito            | customer auth       | 1     | User pool per environment; MFA optional Standard.         |
+| AWS RDS Postgres 16    | primary DB          | 1     | KMS-encrypted, RLS enforced.                              |
+| AWS S3                 | assets, exports     | 1     | KMS CMK, no public ACLs, signed URLs ≤ 5 min.             |
+| AWS KMS                | envelope encryption | 1     | One CMK per HIPAA tenant in Phase 2.                      |
+| AWS Polly              | narration TTS       | 1     | Neural + Generative voices.                               |
+| AWS Comprehend Medical | PHI scrubber        | 1     | `DetectPHIV2` for Standard tier.                          |
+| AWS Textract           | image OCR           | 1     | Pre-step before Comprehend Medical on images.             |
+| **Anthropic API**      | AI generation       | 1     | Two keys: standard + BAA-covered (Phase 2).               |
+| **Stripe**             | billing             | 1     | Stripe + Stripe Tax + Stripe Invoicing + Customer Portal. |
+| **Sentry**             | error tracking      | 1     | Has BAA; PHI-scrubbed before send.                        |
+| **GitHub Actions**     | CI                  | 1     | Built-in; configured under `.github/workflows/`.          |
+| Google Workspace SSO   | internal admin auth | 1     | Hardware key MFA mandatory for staff (`apps/admin`).      |
 
 `.env.example` contains the full list of variables and where each is consumed.
 

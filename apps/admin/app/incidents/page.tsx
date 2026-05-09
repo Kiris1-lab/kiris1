@@ -6,8 +6,8 @@ export const metadata = { title: "Incidents" };
 export default function IncidentsPage() {
   return (
     <>
-      <p className="text-caption uppercase text-text-tertiary">Reliability</p>
-      <h1 className="mt-1 text-display-md">Incidents</h1>
+      <p className="text-caption text-text-tertiary uppercase">Reliability</p>
+      <h1 className="text-display-md mt-1">Incidents</h1>
       <EmptyState
         className="mt-12"
         icon={<Activity size={20} aria-hidden />}

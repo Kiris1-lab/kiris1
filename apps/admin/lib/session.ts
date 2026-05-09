@@ -11,12 +11,7 @@
  *   - Read-only by default; write actions require role + justification.
  */
 
-export type InternalRole =
-  | "viewer"
-  | "support"
-  | "billing_admin"
-  | "ops_admin"
-  | "super_admin";
+export type InternalRole = "viewer" | "support" | "billing_admin" | "ops_admin" | "super_admin";
 
 export interface InternalSession {
   id: string;
@@ -45,13 +40,7 @@ export function requireRole(
   required: InternalRole,
   current: InternalRole = getInternalSession().role,
 ): void {
-  const order: InternalRole[] = [
-    "viewer",
-    "support",
-    "billing_admin",
-    "ops_admin",
-    "super_admin",
-  ];
+  const order: InternalRole[] = ["viewer", "support", "billing_admin", "ops_admin", "super_admin"];
   if (order.indexOf(current) < order.indexOf(required)) {
     throw new Error(`role_required: ${required}`);
   }

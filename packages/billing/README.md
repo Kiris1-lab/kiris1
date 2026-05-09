@@ -5,7 +5,7 @@ Stripe integration. See DESIGN §8.
 ## Modules
 
 - `plans.ts` — pricing constants (single source of truth for marketing + app
-  + admin).
+  - admin).
 - `stripe.ts` — lazy Stripe client singleton.
 - `checkout.ts` — Stripe Checkout session creation. No trial; charge
   immediate (DESIGN §7.2). `client_reference_id` carries our `tenantId`.

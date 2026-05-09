@@ -31,14 +31,11 @@ const button = cva(
 );
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof button> {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { className, variant, size, ...props },
   ref,
 ) {
-  return (
-    <button ref={ref} className={cn(button({ variant, size }), className)} {...props} />
-  );
+  return <button ref={ref} className={cn(button({ variant, size }), className)} {...props} />;
 });

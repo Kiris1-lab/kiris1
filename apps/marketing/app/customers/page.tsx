@@ -10,10 +10,10 @@ export default function CustomersPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Customers</p>
-            <h1 className="mt-3 text-display-lg">Case studies, soon.</h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
-              We're working with a small group of design partners through beta. Public case
+            <p className="text-caption text-accent uppercase">Customers</p>
+            <h1 className="text-display-lg mt-3">Case studies, soon.</h1>
+            <p className="text-body-lg text-text-secondary mt-5">
+              We&apos;re working with a small group of design partners through beta. Public case
               studies will land here once those teams have shipped modules into production
               workflows.
             </p>
@@ -22,7 +22,7 @@ export default function CustomersPage() {
       </section>
 
       <Section>
-        <SectionEyebrow>Who we're built for</SectionEyebrow>
+        <SectionEyebrow>Who we&apos;re built for</SectionEyebrow>
         <SectionHeading sub="If you fit one of these profiles, we want to talk.">
           Built for the people who actually build hospital training.
         </SectionHeading>
@@ -45,8 +45,8 @@ export default function CustomersPage() {
       <Section raised>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-display-md">Become a design partner.</h2>
-          <p className="mt-4 text-body-lg text-text-secondary">
-            We're issuing one-month credits to early design partners through our admin console.
+          <p className="text-body-lg text-text-secondary mt-4">
+            We&apos;re issuing one-month credits to early design partners through our admin console.
             Email us if you want to be considered.
           </p>
           <div className="mt-8 flex justify-center gap-3">
@@ -68,7 +68,7 @@ function Persona({ title, body }: { title: string; body: string }) {
     <Card>
       <CardBody>
         <h3 className="text-heading-md">{title}</h3>
-        <p className="mt-2 text-body-md text-text-secondary">{body}</p>
+        <p className="text-body-md text-text-secondary mt-2">{body}</p>
       </CardBody>
     </Card>
   );

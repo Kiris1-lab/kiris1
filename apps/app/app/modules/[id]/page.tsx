@@ -5,11 +5,7 @@ import { EditorShell } from "@/components/editor-shell";
 
 export const metadata = { title: "Editor" };
 
-export default async function ModuleEditorPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ModuleEditorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const mod = await getModule(id);
   if (!mod) notFound();

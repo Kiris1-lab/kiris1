@@ -12,14 +12,14 @@ export default function SignupPage() {
           <h1 className="text-display-md">Get started</h1>
           <TierBadge tier="standard" />
         </div>
-        <p className="mt-3 text-body-md text-text-secondary">
+        <p className="text-body-md text-text-secondary mt-3">
           Card required. First charge is immediate. No trial — month-to-month with cancel-anytime
           serves as the trial.
         </p>
 
         <Banner variant="info" className="mt-6" title="No PHI on Standard tier">
           The Standard tier prohibits Protected Health Information. Our PHI scrubber will block
-          high-confidence detections. Need PHI? Upgrade to HIPAA tier in-app once you're signed
+          high-confidence detections. Need PHI? Upgrade to HIPAA tier in-app once you&apos;re signed
           in.
         </Banner>
 
@@ -53,27 +53,27 @@ export default function SignupPage() {
               autoComplete="new-password"
               aria-describedby="password-help"
             />
-            <p id="password-help" className="mt-1.5 text-caption text-text-tertiary">
+            <p id="password-help" className="text-caption text-text-tertiary mt-1.5">
               Minimum 12 characters. We hash with bcrypt; we never store plaintext.
             </p>
           </Field>
 
           <button
             type="submit"
-            className="inline-flex h-11 w-full items-center justify-center rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+            className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-11 w-full items-center justify-center rounded-md px-5 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
           >
             Continue to plan selection
           </button>
         </form>
 
-        <p className="mt-6 text-body-sm text-text-secondary">
+        <p className="text-body-sm text-text-secondary mt-6">
           Already have an account?{" "}
           <Link href="/login" className="underline">
             Log in
           </Link>
           .
         </p>
-        <p className="mt-2 text-caption text-text-tertiary">
+        <p className="text-caption text-text-tertiary mt-2">
           By signing up you agree to our Terms of Service and Privacy Policy. PHI is prohibited on
           the Standard tier.
         </p>
@@ -93,7 +93,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="text-body-sm font-medium text-text-primary">
+      <label htmlFor={htmlFor} className="text-body-sm text-text-primary font-medium">
         {label}
       </label>
       <div className="mt-1.5">{children}</div>

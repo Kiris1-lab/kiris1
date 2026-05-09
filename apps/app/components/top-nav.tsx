@@ -7,8 +7,8 @@ import { UsagePopover } from "./usage-popover";
 export function TopNav() {
   const session = getSession();
   return (
-    <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface-base/85 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-app items-center gap-4 px-4">
+    <header className="border-border-subtle bg-surface-base/85 sticky top-0 z-30 border-b backdrop-blur">
+      <div className="max-w-app mx-auto flex h-14 items-center gap-4 px-4">
         <Link href="/" className="flex items-center gap-2 font-semibold" aria-label="Dashboard">
           <BrandMark />
           <span className="text-heading-sm">Kiris</span>
@@ -19,7 +19,7 @@ export function TopNav() {
         {session.tenant.tier === "standard" ? (
           <Link
             href="/upgrade/hipaa"
-            className="text-caption uppercase text-accent hover:underline"
+            className="text-caption text-accent uppercase hover:underline"
           >
             Upgrade to HIPAA
           </Link>
@@ -28,7 +28,7 @@ export function TopNav() {
         <div className="hidden flex-1 justify-center md:flex">
           <button
             type="button"
-            className="inline-flex h-8 w-72 items-center gap-2 rounded-md border border-border-subtle bg-surface-raised px-3 text-body-sm text-text-tertiary transition-colors duration-state hover:border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+            className="border-border-subtle bg-surface-raised text-body-sm text-text-tertiary duration-state hover:border-border inline-flex h-8 w-72 items-center gap-2 rounded-md border px-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
             aria-label="Open command palette"
           >
             <Search size={14} aria-hidden />
@@ -44,7 +44,7 @@ export function TopNav() {
           <UsagePopover usage={session.usage} />
           <Link
             href="/profile"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-soft text-body-sm font-medium text-accent"
+            className="bg-accent-soft text-body-sm text-accent flex h-8 w-8 items-center justify-center rounded-full font-medium"
             aria-label={`Logged in as ${session.user.name}`}
           >
             {initials(session.user.name)}
@@ -57,14 +57,7 @@ export function TopNav() {
 
 function BrandMark() {
   return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 32 32"
-      role="img"
-      aria-label="Kiris"
-      fill="none"
-    >
+    <svg width="24" height="24" viewBox="0 0 32 32" role="img" aria-label="Kiris" fill="none">
       <rect x="2.5" y="2.5" width="27" height="27" rx="7" fill="var(--accent-primary)" />
       <path d="M11 9v14" stroke="white" strokeWidth="2.25" strokeLinecap="round" />
       <path

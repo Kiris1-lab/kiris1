@@ -16,8 +16,7 @@ const posts: { slug: string; title: string; excerpt: string; tag: string; date: 
   {
     slug: "ehr-rollout-training-without-burnout",
     title: "EHR rollout training without burning out the educators",
-    excerpt:
-      "Why a SCORM-first authoring tool changes the math on Epic and Cerner go-lives.",
+    excerpt: "Why a SCORM-first authoring tool changes the math on Epic and Cerner go-lives.",
     tag: "Workflow",
     date: "Coming soon",
   },
@@ -37,9 +36,9 @@ export default function BlogIndexPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Blog</p>
-            <h1 className="mt-3 text-display-lg">Notes for clinical educators.</h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
+            <p className="text-caption text-accent uppercase">Blog</p>
+            <h1 className="text-display-lg mt-3">Notes for clinical educators.</h1>
+            <p className="text-body-lg text-text-secondary mt-5">
               We write for the people who actually ship training. Long-form, no fluff,
               evidence-based.
             </p>
@@ -55,16 +54,16 @@ export default function BlogIndexPage() {
             <Card key={post.slug}>
               <CardBody>
                 <Badge variant="neutral">{post.tag}</Badge>
-                <h2 className="mt-3 text-heading-md">
+                <h2 className="text-heading-md mt-3">
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="transition-colors duration-state hover:text-accent"
+                    className="duration-state hover:text-accent transition-colors"
                   >
                     {post.title}
                   </Link>
                 </h2>
-                <p className="mt-2 text-body-md text-text-secondary">{post.excerpt}</p>
-                <p className="mt-4 text-caption text-text-tertiary">{post.date}</p>
+                <p className="text-body-md text-text-secondary mt-2">{post.excerpt}</p>
+                <p className="text-caption text-text-tertiary mt-4">{post.date}</p>
               </CardBody>
             </Card>
           ))}

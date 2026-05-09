@@ -68,7 +68,11 @@ async function main() {
         authoringMode: "express",
         learningObjectives: [
           { id: "o1", text: "Identify the 5 moments for hand hygiene.", bloom: "identify" },
-          { id: "o2", text: "Demonstrate proper technique in under 20 seconds.", bloom: "demonstrate" },
+          {
+            id: "o2",
+            text: "Demonstrate proper technique in under 20 seconds.",
+            bloom: "demonstrate",
+          },
         ],
         estimatedDurationSeconds: 7 * 60,
       })

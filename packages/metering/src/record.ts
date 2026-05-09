@@ -7,10 +7,7 @@ import { UNITS, type UsageRecord } from "./types.js";
  * Hard rule (DESIGN §6, §8): never serialize PHI here. The caller should
  * pass tenantId, userId, eventType, quantity, and at most an opaque refId.
  */
-export async function recordUsage(
-  hipaaSession: boolean,
-  ev: UsageRecord,
-): Promise<void> {
+export async function recordUsage(hipaaSession: boolean, ev: UsageRecord): Promise<void> {
   await withTenant({ tenantId: ev.tenantId, hipaaSession }, async (db) => {
     await db.insert(schema.usageEvents).values({
       tenantId: ev.tenantId,

@@ -19,7 +19,7 @@ async function findProductByPlanId(planId: string) {
   return null;
 }
 
-async function ensurePlan(plan: typeof STANDARD_PLANS[number]) {
+async function ensurePlan(plan: (typeof STANDARD_PLANS)[number]) {
   const stripe = getStripe();
   let product = await findProductByPlanId(plan.id);
   if (!product) {

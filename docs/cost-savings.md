@@ -22,28 +22,28 @@ These are listed first to make it explicit what was NOT changed:
 
 ## Changes
 
-| # | Where | Change | Approx monthly savings |
-|---|-------|--------|------------------------|
-| 1 | `infra/envs/prod/main.tf` | RDS `instance_class` `db.r6g.large` → `db.t4g.medium` | ~$120 |
-| 2 | `infra/modules/rds/main.tf` | `allocated_storage` 100 → 20, `max_allocated_storage` 1000 → 200 (storage autoscaling still grows on demand) | ~$10 |
-| 3 | `infra/modules/rds/main.tf` | Read replica gated behind `enable_read_replica` (default `false`); not enabled in prod | ~$30 (a t4g.medium replica) |
-| 4 | `infra/modules/rds/main.tf` | `multi_az = true` → `false` | ~$30 (doubles instance + storage cost) |
-| 5 | `infra/modules/network/main.tf` | NAT Gateway count 2 → 1 (each AZ's private RT now points at the single NAT) | ~$32 + a chunk of data-processing |
-| 6 | `infra/modules/rds/main.tf` | Performance Insights retention left at default 7 days (free tier on t4g/t3) — no code change needed; verified the field is unset | $0 (already free) |
-| 7 | `infra/modules/cloudwatch/main.tf` | Marketing log group retention 90 → 30 days. Audit log groups untouched | ~$1–$3 |
+| #   | Where                              | Change                                                                                                                           | Approx monthly savings                 |
+| --- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 1   | `infra/envs/prod/main.tf`          | RDS `instance_class` `db.r6g.large` → `db.t4g.medium`                                                                            | ~$120                                  |
+| 2   | `infra/modules/rds/main.tf`        | `allocated_storage` 100 → 20, `max_allocated_storage` 1000 → 200 (storage autoscaling still grows on demand)                     | ~$10                                   |
+| 3   | `infra/modules/rds/main.tf`        | Read replica gated behind `enable_read_replica` (default `false`); not enabled in prod                                           | ~$30 (a t4g.medium replica)            |
+| 4   | `infra/modules/rds/main.tf`        | `multi_az = true` → `false`                                                                                                      | ~$30 (doubles instance + storage cost) |
+| 5   | `infra/modules/network/main.tf`    | NAT Gateway count 2 → 1 (each AZ's private RT now points at the single NAT)                                                      | ~$32 + a chunk of data-processing      |
+| 6   | `infra/modules/rds/main.tf`        | Performance Insights retention left at default 7 days (free tier on t4g/t3) — no code change needed; verified the field is unset | $0 (already free)                      |
+| 7   | `infra/modules/cloudwatch/main.tf` | Marketing log group retention 90 → 30 days. Audit log groups untouched                                                           | ~$1–$3                                 |
 
 ## Before / after
 
 Rough numbers for the always-on AWS line items in `us-east-1`:
 
-| Line item | Before | After |
-|-----------|--------|-------|
-| RDS instance | $180 (db.r6g.large multi-AZ) | $30 (db.t4g.medium single-AZ) |
-| RDS read replica | $90 (db.r6g.large) | $0 (disabled) |
-| RDS storage 100 GB | ~$11.50 | ~$2.30 (20 GB) |
-| NAT Gateway × 2 | ~$64 + data | ~$32 + data |
-| CloudWatch logs | ~$2 | ~$1 |
-| **Total fixed** | **~$300–$450/mo** | **~$80–$120/mo** |
+| Line item          | Before                       | After                         |
+| ------------------ | ---------------------------- | ----------------------------- |
+| RDS instance       | $180 (db.r6g.large multi-AZ) | $30 (db.t4g.medium single-AZ) |
+| RDS read replica   | $90 (db.r6g.large)           | $0 (disabled)                 |
+| RDS storage 100 GB | ~$11.50                      | ~$2.30 (20 GB)                |
+| NAT Gateway × 2    | ~$64 + data                  | ~$32 + data                   |
+| CloudWatch logs    | ~$2                          | ~$1                           |
+| **Total fixed**    | **~$300–$450/mo**            | **~$80–$120/mo**              |
 
 Variable spend (S3, Polly, Comprehend Medical, Anthropic) is unaffected and
 scales with use, which is near-zero pre-launch.

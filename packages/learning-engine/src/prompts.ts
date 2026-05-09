@@ -164,9 +164,7 @@ export interface SlideHelperInputs {
   slideType: string;
 }
 
-export function buildSlideHelperPrompt(
-  inp: SlideHelperInputs,
-): { system: string; user: string } {
+export function buildSlideHelperPrompt(inp: SlideHelperInputs): { system: string; user: string } {
   return {
     system: SHARED_PRINCIPLES,
     user: `

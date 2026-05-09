@@ -14,22 +14,22 @@ export default async function CapRequestsPage({
   const requests = listCapRequests();
   return (
     <>
-      <p className="text-caption uppercase text-text-tertiary">Admin</p>
-      <h1 className="mt-1 text-display-md">Approval queue</h1>
-      <p className="mt-2 max-w-2xl text-body-md text-text-secondary">
+      <p className="text-caption text-text-tertiary uppercase">Admin</p>
+      <h1 className="text-display-md mt-1">Approval queue</h1>
+      <p className="text-body-md text-text-secondary mt-2 max-w-2xl">
         Review and decide on cap-increase requests from your team. Decisions are logged and the
         requester is notified in-app and by email.
       </p>
 
       {params.submitted === "1" ? (
         <Banner variant="success" className="mt-8" title="Request sent">
-          Your team admin has been notified. You'll see a decision here once they respond.
+          Your team admin has been notified. You&apos;ll see a decision here once they respond.
         </Banner>
       ) : null}
 
       <Banner variant="info" className="mt-8" title="Auto-approval rules">
         Configure rules per team (up to +50%/user/mo, by role, by $ ceiling) so routine bumps
-        don't pile up here. Coming in Step 4.
+        don&apos;t pile up here. Coming in Step 4.
       </Banner>
 
       {requests.length === 0 ? (
@@ -55,30 +55,30 @@ export default async function CapRequestsPage({
                             {formatRelative(req.createdAt)}
                           </span>
                         </div>
-                        <h2 className="mt-2 text-heading-md">
+                        <h2 className="text-heading-md mt-2">
                           {req.userName} · +{req.requestedAmount}
                           {req.kind === "ai_credits" ? " AI credits" : " narration minutes"}
                         </h2>
-                        <p className="mt-2 max-w-2xl text-body-md text-text-secondary">
+                        <p className="text-body-md text-text-secondary mt-2 max-w-2xl">
                           {req.reason}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          className="inline-flex h-9 items-center gap-2 rounded-md border border-border bg-surface-raised px-3 text-body-sm font-medium text-text-primary hover:border-status-danger hover:text-status-danger"
+                          className="border-border bg-surface-raised text-body-sm text-text-primary hover:border-status-danger hover:text-status-danger inline-flex h-9 items-center gap-2 rounded-md border px-3 font-medium"
                         >
                           Deny
                         </button>
                         <button
                           type="button"
-                          className="inline-flex h-9 items-center gap-2 rounded-md border border-border bg-surface-raised px-3 text-body-sm font-medium text-text-primary hover:border-border-strong"
+                          className="border-border bg-surface-raised text-body-sm text-text-primary hover:border-border-strong inline-flex h-9 items-center gap-2 rounded-md border px-3 font-medium"
                         >
                           Approve
                         </button>
                         <button
                           type="button"
-                          className="inline-flex h-9 items-center gap-2 rounded-md bg-accent px-3 text-body-sm font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+                          className="bg-accent text-body-sm text-text-on-accent hover:bg-accent-hover inline-flex h-9 items-center gap-2 rounded-md px-3 font-medium shadow-sm"
                         >
                           Approve + new baseline
                         </button>
@@ -86,8 +86,8 @@ export default async function CapRequestsPage({
                     </div>
 
                     <div className="mt-5 grid gap-4 md:grid-cols-2">
-                      <div className="rounded-md border border-border-subtle bg-surface-base p-3">
-                        <div className="flex items-center gap-2 text-caption uppercase text-text-tertiary">
+                      <div className="border-border-subtle bg-surface-base rounded-md border p-3">
+                        <div className="text-caption text-text-tertiary flex items-center gap-2 uppercase">
                           {req.kind === "ai_credits" ? (
                             <Sparkles size={12} aria-hidden />
                           ) : (
@@ -95,7 +95,7 @@ export default async function CapRequestsPage({
                           )}
                           Current usage
                         </div>
-                        <p className="mt-1 text-body-md">
+                        <p className="text-body-md mt-1">
                           {req.currentUsage} / {req.currentAllowance}
                         </p>
                         <ProgressBar
@@ -105,14 +105,14 @@ export default async function CapRequestsPage({
                           variant={req.currentUsage >= req.currentAllowance ? "danger" : "warning"}
                         />
                       </div>
-                      <div className="rounded-md border border-border-subtle bg-surface-base p-3">
-                        <p className="text-caption uppercase text-text-tertiary">Requested</p>
-                        <p className="mt-1 text-body-md">
+                      <div className="border-border-subtle bg-surface-base rounded-md border p-3">
+                        <p className="text-caption text-text-tertiary uppercase">Requested</p>
+                        <p className="text-body-md mt-1">
                           +{req.requestedAmount} ({pctIncrease}% increase)
                         </p>
-                        <p className="mt-2 text-caption text-text-tertiary">
+                        <p className="text-caption text-text-tertiary mt-2">
                           Approving applies this allowance for the rest of this billing period.
-                          "Approve + new baseline" makes it permanent.
+                          &quot;Approve + new baseline&quot; makes it permanent.
                         </p>
                       </div>
                     </div>
@@ -126,4 +126,3 @@ export default async function CapRequestsPage({
     </>
   );
 }
-

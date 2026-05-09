@@ -4,7 +4,7 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
   return (
     <>
       <TopNav />
-      <main id="main" className="mx-auto max-w-app px-4 py-8">
+      <main id="main" className="max-w-app mx-auto px-4 py-8">
         {children}
       </main>
     </>

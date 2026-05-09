@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <>
       <TopNav />
-      <main id="main" className="mx-auto max-w-app px-4 py-20">
+      <main id="main" className="max-w-app mx-auto px-4 py-20">
         <EmptyState
           icon={<FileQuestion size={20} aria-hidden />}
           title="We couldn't find that"
@@ -15,7 +15,7 @@ export default function NotFound() {
           action={
             <Link
               href="/"
-              className="inline-flex h-10 items-center rounded-md bg-accent px-4 text-body-md font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+              className="bg-accent text-body-md text-text-on-accent hover:bg-accent-hover inline-flex h-10 items-center rounded-md px-4 font-medium shadow-sm"
             >
               Back to dashboard
             </Link>

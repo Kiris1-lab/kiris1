@@ -27,12 +27,9 @@ drizzle.config.ts     drizzle-kit config
 ```ts
 import { withTenant } from "@kiris/db";
 
-await withTenant(
-  { tenantId: req.tenantId, hipaaSession: req.hipaaSession },
-  async (db) => {
-    return db.select().from(schema.modules);
-  },
-);
+await withTenant({ tenantId: req.tenantId, hipaaSession: req.hipaaSession }, async (db) => {
+  return db.select().from(schema.modules);
+});
 ```
 
 `withTenant` opens a transaction and `SET LOCAL`s `app.tenant_id` and

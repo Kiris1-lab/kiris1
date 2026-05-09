@@ -24,10 +24,7 @@ const modulesRoute: FastifyPluginAsync = async (app) => {
           })
           .from(schema.modules)
           .where(
-            and(
-              eq(schema.modules.tenantId, req.auth.tenantId),
-              isNull(schema.modules.deletedAt),
-            ),
+            and(eq(schema.modules.tenantId, req.auth.tenantId), isNull(schema.modules.deletedAt)),
           )
           .orderBy(desc(schema.modules.updatedAt))
           .limit(100);
