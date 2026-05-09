@@ -30,10 +30,18 @@ export async function GET(
       cache: "no-store",
     });
     if (!res.ok) return new NextResponse("export failed", { status: res.status });
+
+    // The API returns either an inline ZIP (local dev with no S3) or a JSON
+    // envelope with a presigned ≤ 5-minute download URL (production).
+    const ct = res.headers.get("content-type") ?? "";
+    if (ct.startsWith("application/json")) {
+      const body = (await res.json()) as { downloadUrl: string };
+      return NextResponse.redirect(body.downloadUrl, 303);
+    }
     return new NextResponse(res.body, {
       status: 200,
       headers: {
-        "content-type": res.headers.get("content-type") ?? "application/zip",
+        "content-type": ct || "application/zip",
         "content-disposition":
           res.headers.get("content-disposition") ?? `attachment; filename="${id}.zip"`,
       },

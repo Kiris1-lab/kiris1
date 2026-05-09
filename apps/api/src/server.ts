@@ -3,8 +3,11 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
+import * as Sentry from "@sentry/node";
+import { initSentry } from "@kiris/observability";
 import { loadEnv } from "./env.js";
 import requestIdPlugin from "./plugins/request-id.js";
+import csrfPlugin from "./plugins/csrf.js";
 import authPlugin from "./plugins/auth.js";
 import auditPlugin from "./plugins/audit.js";
 import healthRoute from "./routes/health.js";
@@ -14,6 +17,7 @@ import generateRoute from "./routes/generate.js";
 import narrationRoute from "./routes/narration.js";
 import capRequestsRoute from "./routes/cap-requests.js";
 import exportsRoute from "./routes/exports.js";
+import hipaaUpgradeRoute from "./routes/hipaa-upgrade.js";
 import stripeWebhookRoute from "./routes/stripe-webhook.js";
 
 /**
@@ -28,6 +32,15 @@ import stripeWebhookRoute from "./routes/stripe-webhook.js";
  */
 async function build() {
   const env = loadEnv();
+
+  // Sentry — has BAA. PHI scrubbed via @kiris/observability before send.
+  initSentry({
+    dsn: env.SENTRY_DSN,
+    environment: env.NODE_ENV,
+    release: env.GIT_SHA,
+    init: Sentry.init as unknown as (opts: Record<string, unknown>) => void,
+  });
+
   const app = Fastify({
     logger: { level: env.LOG_LEVEL },
     bodyLimit: 5 * 1024 * 1024, // 5 MB; uploads use signed S3 URLs, not the API
@@ -49,6 +62,7 @@ async function build() {
       return req.auth?.userId ?? req.ip;
     },
   });
+  await app.register(csrfPlugin);
   await app.register(authPlugin);
   await app.register(auditPlugin);
 
@@ -60,6 +74,7 @@ async function build() {
   await app.register(narrationRoute);
   await app.register(capRequestsRoute);
   await app.register(exportsRoute);
+  await app.register(hipaaUpgradeRoute);
 
   return app;
 }

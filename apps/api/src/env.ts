@@ -15,6 +15,18 @@ const schema = z.object({
 
   AWS_REGION: z.string().default("us-east-1"),
 
+  // S3 + KMS (Step 5). Optional in local dev — when unset, /v1/modules/:id/export
+  // returns the ZIP inline. In production, set to the values from
+  // `terraform output` so exports are uploaded under SSE-KMS and downloaded via
+  // ≤ 5-minute signed URLs (DESIGN §6.4, §12).
+  S3_EXPORTS_BUCKET: z.string().optional(),
+  KMS_KEY_ID_STANDARD: z.string().optional(),
+  KMS_KEY_ID_HIPAA: z.string().optional(),
+
+  // Sentry — has BAA. PHI scrubbed via @kiris/observability before send.
+  SENTRY_DSN: z.string().optional(),
+  GIT_SHA: z.string().optional(),
+
   // Two Anthropic keys — DESIGN §6.7. Standard always required; HIPAA optional
   // until the HIPAA tier ships in Phase 2.
   ANTHROPIC_API_KEY_STANDARD: z.string().optional(),

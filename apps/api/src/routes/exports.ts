@@ -3,17 +3,24 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { withTenant, schema } from "@kiris/db";
 import { packageScorm12, type ScormSlide } from "@kiris/scorm";
+import { loadEnv } from "../env.js";
+import { putExport, presignedGet } from "../services/s3.js";
 
 /**
- * Module export — SCORM 1.2 only in Step 4 (DESIGN §11 priority).
+ * Module export — SCORM 1.2 only (DESIGN §11 priority).
  *
- * Step 4 returns the ZIP inline. In Step 5 the ZIP is uploaded to
- * S3-with-KMS and we return a signed URL with ≤ 5 min expiry (DESIGN §12).
+ *   - When S3_EXPORTS_BUCKET + KMS_KEY_ID_STANDARD are set, the ZIP is
+ *     uploaded under SSE-KMS and we return a ≤ 5-minute signed URL
+ *     (DESIGN §12).
+ *   - Otherwise (local dev / tests), the ZIP is returned inline.
  *
  * Hard rules:
  *   - withTenant gates the read; RLS ensures cross-tenant safety.
  *   - The audit middleware records the export action; we additionally write
  *     an `exports` row inline so the admin console can see the catalog.
+ *   - HIPAA tenants get the per-tenant CMK (KMS_KEY_ID_HIPAA placeholder
+ *     today; per-tenant CMK ARNs come from `tenants.hipaa_kms_key_arn`
+ *     once allocation lands in Phase 2 alongside the upgrade flow).
  */
 const exportsRoute: FastifyPluginAsync = async (app) => {
   const bodySchema = z.object({
@@ -75,27 +82,54 @@ const exportsRoute: FastifyPluginAsync = async (app) => {
         tier: req.auth.tier,
       });
 
-      // Record the export. In Step 5 the s3Key is a real S3 location.
+      const env = loadEnv();
+      const filename = `${safeName(result.mod.title)}-scorm12.zip`;
+      const bucket = env.S3_EXPORTS_BUCKET;
+      const kms = req.auth.tier === "hipaa" ? env.KMS_KEY_ID_HIPAA : env.KMS_KEY_ID_STANDARD;
+
+      let s3Key = `inline://${result.mod.id}.zip`;
+      let signedUrl: string | undefined;
+
+      if (bucket && kms) {
+        s3Key = `tenants/${req.auth.tenantId}/exports/${result.mod.id}/${Date.now()}.zip`;
+        await putExport({
+          bucket,
+          key: s3Key,
+          bytes: zip,
+          contentType: "application/zip",
+          kmsKeyId: kms,
+        });
+        signedUrl = await presignedGet(bucket, s3Key, 300);
+      }
+
       try {
         await withTenant(ctx, async (db) => {
           await db.insert(schema.exports_).values({
             tenantId: req.auth.tenantId,
             moduleId: result.mod.id,
             format: "scorm12",
-            s3Key: `inline://${result.mod.id}.zip`,
+            s3Key,
             bytes: zip.byteLength,
             createdBy: req.auth.userId,
+            expiresAt: signedUrl ? new Date(Date.now() + 5 * 60 * 1000) : null,
           });
         });
       } catch (err) {
         req.log.error({ err }, "exports row write failed");
       }
 
+      if (signedUrl) {
+        return reply.code(200).send({
+          format: "scorm12",
+          filename,
+          downloadUrl: signedUrl,
+          expiresInSeconds: 300,
+          bytes: zip.byteLength,
+        });
+      }
+
       reply.header("Content-Type", "application/zip");
-      reply.header(
-        "Content-Disposition",
-        `attachment; filename="${safeName(result.mod.title)}-scorm12.zip"`,
-      );
+      reply.header("Content-Disposition", `attachment; filename="${filename}"`);
       return reply.send(Buffer.from(zip));
     },
   );

@@ -30,7 +30,13 @@ const generateRoute: FastifyPluginAsync = async (app) => {
 
   app.post(
     "/v1/generate/express",
-    { config: { audit: { action: "generate.express" } } },
+    {
+      config: {
+        audit: { action: "generate.express" },
+        // Tighter than the global 600/min — Anthropic calls are expensive.
+        rateLimit: { max: 30, timeWindow: "1 minute" },
+      },
+    },
     async (req, reply) => {
       const parsed = expressSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -118,7 +124,12 @@ const generateRoute: FastifyPluginAsync = async (app) => {
 
   app.post(
     "/v1/generate/slide-helper",
-    { config: { audit: { action: "generate.slide_helper" } } },
+    {
+      config: {
+        audit: { action: "generate.slide_helper" },
+        rateLimit: { max: 120, timeWindow: "1 minute" },
+      },
+    },
     async (req, reply) => {
       const parsed = helperSchema.safeParse(req.body);
       if (!parsed.success) {

@@ -101,17 +101,41 @@ Phase 1 (Standard tier) requires no BAAs.
 
 Mirrored from DESIGN §12.
 
-- [ ] Auth middleware on all API endpoints
-- [ ] Tenant isolation via Postgres RLS, not just app code
-- [ ] PHI scrubber on every user-input endpoint when Standard tier
-- [ ] CSRF tokens on state-changing requests
-- [ ] Per-user, per-tenant, per-IP rate limits
-- [ ] Strict CSP, nonce-based, no `unsafe-inline`
-- [ ] No client-side calls to Anthropic / Polly / Comprehend / Stripe-secret
-- [ ] S3 bucket policies: no public ACLs; signed URLs ≤ 5 min expiry
-- [ ] Secrets in AWS Secrets Manager, rotated quarterly
-- [ ] WAF rules for OWASP top 10
-- [ ] Snyk / Dependabot scans on every PR
-- [ ] Annual third-party penetration test
-- [ ] HIPAA risk assessment annually (HIPAA tier)
-- [ ] Internal admin console pen test before launch
+- [x] Auth middleware on all API endpoints — `apps/api/src/plugins/auth.ts`
+- [x] Tenant isolation via Postgres RLS, not just app code — `packages/db/src/rls.ts`
+- [x] PHI scrubber on every user-input endpoint when Standard tier — `packages/scrubber`, used by every `/v1/generate/*` and `/v1/scrubber/*` route
+- [x] CSRF tokens on state-changing requests — `apps/api/src/plugins/csrf.ts`
+- [x] Per-user, per-tenant, per-IP rate limits — `@fastify/rate-limit` global + per-route overrides on `/v1/generate/*` and `/v1/tenants/upgrade-hipaa`
+- [x] Strict CSP, nonce-based, no `unsafe-inline` — per-request nonce middleware in every Next.js app
+- [x] No client-side calls to Anthropic / Polly / Comprehend / Stripe-secret — every call goes through `apps/api`
+- [x] S3 bucket policies: no public ACLs; signed URLs ≤ 5 min expiry — `infra/modules/s3` + `apps/api/src/services/s3.ts`
+- [x] Secrets in AWS Secrets Manager, rotated quarterly — `infra/modules/rds` writes the master credentials there; app reads via the IAM role
+- [x] WAF rules for OWASP top 10 — `infra/modules/waf`
+- [x] Snyk / Dependabot scans on every PR — `.github/dependabot.yml` + `.github/workflows/ci.yml` (audit + gitleaks)
+- [ ] Annual third-party penetration test — scheduled for Q2 (post-GA)
+- [ ] HIPAA risk assessment annually (HIPAA tier) — scheduled with HIPAA tier launch
+- [ ] Internal admin console pen test before launch — scheduled before Phase 2
+
+## Phase 2 staging (HIPAA tier)
+
+The following are scaffolded and ready to flip:
+
+- BAA click-to-accept flow — `apps/app/app/(workspace)/upgrade/hipaa/*`
+- API endpoint `POST /v1/tenants/upgrade-hipaa` — DESIGN §2.2; sets
+  `tenants.hipaa_enabled = true` and logs the BAA acceptance
+- Per-tenant KMS CMK placeholder — `infra/modules/kms` provisions the
+  default HIPAA CMK; per-tenant CMK allocation runs on upgrade in Phase 2
+- HIPAA bucket policy — `infra/modules/s3` denies non-encrypted PUTs and
+  insecure transport on the `kiris-${env}-hipaa` bucket
+- HIPAA RLS gate — `packages/db/src/rls.ts` adds a restrictive policy
+  requiring `app.hipaa_session = 'true'` to read HIPAA-class rows
+- 6-year audit retention — `infra/modules/cloudwatch` keeps the admin log
+  group at 7 years; HIPAA-tenant audit cross-replicates
+
+Phase 2 launch tasks (not yet started):
+- Anthropic BAA executed; API key issued for the BAA org
+- AWS BAA executed via Artifact
+- Per-tenant KMS CMK allocation worker
+- Stripe pro-ration on upgrade
+- MFA enrollment forced on org_admin + editors at upgrade time
+- HIPAA-tier launch announcement + trust-page update

@@ -16,6 +16,14 @@ export function TopNav() {
 
         <span className="text-body-sm text-text-tertiary">{session.tenant.name}</span>
         <TierBadge tier={session.tenant.tier} />
+        {session.tenant.tier === "standard" ? (
+          <Link
+            href="/upgrade/hipaa"
+            className="text-caption uppercase text-accent hover:underline"
+          >
+            Upgrade to HIPAA
+          </Link>
+        ) : null}
 
         <div className="hidden flex-1 justify-center md:flex">
           <button

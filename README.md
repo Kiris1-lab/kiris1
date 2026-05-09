@@ -22,7 +22,9 @@ packages/
   learning-engine/  AI generation prompts + validators (§17)
   scorm/            SCORM 1.2 / 2004 packager (§11)
   billing/          Stripe integration (§8)
-  metering/         Usage events + daily rollups
+  metering/         Usage events + daily rollups (§8.6)
+  observability/    Sentry init wrapper + telemetry PHI scrubber
+infra/              Terraform: VPC, RDS, S3 + KMS, Cognito, WAF, CloudWatch
 ```
 
 ## Quickstart (local dev)
@@ -116,6 +118,34 @@ A full implementation checklist lives in `DESIGN.md` §12 and `SECURITY.md`.
 
 Email `security@kiris.ai`. Do **not** open public GitHub issues for security
 reports. Coordinated disclosure policy in `SECURITY.md`.
+
+## Phase 1 status (Standard tier launch)
+
+- [x] Marketing site (DESIGN §13)
+- [x] Authoring app — Express + Guided AI flows, editor, preview (DESIGN §10)
+- [x] Internal admin console (DESIGN §15)
+- [x] API — auth, audit, scrubber, generate, narration, exports, cap requests, Stripe webhook (DESIGN §6, §8)
+- [x] Postgres schema + RLS policies (DESIGN §5, §6.1)
+- [x] PHI scrubber wired into every user-content endpoint (DESIGN §6.9)
+- [x] Learning engine — Mayer's principles, validators, critic pass (DESIGN §17)
+- [x] SCORM 1.2 packager (DESIGN §11) — pre-launch: validate against HealthStream sandbox
+- [x] Stripe Checkout + Customer Portal + webhook router + dunning (DESIGN §8)
+- [x] Per-seat caps + admin approval queue (DESIGN §10.5)
+- [x] Terraform: VPC, RDS, S3 + KMS, Cognito, WAF, CloudWatch (DESIGN §4)
+- [x] Sentry with PHI-scrubbed beforeSend across every app
+- [x] CSP nonces + HSTS + per-request CSRF + per-route rate limits
+
+## Phase 2 staged (HIPAA tier — flips on once BAAs are executed)
+
+- [x] BAA click-to-accept page + API endpoint (`/upgrade/hipaa`)
+- [x] HIPAA RLS gate (`hipaa_session` session var) in `packages/db/src/rls.ts`
+- [x] HIPAA bucket policy in Terraform (no plain PUTs, no insecure transport)
+- [x] Per-tenant CMK ARN field on `tenants` ready for population
+- [ ] Anthropic BAA executed and BAA-org API key issued
+- [ ] AWS BAA executed via Artifact
+- [ ] Per-tenant KMS CMK allocation worker
+- [ ] Stripe pro-ration on upgrade
+- [ ] Forced MFA enrollment for editors and above at upgrade time
 
 ## License
 
