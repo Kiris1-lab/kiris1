@@ -1,0 +1,12 @@
+{
+  "name": "@kiris/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'apps/api — Step 3: Fastify API. Not yet implemented.'",
+    "build": "echo 'apps/api build is a no-op until Step 3.' && exit 0",
+    "lint": "echo 'no lint configured yet'",
+    "typecheck": "echo 'no typecheck yet'"
+  }
+}

@@ -1,0 +1,10 @@
+/* Marketing-site-only overrides. Tokens + base in @kiris/ui/globals.css. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Marketing site: comfortable density. */
+body {
+  font-feature-settings: "ss01", "cv02", "cv03", "cv04", "cv11";
+}

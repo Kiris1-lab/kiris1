@@ -1,0 +1,12 @@
+{
+  "name": "@kiris/app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'apps/app — Step 2: authoring app. Not yet implemented.'",
+    "build": "echo 'apps/app build is a no-op until Step 2.' && exit 0",
+    "lint": "echo 'no lint configured yet'",
+    "typecheck": "echo 'no typecheck yet'"
+  }
+}

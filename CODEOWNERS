@@ -1,0 +1,13 @@
+# Default owners for everything in the repo.
+* @kiris-lab/founders
+
+# Security-sensitive areas
+/SECURITY.md                   @kiris-lab/security
+/.github/workflows/            @kiris-lab/security
+/packages/scrubber/            @kiris-lab/security
+/packages/db/                  @kiris-lab/security @kiris-lab/data
+/apps/admin/                   @kiris-lab/security
+/apps/api/src/middleware/      @kiris-lab/security
+
+# Billing — review by ops
+/packages/billing/             @kiris-lab/ops

@@ -1,0 +1,12 @@
+{
+  "name": "@kiris/admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'apps/admin — Step 4: internal admin console. Not yet implemented.'",
+    "build": "echo 'apps/admin build is a no-op until Step 4.' && exit 0",
+    "lint": "echo 'no lint configured yet'",
+    "typecheck": "echo 'no typecheck yet'"
+  }
+}

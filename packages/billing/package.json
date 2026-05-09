@@ -1,0 +1,13 @@
+{
+  "name": "@kiris/billing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": { ".": "./src/index.ts", "./plans": "./src/plans.ts" },
+  "scripts": {
+    "lint": "echo 'no lint configured yet'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": { "typescript": "^5.6.3" }
+}
