@@ -28,6 +28,7 @@
     "@kiris/scorm": "workspace:*",
     "@kiris/scrubber": "workspace:*",
     "@sentry/node": "^8.40.0",
+    "drizzle-orm": "^0.36.0",
     "fastify": "^5.1.0",
     "fastify-plugin": "^5.0.1",
     "pino": "^9.5.0",
