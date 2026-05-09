@@ -30,9 +30,12 @@ resource "aws_cloudwatch_log_group" "admin" {
   tags              = var.tags
 }
 
+// 30-day retention pre-launch; bump if marketing analytics ever need
+// longer review window. Compliance log groups (api 365d, admin 2555d)
+// are NOT touched.
 resource "aws_cloudwatch_log_group" "marketing" {
   name              = "/kiris/${var.env}/marketing"
-  retention_in_days = 90
+  retention_in_days = 30
   kms_key_id        = var.kms_key_arn
   tags              = var.tags
 }
