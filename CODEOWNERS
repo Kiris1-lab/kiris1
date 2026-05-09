@@ -1,13 +1,16 @@
+# SOLO-OWNER MODE: replace these with @kiris-lab/<team> handles
+# once the GitHub org and teams exist. See docs/github-setup.md.
+
 # Default owners for everything in the repo.
-* @kiris-lab/founders
+* @Kiris1-lab
 
 # Security-sensitive areas
-/SECURITY.md                   @kiris-lab/security
-/.github/workflows/            @kiris-lab/security
-/packages/scrubber/            @kiris-lab/security
-/packages/db/                  @kiris-lab/security @kiris-lab/data
-/apps/admin/                   @kiris-lab/security
-/apps/api/src/middleware/      @kiris-lab/security
+/SECURITY.md                   @Kiris1-lab
+/.github/workflows/            @Kiris1-lab
+/packages/scrubber/            @Kiris1-lab
+/packages/db/                  @Kiris1-lab
+/apps/admin/                   @Kiris1-lab
+/apps/api/src/middleware/      @Kiris1-lab
 
 # Billing — review by ops
-/packages/billing/             @kiris-lab/ops
+/packages/billing/             @Kiris1-lab
