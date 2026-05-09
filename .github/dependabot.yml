@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    groups:
+      next-stack:
+        patterns: ["next", "react", "react-dom", "eslint-config-next"]
+      tooling:
+        patterns: ["typescript", "prettier", "turbo", "@types/*"]
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

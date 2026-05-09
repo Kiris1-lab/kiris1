@@ -1,0 +1,9 @@
+# Copy to backend.hcl and fill in. Then:
+#   terraform init -backend-config=backend.hcl
+# DO NOT commit a populated backend.hcl.
+
+bucket         = "kiris-tfstate-prod"
+key            = "kiris/prod/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "kiris-tfstate-locks"
+encrypt        = true

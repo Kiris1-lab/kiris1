@@ -1,0 +1,21 @@
+{
+  "name": "@kiris/scrubber",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "lint": "echo 'no lint configured yet'",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --import tsx src/*.test.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-comprehendmedical": "^3.687.0",
+    "@aws-sdk/client-textract": "^3.687.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

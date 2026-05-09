@@ -1,0 +1,65 @@
+/* Kiris design tokens (CSS custom properties) — see DESIGN.md §16. */
+/* Light mode only in v1. Dark mode = v2. */
+
+:root {
+  /* Surface */
+  --surface-base: #fafafa;
+  --surface-raised: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-inverse: #0a0a0b;
+
+  /* Text */
+  --text-primary: #0a0a0b;
+  --text-secondary: #52525b;
+  --text-tertiary: #a1a1aa;
+  --text-on-accent: #ffffff;
+
+  /* Border */
+  --border-subtle: #e4e4e7;
+  --border-default: #d4d4d8;
+  --border-strong: #a1a1aa;
+
+  /* Accent — deep clinical blue */
+  --accent-primary: #1e3a5f;
+  --accent-primary-hover: #16304f;
+  --accent-primary-pressed: #0f2640;
+  --accent-soft: #e8eef5;
+
+  /* Status */
+  --status-success: #16a34a;
+  --status-warning: #d97706;
+  --status-danger: #dc2626;
+  --status-info: #0ea5e9;
+
+  /* Focus */
+  --focus-ring: #1e3a5f;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 20px 40px -12px rgb(0 0 0 / 0.18), 0 8px 16px -8px rgb(0 0 0 / 0.08);
+
+  /* Motion */
+  --duration-micro: 120ms;
+  --duration-state: 200ms;
+  --duration-layout: 280ms;
+  --duration-modal: 400ms;
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --container-marketing: 1280px;
+  --container-app: 1440px;
+  --reading-column: 720px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

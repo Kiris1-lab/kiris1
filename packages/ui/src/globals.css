@@ -1,0 +1,123 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--surface-base);
+    color: var(--text-primary);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Visible focus ring on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Respect reduced-motion globally — see tokens.css. */
+
+  /* Heading defaults. Components override per scale. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.005em;
+  }
+
+  /* Reading column for body content. */
+  .reading-column {
+    max-width: var(--reading-column);
+  }
+
+  /* Skip link — must be first focusable element on every page. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 9999;
+    font-weight: 600;
+  }
+  .skip-link:focus-visible {
+    left: 16px;
+    top: 16px;
+  }
+}
+
+@layer utilities {
+  .text-display-xl {
+    font-size: 3.5rem;
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .text-display-lg {
+    font-size: 2.75rem;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .text-display-md {
+    font-size: 2.25rem;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .text-heading-xl {
+    font-size: 1.875rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.0075em;
+  }
+  .text-heading-lg {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  .text-heading-md {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .text-heading-sm {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.55;
+  }
+  .text-body-md {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+}
