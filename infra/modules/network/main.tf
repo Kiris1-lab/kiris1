@@ -61,16 +61,19 @@ resource "aws_subnet" "db" {
   tags              = merge(var.tags, { Name = "kiris-${var.env}-db-${count.index}" })
 }
 
+// Single NAT pre-launch for cost. TODO: restore one-per-AZ before first
+// paying customer for HA. With one NAT, an outage in its AZ takes down
+// private-subnet egress for both AZs.
 resource "aws_eip" "nat" {
-  count  = length(var.public_subnet_cidrs)
+  count  = 1
   domain = "vpc"
   tags   = var.tags
 }
 
 resource "aws_nat_gateway" "this" {
-  count         = length(var.public_subnet_cidrs)
-  allocation_id = aws_eip.nat[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id
+  count         = 1
+  allocation_id = aws_eip.nat[0].id
+  subnet_id     = aws_subnet.public[0].id
   tags          = var.tags
 }
 
@@ -93,8 +96,10 @@ resource "aws_route_table" "private" {
   count  = length(aws_subnet.private)
   vpc_id = aws_vpc.this.id
   route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.this[count.index].id
+    cidr_block = "0.0.0.0/0"
+    // All AZs egress through the single NAT pre-launch. Each AZ keeps its
+    // own RT so restoring one-per-AZ later is just a count change above.
+    nat_gateway_id = aws_nat_gateway.this[0].id
   }
   tags = merge(var.tags, { Name = "kiris-${var.env}-private-${count.index}-rt" })
 }
