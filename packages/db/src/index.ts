@@ -1,13 +1,11 @@
 /**
- * @kiris/db — placeholder.
+ * @kiris/db — Postgres schema, RLS policies, and connection helpers.
+ * See DESIGN.md §5, §6.1, §6.5.
  *
- * In Step 3 this package will hold:
- *   - Drizzle schema mirroring DESIGN.md §5
- *   - SQL migrations
- *   - Postgres RLS policies (tenant_id + hipaa_session)
- *   - Connection pool factory + transactional helpers that SET app.tenant_id
- *
- * Hard rule (§6.1, §6.5): every PHI-bearing table is RLS-protected.
- * App code is NOT the only barrier.
+ * Hard rule: every PHI-bearing query must be issued through `withTenant()` so
+ * RLS sees the tenant context. Bypassing it is a security incident.
  */
-export const placeholder = true;
+
+export { getDb, getPool, withTenant, type Database } from "./client.js";
+export { RLS_SQL, buildRlsSql } from "./rls.js";
+export * as schema from "./schema/index.js";

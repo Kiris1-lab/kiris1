@@ -1,26 +1,24 @@
 /**
- * @kiris/scrubber — placeholder.
+ * @kiris/scrubber — PHI scrubber for Standard tier user inputs.
+ * See DESIGN.md §6.9.
  *
- * Hard rule (DESIGN §6.1, §6.9): every user-input endpoint on Standard tier
- * pre-flights through this package. High-confidence detections (≥ 0.85)
- * hard-block. Low-confidence shows a confirmation modal.
- *
- * Implemented in Step 3:
- *   - Text → AWS Comprehend Medical DetectPHIV2
- *   - Images → Textract OCR → Comprehend Medical
- *   - Audio/video → Transcribe → Comprehend Medical
- *   - Result cache keyed on input sha256
- *   - Fail-closed for HIPAA-likely content
+ * Hard rules:
+ *   - Standard-tier user content endpoints MUST call scrubText / scrubImage
+ *     pre-flight. The Fastify middleware in `apps/api` enforces this.
+ *   - Decision = "block" → 422 with an upgrade-to-HIPAA CTA.
+ *   - Decision = "confirm" → return the result to the UI; user must
+ *     explicitly confirm there is no PHI before we proceed. The confirmation
+ *     is recorded in `phi_scrubber_events`.
+ *   - Decision = "allow" → log the event with `decision = 'allow'` (DESIGN
+ *     §6.6) and proceed.
+ *   - NEVER persist the input value itself. The audit table holds the
+ *     `inputSha256` and `detectedEntityTypes` only.
  */
 
-export type ScrubberDecision = "allow" | "confirm" | "block";
-
-export interface ScrubberResult {
-  decision: ScrubberDecision;
-  confidence: number;
-  detectedEntityTypes: string[];
-}
-
-export async function scrubText(_text: string): Promise<ScrubberResult> {
-  throw new Error("scrubText not implemented yet — Step 3");
-}
+export { scrubText } from "./text.js";
+export { scrubImage } from "./image.js";
+export type { ScrubberDecision, ScrubberOptions, ScrubberResult } from "./types.js";
+export {
+  DEFAULT_HIGH_THRESHOLD,
+  DEFAULT_LOW_THRESHOLD,
+} from "./types.js";
