@@ -85,12 +85,12 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
           >
             <Eye size={14} aria-hidden /> Preview
           </Link>
-          <button
-            type="button"
+          <a
+            href={`/api/modules/${module.id}/export`}
             className="inline-flex h-8 items-center gap-2 rounded-md bg-accent px-3 text-body-sm font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
           >
-            <Download size={14} aria-hidden /> Export
-          </button>
+            <Download size={14} aria-hidden /> Export SCORM
+          </a>
         </div>
       </header>
 

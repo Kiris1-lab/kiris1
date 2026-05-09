@@ -13,6 +13,7 @@
   "dependencies": {
     "@kiris/billing": "workspace:*",
     "@kiris/learning-engine": "workspace:*",
+    "@kiris/scorm": "workspace:*",
     "@kiris/ui": "workspace:*",
     "lucide-react": "^0.460.0",
     "next": "^15.0.3",

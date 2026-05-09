@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getModule } from "@/lib/mock-store";
+import { getModule } from "@/lib/data";
 import { getSession } from "@/lib/session";
 import { EditorShell } from "@/components/editor-shell";
 
@@ -11,7 +11,7 @@ export default async function ModuleEditorPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mod = getModule(id);
+  const mod = await getModule(id);
   if (!mod) notFound();
   const session = getSession();
   return <EditorShell module={mod} tier={session.tenant.tier} />;

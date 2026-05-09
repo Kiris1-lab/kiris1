@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  transpilePackages: ["@kiris/ui", "@kiris/billing", "@kiris/learning-engine"],
+  transpilePackages: ["@kiris/ui", "@kiris/billing", "@kiris/learning-engine", "@kiris/scorm"],
 
   async headers() {
     return [

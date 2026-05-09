@@ -7,7 +7,14 @@
   "exports": { ".": "./src/index.ts" },
   "scripts": {
     "lint": "echo 'no lint configured yet'",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --import tsx src/*.test.ts"
   },
-  "devDependencies": { "typescript": "^5.6.3" }
+  "dependencies": {
+    "fflate": "^0.8.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
 }

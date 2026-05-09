@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { EmptyState } from "@kiris/ui";
 import { Plus, Sparkles } from "lucide-react";
-import { listModules } from "@/lib/mock-store";
+import { listModules } from "@/lib/data";
 import { ModuleCard } from "@/components/module-card";
 
 export const metadata = { title: "Dashboard" };
 
-export default function DashboardPage() {
-  const modules = listModules();
+export default async function DashboardPage() {
+  const modules = await listModules();
 
   return (
     <>

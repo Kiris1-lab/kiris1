@@ -15,7 +15,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "tsx src/migrate.ts",
-    "db:rls:apply": "tsx src/apply-rls.ts"
+    "db:rls:apply": "tsx src/apply-rls.ts",
+    "db:seed": "tsx src/seed.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.36.0",

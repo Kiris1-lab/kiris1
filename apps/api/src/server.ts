@@ -13,6 +13,7 @@ import scrubberRoute from "./routes/scrubber.js";
 import generateRoute from "./routes/generate.js";
 import narrationRoute from "./routes/narration.js";
 import capRequestsRoute from "./routes/cap-requests.js";
+import exportsRoute from "./routes/exports.js";
 import stripeWebhookRoute from "./routes/stripe-webhook.js";
 
 /**
@@ -58,6 +59,7 @@ async function build() {
   await app.register(generateRoute);
   await app.register(narrationRoute);
   await app.register(capRequestsRoute);
+  await app.register(exportsRoute);
 
   return app;
 }

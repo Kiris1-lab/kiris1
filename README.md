@@ -38,10 +38,27 @@ pnpm dev                          # runs every app in parallel
 Individual apps:
 
 ```bash
-pnpm --filter @kiris/marketing dev    # http://localhost:3000
-pnpm --filter @kiris/app dev          # http://localhost:3001
-pnpm --filter @kiris/admin dev        # http://localhost:3002
-pnpm --filter @kiris/api dev          # http://localhost:4000
+pnpm --filter @kiris/marketing dev    # http://localhost:3000  public site
+pnpm --filter @kiris/app dev          # http://localhost:3001  authoring app
+pnpm --filter @kiris/admin dev        # http://localhost:3002  internal console
+pnpm --filter @kiris/api dev          # http://localhost:4000  Fastify API
+```
+
+### Optional: bring up Postgres + run the API end-to-end
+
+```bash
+# Start a local Postgres (any way you like). Set DATABASE_URL in .env.local.
+pnpm --filter @kiris/db db:generate    # generate migration SQL from schema
+pnpm --filter @kiris/db db:migrate     # apply migrations
+pnpm --filter @kiris/db db:rls:apply   # apply RLS policies (idempotent)
+pnpm --filter @kiris/db db:seed        # one tenant + two users + a module
+
+# Smoke test the API:
+curl -H 'authorization: bearer dev:00000000-0000-0000-0000-000000000010:00000000-0000-0000-0000-000000000001:standard:org_admin' \
+  http://localhost:4000/v1/modules
+
+# Flip the app from mock-store to API:
+USE_API=true pnpm --filter @kiris/app dev
 ```
 
 ## External services & access

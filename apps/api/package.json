@@ -22,6 +22,8 @@
     "@kiris/billing": "workspace:*",
     "@kiris/db": "workspace:*",
     "@kiris/learning-engine": "workspace:*",
+    "@kiris/metering": "workspace:*",
+    "@kiris/scorm": "workspace:*",
     "@kiris/scrubber": "workspace:*",
     "fastify": "^5.1.0",
     "fastify-plugin": "^5.0.1",
