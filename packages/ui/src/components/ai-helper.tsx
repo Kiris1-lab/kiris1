@@ -20,7 +20,7 @@ export function AIHelperButton({
       type="button"
       aria-label={reviewed ? "Reviewed by human; click to regenerate" : "AI helpers"}
       className={cn(
-        "inline-flex h-7 w-7 items-center justify-center rounded-md border border-border-subtle bg-surface-raised text-accent transition-colors duration-state hover:bg-accent-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]",
+        "border-border-subtle bg-surface-raised text-accent duration-state hover:bg-accent-soft inline-flex h-7 w-7 items-center justify-center rounded-md border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]",
         className,
       )}
       {...props}
@@ -28,11 +28,7 @@ export function AIHelperButton({
       {reviewed ? (
         <Check size={14} aria-hidden />
       ) : (
-        <Sparkles
-          size={14}
-          aria-hidden
-          className={generating ? "animate-pulse" : undefined}
-        />
+        <Sparkles size={14} aria-hidden className={generating ? "animate-pulse" : undefined} />
       )}
     </button>
   );

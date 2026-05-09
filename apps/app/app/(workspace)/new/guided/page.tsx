@@ -6,17 +6,17 @@ export const metadata = { title: "New module · Guided AI" };
 export default function GuidedPage() {
   return (
     <div className="mx-auto max-w-3xl">
-      <p className="text-caption uppercase text-accent">Guided AI</p>
-      <h1 className="mt-1 text-display-md">Sketch the outline.</h1>
-      <p className="mt-2 text-body-md text-text-secondary">
+      <p className="text-caption text-accent uppercase">Guided AI</p>
+      <h1 className="text-display-md mt-1">Sketch the outline.</h1>
+      <p className="text-body-md text-text-secondary mt-2">
         Start with a topic and audience. Add sections and slides — drag to reorder. Use the
-        <Sparkles size={12} className="mx-1 inline text-accent" aria-hidden /> helper on every
-        field to polish, regenerate, or translate.
+        <Sparkles size={12} className="text-accent mx-1 inline" aria-hidden /> helper on every field
+        to polish, regenerate, or translate.
       </p>
 
       <Banner variant="info" className="mt-8" title="Want a starting outline?">
-        Click "Suggest outline" after filling in the basics and Kiris will draft a structure you
-        can accept, reject, or rework.
+        Click &quot;Suggest outline&quot; after filling in the basics and Kiris will draft a
+        structure you can accept, reject, or rework.
       </Banner>
 
       <form
@@ -30,12 +30,7 @@ export default function GuidedPage() {
         </p>
 
         <Field label="Title" htmlFor="title">
-          <Input
-            id="title"
-            name="title"
-            required
-            placeholder="Fall risk assessment · Q2 update"
-          />
+          <Input id="title" name="title" required placeholder="Fall risk assessment · Q2 update" />
         </Field>
 
         <Field
@@ -79,13 +74,13 @@ export default function GuidedPage() {
         <div className="flex items-center justify-between gap-4 pt-2">
           <button
             type="button"
-            className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-surface-raised px-4 text-body-md font-medium text-text-primary transition-colors duration-state hover:border-border-strong"
+            className="border-border bg-surface-raised text-body-md text-text-primary duration-state hover:border-border-strong inline-flex h-10 items-center gap-2 rounded-md border px-4 font-medium transition-colors"
           >
             <Sparkles size={14} className="text-accent" aria-hidden /> Suggest outline
           </button>
           <button
             type="submit"
-            className="inline-flex h-11 items-center gap-2 rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+            className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-11 items-center gap-2 rounded-md px-5 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
           >
             Open the editor
           </button>
@@ -108,10 +103,10 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="text-body-sm font-medium text-text-primary">
+      <label htmlFor={htmlFor} className="text-body-sm text-text-primary font-medium">
         {label}
       </label>
-      {help ? <p className="mt-1 text-caption text-text-tertiary">{help}</p> : null}
+      {help ? <p className="text-caption text-text-tertiary mt-1">{help}</p> : null}
       <div className="mt-2">{children}</div>
     </div>
   );

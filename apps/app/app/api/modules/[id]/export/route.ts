@@ -10,10 +10,7 @@ export const runtime = "nodejs";
  * packages SCORM inline from the mock store so the editor's Export button
  * produces a real ZIP for design demos.
  */
-export async function GET(
-  _req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function GET(_req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const session = getSession();
 

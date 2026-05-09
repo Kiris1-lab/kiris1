@@ -12,10 +12,13 @@ const REPLACEMENTS: { pattern: RegExp; replacement: string }[] = [
     pattern: /\b(?:DOB|date\s*of\s*birth)[:.]?\s*\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/gi,
     replacement: "[redacted-dob]",
   },
-  { pattern: /\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, replacement: "[redacted-phone]" },
+  {
+    pattern: /\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g,
+    replacement: "[redacted-phone]",
+  },
   {
     // Skip example.com and kiris.ai — those are operational.
-    pattern: /\b[A-Za-z0-9._%+-]+@(?!example\.|kiris\.ai)[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,
+    pattern: /\b[A-Za-z0-9._%+-]+@(?!example\.com|kiris\.ai)[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,
     replacement: "[redacted-email]",
   },
 ];

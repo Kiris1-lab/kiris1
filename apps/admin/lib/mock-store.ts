@@ -144,7 +144,13 @@ export interface InvoiceRow {
 }
 
 export const OPEN_INVOICES: InvoiceRow[] = [
-  { id: "in_1", tenant: "Oakhill Family Practice", status: "open", totalUsd: 79, dueAt: "2026-05-12" },
+  {
+    id: "in_1",
+    tenant: "Oakhill Family Practice",
+    status: "open",
+    totalUsd: 79,
+    dueAt: "2026-05-12",
+  },
   { id: "in_2", tenant: "Pinnacle Health", status: "open", totalUsd: 121.4, dueAt: "2026-05-29" },
 ];
 

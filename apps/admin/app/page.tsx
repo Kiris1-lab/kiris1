@@ -7,20 +7,40 @@ export const metadata = { title: "Home" };
 export default function AdminHome() {
   return (
     <>
-      <p className="text-caption uppercase text-text-tertiary">Operator dashboard</p>
-      <h1 className="mt-1 text-display-md">Today</h1>
+      <p className="text-caption text-text-tertiary uppercase">Operator dashboard</p>
+      <h1 className="text-display-md mt-1">Today</h1>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Tenants" value={KPI.tenants} sub={`${Math.round(KPI.hipaaShare * 100)}% HIPAA`} icon={<Building2 size={16} aria-hidden />} />
-        <Stat label="MRR" value={`$${KPI.mrrUsd.toLocaleString()}`} sub={`ARR $${KPI.arrUsd.toLocaleString()}`} icon={<ShieldCheck size={16} aria-hidden />} />
-        <Stat label="Signups · 7d" value={KPI.signupsThisWeek} sub={`${KPI.churnThisMonth} churn this month`} icon={<Inbox size={16} aria-hidden />} />
-        <Stat label="Active support sessions" value={KPI.activeSupportSessions} sub="Click 'Support sessions' for detail" icon={<KeyRound size={16} aria-hidden />} />
+        <Stat
+          label="Tenants"
+          value={KPI.tenants}
+          sub={`${Math.round(KPI.hipaaShare * 100)}% HIPAA`}
+          icon={<Building2 size={16} aria-hidden />}
+        />
+        <Stat
+          label="MRR"
+          value={`$${KPI.mrrUsd.toLocaleString()}`}
+          sub={`ARR $${KPI.arrUsd.toLocaleString()}`}
+          icon={<ShieldCheck size={16} aria-hidden />}
+        />
+        <Stat
+          label="Signups · 7d"
+          value={KPI.signupsThisWeek}
+          sub={`${KPI.churnThisMonth} churn this month`}
+          icon={<Inbox size={16} aria-hidden />}
+        />
+        <Stat
+          label="Active support sessions"
+          value={KPI.activeSupportSessions}
+          sub="Click 'Support sessions' for detail"
+          icon={<KeyRound size={16} aria-hidden />}
+        />
       </div>
 
       <Banner variant="info" className="mt-8" title="Read-only by default">
         Write actions require a justification field and are logged to
-        <code className="mx-1">internal_audit_log</code>. Destructive actions
-        require a second approver.
+        <code className="mx-1">internal_audit_log</code>. Destructive actions require a second
+        approver.
       </Banner>
 
       <section className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -30,12 +50,12 @@ export default function AdminHome() {
               <h2 className="text-heading-md">Past-due tenants</h2>
               <Badge variant="warning">Action recommended</Badge>
             </header>
-            <ul className="mt-4 divide-y divide-border-subtle">
+            <ul className="divide-border-subtle mt-4 divide-y">
               {TENANTS.filter((t) => t.status === "past_due").map((t) => (
-                <li key={t.id} className="flex items-center justify-between py-3 text-body-sm">
+                <li key={t.id} className="text-body-sm flex items-center justify-between py-3">
                   <span>
-                    <span className="font-medium text-text-primary">{t.name}</span>
-                    <span className="ml-2 text-text-tertiary">{t.plan}</span>
+                    <span className="text-text-primary font-medium">{t.name}</span>
+                    <span className="text-text-tertiary ml-2">{t.plan}</span>
                   </span>
                   <Badge variant="warning">past_due</Badge>
                 </li>
@@ -46,12 +66,12 @@ export default function AdminHome() {
         <Card>
           <CardBody>
             <h2 className="text-heading-md">Open invoices</h2>
-            <ul className="mt-4 divide-y divide-border-subtle">
+            <ul className="divide-border-subtle mt-4 divide-y">
               {OPEN_INVOICES.map((inv) => (
-                <li key={inv.id} className="flex items-center justify-between py-3 text-body-sm">
+                <li key={inv.id} className="text-body-sm flex items-center justify-between py-3">
                   <span>
-                    <span className="font-medium text-text-primary">{inv.tenant}</span>
-                    <span className="ml-2 text-text-tertiary">due {inv.dueAt}</span>
+                    <span className="text-text-primary font-medium">{inv.tenant}</span>
+                    <span className="text-text-tertiary ml-2">due {inv.dueAt}</span>
                   </span>
                   <span>${inv.totalUsd.toFixed(2)}</span>
                 </li>
@@ -68,14 +88,15 @@ export default function AdminHome() {
             {SUPPORT_SESSIONS.length === 0 ? (
               <p className="text-body-sm text-text-tertiary">None.</p>
             ) : (
-              <ul className="divide-y divide-border-subtle">
+              <ul className="divide-border-subtle divide-y">
                 {SUPPORT_SESSIONS.map((s) => (
-                  <li key={s.id} className="py-3 text-body-sm">
-                    <p className="font-medium text-text-primary">
+                  <li key={s.id} className="text-body-sm py-3">
+                    <p className="text-text-primary font-medium">
                       {s.tenant} — {s.scope}
                     </p>
                     <p className="text-caption text-text-tertiary">
-                      Requested by {s.internalUser} · expires {new Date(s.expiresAt).toLocaleString()}
+                      Requested by {s.internalUser} · expires{" "}
+                      {new Date(s.expiresAt).toLocaleString()}
                     </p>
                     <Badge variant="warning" className="mt-2">
                       {s.status.replace("_", " ")}
@@ -105,11 +126,11 @@ function Stat({
   return (
     <Card>
       <CardBody>
-        <div className="flex items-center gap-2 text-text-tertiary">
+        <div className="text-text-tertiary flex items-center gap-2">
           {icon}
           <p className="text-caption uppercase">{label}</p>
         </div>
-        <p className="mt-2 text-display-md">{value}</p>
+        <p className="text-display-md mt-2">{value}</p>
         <p className="text-body-sm text-text-secondary">{sub}</p>
       </CardBody>
     </Card>

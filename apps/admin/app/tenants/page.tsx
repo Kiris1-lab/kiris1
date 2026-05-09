@@ -7,17 +7,21 @@ export const metadata = { title: "Tenants" };
 export default function TenantsPage() {
   return (
     <>
-      <p className="text-caption uppercase text-text-tertiary">Tenants</p>
-      <h1 className="mt-1 text-display-md">All tenants</h1>
+      <p className="text-caption text-text-tertiary uppercase">Tenants</p>
+      <h1 className="text-display-md mt-1">All tenants</h1>
 
       <div className="mt-6 max-w-md">
-        <Input type="search" placeholder="Search by name, ID, or email…" aria-label="Search tenants" />
+        <Input
+          type="search"
+          placeholder="Search by name, ID, or email…"
+          aria-label="Search tenants"
+        />
       </div>
 
       <Card className="mt-6">
         <CardBody className="p-0">
-          <table className="w-full text-body-sm">
-            <thead className="border-b border-border-subtle text-caption uppercase text-text-tertiary">
+          <table className="text-body-sm w-full">
+            <thead className="border-border-subtle text-caption text-text-tertiary border-b uppercase">
               <tr>
                 <th className="p-4 text-left">Name</th>
                 <th className="p-4 text-left">Plan</th>
@@ -28,19 +32,19 @@ export default function TenantsPage() {
                 <th className="p-4 text-right">MRR</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border-subtle">
+            <tbody className="divide-border-subtle divide-y">
               {TENANTS.map((t) => (
                 <tr key={t.id}>
                   <td className="p-4">
                     <Link
                       href={`/tenants/${t.id}`}
-                      className="font-medium text-text-primary hover:text-accent"
+                      className="text-text-primary hover:text-accent font-medium"
                     >
                       {t.name}
                     </Link>
                     <p className="text-caption text-text-tertiary">{t.id}</p>
                   </td>
-                  <td className="p-4 text-text-secondary">{t.plan}</td>
+                  <td className="text-text-secondary p-4">{t.plan}</td>
                   <td className="p-4">
                     <Badge variant={t.tier === "hipaa" ? "success" : "neutral"}>{t.tier}</Badge>
                   </td>
@@ -57,8 +61,8 @@ export default function TenantsPage() {
                       {t.status}
                     </Badge>
                   </td>
-                  <td className="p-4 text-text-secondary">{t.seats}</td>
-                  <td className="p-4 text-text-secondary">{t.modules}</td>
+                  <td className="text-text-secondary p-4">{t.seats}</td>
+                  <td className="text-text-secondary p-4">{t.modules}</td>
                   <td className="p-4 text-right font-medium">${t.mrrUsd.toLocaleString()}</td>
                 </tr>
               ))}

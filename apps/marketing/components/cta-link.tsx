@@ -36,10 +36,7 @@ export function CtaLink({
   className?: string;
 }) {
   return (
-    <Link
-      href={href}
-      className={cn(base, variantClasses[variant], sizeClasses[size], className)}
-    >
+    <Link href={href} className={cn(base, variantClasses[variant], sizeClasses[size], className)}>
       {children}
       {withArrow ? <ArrowRight size={16} aria-hidden /> : null}
     </Link>

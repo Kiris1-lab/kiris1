@@ -32,7 +32,7 @@ const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border-subtle bg-surface-raised">
+    <footer className="border-border-subtle bg-surface-raised mt-24 border-t">
       <Container>
         <div className="grid gap-10 py-14 md:grid-cols-4">
           <div>
@@ -40,22 +40,22 @@ export function SiteFooter() {
               <KirisMark size={24} />
               <span className="text-heading-sm">Kiris</span>
             </Link>
-            <p className="mt-3 text-body-sm text-text-secondary">
+            <p className="text-body-sm text-text-secondary mt-3">
               Narrated, editable e-learning modules for hospitals.
             </p>
-            <p className="mt-6 text-caption text-text-tertiary">
+            <p className="text-caption text-text-tertiary mt-6">
               © {new Date().getFullYear()} Kiris Lab, Inc. All rights reserved.
             </p>
           </div>
           {COLUMNS.map((column) => (
             <div key={column.title}>
-              <h2 className="text-caption uppercase text-text-tertiary">{column.title}</h2>
-              <ul className="mt-4 space-y-2 text-body-sm">
+              <h2 className="text-caption text-text-tertiary uppercase">{column.title}</h2>
+              <ul className="text-body-sm mt-4 space-y-2">
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-text-secondary transition-colors duration-state hover:text-text-primary"
+                      className="text-text-secondary duration-state hover:text-text-primary transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -65,14 +65,14 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
-        <div className="border-t border-border-subtle py-6 text-caption text-text-tertiary">
+        <div className="border-border-subtle text-caption text-text-tertiary border-t py-6">
           <p>
             Security questions? Email{" "}
-            <a className="underline hover:text-text-primary" href="mailto:security@kiris.ai">
+            <a className="hover:text-text-primary underline" href="mailto:security@kiris.ai">
               security@kiris.ai
             </a>
             . See our{" "}
-            <Link href="/trust" className="underline hover:text-text-primary">
+            <Link href="/trust" className="hover:text-text-primary underline">
               trust page
             </Link>{" "}
             for subprocessors and status.

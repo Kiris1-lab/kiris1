@@ -4,6 +4,15 @@ const nextConfig = {
   poweredByHeader: false,
   transpilePackages: ["@kiris/ui", "@kiris/billing"],
 
+  // Workspace packages use NodeNext-style ".js" specifiers on TS imports;
+  // webpack resolves the matching ".ts" / ".tsx" file at bundle time.
+  webpack: (config) => {
+    config.resolve.extensionAlias = {
+      ".js": [".ts", ".tsx", ".js", ".jsx"],
+    };
+    return config;
+  },
+
   // Security headers — see DESIGN §12.
   // CSP is enforced via middleware so we can use a per-request nonce.
   async headers() {

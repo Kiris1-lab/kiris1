@@ -23,8 +23,7 @@ const iconFor = {
 } as const;
 
 export interface BannerProps
-  extends HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof banner> {
+  extends Omit<HTMLAttributes<HTMLDivElement>, "title">, VariantProps<typeof banner> {
   title?: ReactNode;
 }
 

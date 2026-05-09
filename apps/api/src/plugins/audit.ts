@@ -36,7 +36,8 @@ const auditPlugin: FastifyPluginAsync = async (app) => {
             targetType: "http_route",
             targetId: req.routeOptions?.url ?? req.url,
             ip: req.ip,
-            userAgent: typeof req.headers["user-agent"] === "string" ? req.headers["user-agent"] : null,
+            userAgent:
+              typeof req.headers["user-agent"] === "string" ? req.headers["user-agent"] : null,
             requestId: req.requestId,
             success: reply.statusCode < 500,
             tierAtTime: req.auth.tier,

@@ -16,8 +16,16 @@ const zip = packageScorm12({
   learningObjectives: ["Identify the 5 moments", "Demonstrate proper technique"],
   audience: "Med-surg nurses",
   slides: [
-    { id: "s1", position: 1, type: "title", title: "...", bodyMarkdown: "...",
-      narrationScript: "...", altText: "", durationSeconds: 30 },
+    {
+      id: "s1",
+      position: 1,
+      type: "title",
+      title: "...",
+      bodyMarkdown: "...",
+      narrationScript: "...",
+      altText: "",
+      durationSeconds: 30,
+    },
   ],
 });
 // zip is a Uint8Array — upload to S3 and emit a signed URL.

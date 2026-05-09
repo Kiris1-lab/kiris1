@@ -17,7 +17,7 @@ export function Section({
       id={id}
       className={cn(
         "py-20 sm:py-24",
-        raised ? "bg-surface-raised border-y border-border-subtle" : "",
+        raised ? "bg-surface-raised border-border-subtle border-y" : "",
         className,
       )}
     >
@@ -27,14 +27,14 @@ export function Section({
 }
 
 export function SectionEyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-caption uppercase text-accent">{children}</p>;
+  return <p className="text-caption text-accent uppercase">{children}</p>;
 }
 
 export function SectionHeading({ children, sub }: { children: ReactNode; sub?: ReactNode }) {
   return (
     <div className="max-w-2xl">
       <h2 className="text-display-md text-text-primary">{children}</h2>
-      {sub ? <p className="mt-4 text-body-lg text-text-secondary">{sub}</p> : null}
+      {sub ? <p className="text-body-lg text-text-secondary mt-4">{sub}</p> : null}
     </div>
   );
 }

@@ -22,11 +22,11 @@ export default function ProductPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Product</p>
-            <h1 className="mt-3 text-display-lg">
-              Everything a clinical educator needs. Nothing they don't.
+            <p className="text-caption text-accent uppercase">Product</p>
+            <h1 className="text-display-lg mt-3">
+              Everything a clinical educator needs. Nothing they don&apos;t.
             </h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
+            <p className="text-body-lg text-text-secondary mt-5">
               Kiris is a focused authoring tool that turns rough materials into polished, narrated,
               SCORM-ready modules. Two AI authoring modes, one polished output, real learning
               science under the hood.
@@ -118,9 +118,7 @@ export default function ProductPage() {
 
       <Section>
         <SectionEyebrow>Pedagogy</SectionEyebrow>
-        <SectionHeading
-          sub="Every module Kiris generates follows a structure grounded in research: hook, objectives, microlearning segments, application, summary, final knowledge check."
-        >
+        <SectionHeading sub="Every module Kiris generates follows a structure grounded in research: hook, objectives, microlearning segments, application, summary, final knowledge check.">
           Modules built on real learning science.
         </SectionHeading>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -145,7 +143,7 @@ export default function ProductPage() {
       <Section raised>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-display-md">A polished module, before lunch.</h2>
-          <p className="mt-4 text-body-lg text-text-secondary">
+          <p className="text-body-lg text-text-secondary mt-4">
             Card required at signup. No contracts. Cancel anytime.
           </p>
           <div className="mt-8 flex justify-center gap-3">
@@ -176,19 +174,19 @@ function FeatureBlock({
   bullets: string[];
 }) {
   return (
-    <div className="rounded-lg border border-border-subtle bg-surface-raised p-8 shadow-sm">
-      <div className="flex items-center gap-3 text-accent">
-        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent-soft">
+    <div className="border-border-subtle bg-surface-raised rounded-lg border p-8 shadow-sm">
+      <div className="text-accent flex items-center gap-3">
+        <span className="bg-accent-soft flex h-9 w-9 items-center justify-center rounded-md">
           {icon}
         </span>
         <span className="text-caption uppercase">{kicker}</span>
       </div>
-      <h3 className="mt-4 text-heading-xl">{title}</h3>
-      <p className="mt-3 text-body-md text-text-secondary">{body}</p>
-      <ul className="mt-6 space-y-2 text-body-md text-text-secondary">
+      <h3 className="text-heading-xl mt-4">{title}</h3>
+      <p className="text-body-md text-text-secondary mt-3">{body}</p>
+      <ul className="text-body-md text-text-secondary mt-6 space-y-2">
         {bullets.map((b) => (
           <li key={b} className="flex gap-2">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+            <span className="bg-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden />
             {b}
           </li>
         ))}
@@ -208,11 +206,11 @@ function FeatureBullet({
 }) {
   return (
     <div>
-      <div className="flex h-9 w-9 items-center justify-center rounded-md bg-accent-soft text-accent">
+      <div className="bg-accent-soft text-accent flex h-9 w-9 items-center justify-center rounded-md">
         {icon}
       </div>
-      <h3 className="mt-4 text-heading-md">{title}</h3>
-      <p className="mt-2 text-body-md text-text-secondary">{body}</p>
+      <h3 className="text-heading-md mt-4">{title}</h3>
+      <p className="text-body-md text-text-secondary mt-2">{body}</p>
     </div>
   );
 }
@@ -227,12 +225,12 @@ function PrincipleCard({
   body: string;
 }) {
   return (
-    <div className="rounded-lg border border-border-subtle bg-surface-raised p-6 shadow-sm">
-      <div className="flex h-9 w-9 items-center justify-center rounded-md bg-accent-soft text-accent">
+    <div className="border-border-subtle bg-surface-raised rounded-lg border p-6 shadow-sm">
+      <div className="bg-accent-soft text-accent flex h-9 w-9 items-center justify-center rounded-md">
         {icon}
       </div>
-      <h3 className="mt-4 text-heading-md">{title}</h3>
-      <p className="mt-2 text-body-md text-text-secondary">{body}</p>
+      <h3 className="text-heading-md mt-4">{title}</h3>
+      <p className="text-body-md text-text-secondary mt-2">{body}</p>
     </div>
   );
 }

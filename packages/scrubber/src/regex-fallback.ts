@@ -14,8 +14,7 @@ const DOB = /\b(?:DOB|date\s*of\s*birth)[:.]?\s*\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4
 const PHONE = /\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/;
 const EMAIL = /\b[A-Za-z0-9._%+-]+@(?!example\.|kiris\.ai)[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
 const ADDRESS_HINT = /\b\d{2,5}\s+[A-Z][a-z]+\s+(St|Ave|Blvd|Rd|Drive|Ln|Way|Ct)\b/;
-const EHR_BANNERS =
-  /\b(Epic|Cerner|Meditech|Allscripts|Athena|eClinicalWorks|NextGen)\b/;
+const EHR_BANNERS = /\b(Epic|Cerner|Meditech|Allscripts|Athena|eClinicalWorks|NextGen)\b/;
 
 const RULES: { pattern: RegExp; type: string; confidence: number }[] = [
   { pattern: MRN, type: "MEDICAL_RECORD_NUMBER", confidence: 0.95 },

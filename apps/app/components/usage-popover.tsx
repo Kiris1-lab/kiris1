@@ -23,7 +23,7 @@ export function UsagePopover({ usage }: { usage: Session["usage"] }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="inline-flex h-8 items-center gap-2 rounded-md border border-border-subtle bg-surface-raised px-3 text-body-sm text-text-secondary transition-colors duration-state hover:border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+        className="border-border-subtle bg-surface-raised text-body-sm text-text-secondary duration-state hover:border-border inline-flex h-8 items-center gap-2 rounded-md border px-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
       >
         {warning ? (
           <AlertTriangle size={14} className="text-status-warning" aria-hidden />
@@ -37,9 +37,9 @@ export function UsagePopover({ usage }: { usage: Session["usage"] }) {
         <div
           role="dialog"
           aria-label="Monthly usage"
-          className="absolute right-0 top-10 z-40 w-80 rounded-lg border border-border-subtle bg-surface-raised p-4 shadow-md"
+          className="border-border-subtle bg-surface-raised absolute right-0 top-10 z-40 w-80 rounded-lg border p-4 shadow-md"
         >
-          <p className="text-caption uppercase text-text-tertiary">This month</p>
+          <p className="text-caption text-text-tertiary uppercase">This month</p>
 
           <div className="mt-3 space-y-4">
             <UsageRow
@@ -62,7 +62,7 @@ export function UsagePopover({ usage }: { usage: Session["usage"] }) {
 
           {warning ? (
             <Banner variant="warning" className="mt-4">
-              You're approaching your monthly cap. Request more from your admin to keep
+              You&apos;re approaching your monthly cap. Request more from your admin to keep
               generating without interruption.
             </Banner>
           ) : null}
@@ -70,13 +70,13 @@ export function UsagePopover({ usage }: { usage: Session["usage"] }) {
           <div className="mt-4 flex gap-2">
             <Link
               href="/usage/request"
-              className="inline-flex h-8 flex-1 items-center justify-center rounded-md bg-accent px-3 text-body-sm font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+              className="bg-accent text-body-sm text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-8 flex-1 items-center justify-center rounded-md px-3 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
             >
               Request more
             </Link>
             <Link
               href="/cap-requests"
-              className="inline-flex h-8 items-center justify-center rounded-md border border-border bg-surface-raised px-3 text-body-sm font-medium text-text-primary transition-colors duration-state hover:border-border-strong"
+              className="border-border bg-surface-raised text-body-sm text-text-primary duration-state hover:border-border-strong inline-flex h-8 items-center justify-center rounded-md border px-3 font-medium transition-colors"
             >
               Approval queue
             </Link>
@@ -104,8 +104,8 @@ function UsageRow({
 }) {
   return (
     <div>
-      <div className="flex items-center justify-between text-body-sm">
-        <span className="flex items-center gap-2 text-text-primary">
+      <div className="text-body-sm flex items-center justify-between">
+        <span className="text-text-primary flex items-center gap-2">
           {icon}
           {label}
         </span>

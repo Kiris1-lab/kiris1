@@ -29,12 +29,12 @@ export default function IntegrationsPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Integrations</p>
-            <h1 className="mt-3 text-display-lg">Works with the LMS you already have.</h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
-              Kiris exports the same five formats every time, so you're never locked in.
-              SCORM 1.2 is our priority format and is tested against an actual HealthStream
-              sandbox before every release.
+            <p className="text-caption text-accent uppercase">Integrations</p>
+            <h1 className="text-display-lg mt-3">Works with the LMS you already have.</h1>
+            <p className="text-body-lg text-text-secondary mt-5">
+              Kiris exports the same five formats every time, so you&apos;re never locked in. SCORM
+              1.2 is our priority format and is tested against an actual HealthStream sandbox before
+              every release.
             </p>
           </div>
         </Container>
@@ -52,7 +52,7 @@ export default function IntegrationsPage() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-heading-sm">{lms.name}</h3>
                 </div>
-                <p className="mt-2 text-body-sm text-text-secondary">{lms.note}</p>
+                <p className="text-body-sm text-text-secondary mt-2">{lms.note}</p>
               </CardBody>
             </Card>
           ))}
@@ -67,8 +67,8 @@ export default function IntegrationsPage() {
             <Card key={format.name}>
               <CardBody>
                 <Badge variant="neutral">Format</Badge>
-                <h3 className="mt-3 text-heading-md">{format.name}</h3>
-                <p className="mt-2 text-body-md text-text-secondary">{format.note}</p>
+                <h3 className="text-heading-md mt-3">{format.name}</h3>
+                <p className="text-body-md text-text-secondary mt-2">{format.note}</p>
               </CardBody>
             </Card>
           ))}
@@ -80,7 +80,7 @@ export default function IntegrationsPage() {
         <SectionHeading sub="Direct LMS push lands in v2 — HealthStream first.">
           Beyond file export
         </SectionHeading>
-        <ul className="mt-12 space-y-4 text-body-md text-text-secondary">
+        <ul className="text-body-md text-text-secondary mt-12 space-y-4">
           <li>
             <strong>HealthStream API push (v2):</strong> publish modules without leaving Kiris.
           </li>
@@ -93,7 +93,7 @@ export default function IntegrationsPage() {
         </ul>
         <div className="mt-10">
           <CtaLink href="/contact-sales" variant="secondary" withArrow>
-            Don't see your LMS? Tell us
+            Don&apos;t see your LMS? Tell us
           </CtaLink>
         </div>
       </Section>

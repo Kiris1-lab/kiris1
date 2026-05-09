@@ -4,11 +4,7 @@ import { PreviewPlayer } from "@/components/preview-player";
 
 export const metadata = { title: "Preview" };
 
-export default async function PreviewPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function PreviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const mod = await getModule(id);
   if (!mod) notFound();

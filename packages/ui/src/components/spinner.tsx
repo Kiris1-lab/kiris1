@@ -12,7 +12,7 @@ export function Spinner({
 }) {
   return (
     <Loader2
-      className={cn("animate-spin text-text-tertiary", className)}
+      className={cn("text-text-tertiary animate-spin", className)}
       size={size}
       aria-label={label}
       role="status"

@@ -2,23 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  AIHelperButton,
-  Badge,
-  Banner,
-  KBD,
-  ProgressBar,
-  TierBadge,
-} from "@kiris/ui";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  Eye,
-  Mic,
-  Plus,
-} from "lucide-react";
+import { AIHelperButton, Badge, Banner, KBD, ProgressBar, TierBadge } from "@kiris/ui";
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, Eye, Mic, Plus } from "lucide-react";
 import type { Module, Slide } from "@/lib/types";
 import { SLIDE_TYPE_LABEL, SlideIcon } from "./slide-icon";
 import { formatDuration } from "@/lib/format";
@@ -65,13 +50,13 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
   }
 
   return (
-    <div className="flex h-screen flex-col bg-surface-base">
+    <div className="bg-surface-base flex h-screen flex-col">
       {/* Top bar */}
-      <header className="flex h-14 items-center gap-3 border-b border-border-subtle bg-surface-base px-4">
+      <header className="border-border-subtle bg-surface-base flex h-14 items-center gap-3 border-b px-4">
         <Link
           href="/"
           aria-label="Back to dashboard"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-text-secondary transition-colors duration-state hover:bg-accent-soft"
+          className="text-text-secondary duration-state hover:bg-accent-soft inline-flex h-8 w-8 items-center justify-center rounded-md transition-colors"
         >
           <ArrowLeft size={16} aria-hidden />
         </Link>
@@ -81,13 +66,13 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
         <div className="ml-auto flex items-center gap-2">
           <Link
             href={`/modules/${module.id}/preview`}
-            className="inline-flex h-8 items-center gap-2 rounded-md border border-border bg-surface-raised px-3 text-body-sm font-medium text-text-primary transition-colors duration-state hover:border-border-strong"
+            className="border-border bg-surface-raised text-body-sm text-text-primary duration-state hover:border-border-strong inline-flex h-8 items-center gap-2 rounded-md border px-3 font-medium transition-colors"
           >
             <Eye size={14} aria-hidden /> Preview
           </Link>
           <a
             href={`/api/modules/${module.id}/export`}
-            className="inline-flex h-8 items-center gap-2 rounded-md bg-accent px-3 text-body-sm font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+            className="bg-accent text-body-sm text-text-on-accent hover:bg-accent-hover inline-flex h-8 items-center gap-2 rounded-md px-3 font-medium shadow-sm"
           >
             <Download size={14} aria-hidden /> Export SCORM
           </a>
@@ -97,25 +82,25 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
       <div className="flex min-h-0 flex-1">
         {/* Left rail */}
         <aside
-          className={`${leftOpen ? "w-72" : "w-12"} thin-scroll flex flex-col border-r border-border-subtle bg-surface-raised transition-[width] duration-layout`}
+          className={`${leftOpen ? "w-72" : "w-12"} thin-scroll border-border-subtle bg-surface-raised duration-layout flex flex-col border-r transition-[width]`}
           aria-label="Module outline"
         >
           <div className="flex h-12 items-center justify-between px-3">
             <span
-              className={`text-caption uppercase text-text-tertiary ${leftOpen ? "" : "sr-only"}`}
+              className={`text-caption text-text-tertiary uppercase ${leftOpen ? "" : "sr-only"}`}
             >
               Outline
             </span>
             <button
               type="button"
               onClick={() => setLeftOpen((v) => !v)}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-text-tertiary hover:bg-accent-soft"
+              className="text-text-tertiary hover:bg-accent-soft flex h-7 w-7 items-center justify-center rounded-md"
               aria-label={leftOpen ? "Collapse outline" : "Expand outline"}
             >
               <ChevronLeft
                 size={14}
                 aria-hidden
-                className={`transition-transform duration-state ${leftOpen ? "" : "rotate-180"}`}
+                className={`duration-state transition-transform ${leftOpen ? "" : "rotate-180"}`}
               />
             </button>
           </div>
@@ -126,21 +111,21 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
                   <button
                     type="button"
                     onClick={() => setSelectedId(s.id)}
-                    className={`group flex w-full items-start gap-2 rounded-md px-3 py-2 text-left text-body-sm transition-colors duration-state ${
+                    className={`text-body-sm duration-state group flex w-full items-start gap-2 rounded-md px-3 py-2 text-left transition-colors ${
                       s.id === selected.id
                         ? "bg-accent-soft text-accent"
                         : "text-text-secondary hover:bg-surface-base"
                     }`}
                   >
                     <span
-                      className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-text-tertiary ${
+                      className={`text-text-tertiary mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded ${
                         s.id === selected.id ? "text-accent" : ""
                       }`}
                     >
                       <SlideIcon type={s.type} />
                     </span>
                     <span className="flex-1">
-                      <span className="block font-medium text-text-primary">{s.title}</span>
+                      <span className="text-text-primary block font-medium">{s.title}</span>
                       <span className="text-caption text-text-tertiary">
                         {SLIDE_TYPE_LABEL[s.type]} · {formatDuration(s.durationSeconds)}
                       </span>
@@ -157,7 +142,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
               <li className="px-3 pt-2">
                 <button
                   type="button"
-                  className="inline-flex h-8 w-full items-center justify-center gap-2 rounded-md border border-dashed border-border text-body-sm text-text-secondary transition-colors duration-state hover:border-accent hover:text-accent"
+                  className="border-border text-body-sm text-text-secondary duration-state hover:border-accent hover:text-accent inline-flex h-8 w-full items-center justify-center gap-2 rounded-md border border-dashed transition-colors"
                 >
                   <Plus size={14} aria-hidden /> Add slide
                 </button>
@@ -168,7 +153,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
 
         {/* Center canvas */}
         <section className="flex min-w-0 flex-1 flex-col" aria-label="Slide canvas">
-          <div className="flex h-12 items-center justify-between border-b border-border-subtle bg-surface-raised px-4 text-body-sm text-text-secondary">
+          <div className="border-border-subtle bg-surface-raised text-body-sm text-text-secondary flex h-12 items-center justify-between border-b px-4">
             <span>
               Slide {selected.position} of {slides.length} · {SLIDE_TYPE_LABEL[selected.type]}
             </span>
@@ -176,7 +161,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
               <button
                 type="button"
                 onClick={() => move(selected.id, -1)}
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-text-secondary hover:bg-accent-soft"
+                className="text-text-secondary hover:bg-accent-soft inline-flex h-7 w-7 items-center justify-center rounded-md"
                 aria-label="Move slide up"
               >
                 <ChevronLeft size={14} className="rotate-90" aria-hidden />
@@ -184,7 +169,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
               <button
                 type="button"
                 onClick={() => move(selected.id, 1)}
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-text-secondary hover:bg-accent-soft"
+                className="text-text-secondary hover:bg-accent-soft inline-flex h-7 w-7 items-center justify-center rounded-md"
                 aria-label="Move slide down"
               >
                 <ChevronRight size={14} className="rotate-90" aria-hidden />
@@ -194,7 +179,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
           <div className="flex-1 overflow-y-auto p-8">
             <SlideCanvas slide={selected} />
           </div>
-          <div className="flex h-10 items-center justify-between border-t border-border-subtle bg-surface-raised px-4 text-caption text-text-tertiary">
+          <div className="border-border-subtle bg-surface-raised text-caption text-text-tertiary flex h-10 items-center justify-between border-t px-4">
             <span>
               {slides.length} slides · {formatDuration(totalSeconds)} total
             </span>
@@ -210,20 +195,20 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
 
         {/* Right rail */}
         <aside
-          className={`${rightOpen ? "w-96" : "w-12"} thin-scroll flex flex-col border-l border-border-subtle bg-surface-raised transition-[width] duration-layout`}
+          className={`${rightOpen ? "w-96" : "w-12"} thin-scroll border-border-subtle bg-surface-raised duration-layout flex flex-col border-l transition-[width]`}
           aria-label="Slide properties"
         >
           <div className="flex h-12 items-center justify-between px-3">
             <button
               type="button"
               onClick={() => setRightOpen((v) => !v)}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-text-tertiary hover:bg-accent-soft"
+              className="text-text-tertiary hover:bg-accent-soft flex h-7 w-7 items-center justify-center rounded-md"
               aria-label={rightOpen ? "Collapse properties" : "Expand properties"}
             >
               <ChevronRight
                 size={14}
                 aria-hidden
-                className={`transition-transform duration-state ${rightOpen ? "" : "rotate-180"}`}
+                className={`duration-state transition-transform ${rightOpen ? "" : "rotate-180"}`}
               />
             </button>
             {rightOpen ? (
@@ -233,7 +218,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
                     key={t}
                     type="button"
                     onClick={() => setTab(t)}
-                    className={`rounded-md px-2.5 py-1 text-caption uppercase transition-colors duration-state ${
+                    className={`text-caption duration-state rounded-md px-2.5 py-1 uppercase transition-colors ${
                       tab === t
                         ? "bg-accent-soft text-accent"
                         : "text-text-tertiary hover:bg-surface-base"
@@ -257,7 +242,7 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
       </div>
 
       {/* Reviewed-progress strip across the bottom of the editor */}
-      <div className="border-t border-border-subtle bg-surface-raised px-4 py-2">
+      <div className="border-border-subtle bg-surface-raised border-t px-4 py-2">
         <ProgressBar
           value={reviewedCount}
           max={slides.length}
@@ -271,13 +256,13 @@ export function EditorShell({ module, tier }: { module: Module; tier: "standard"
 
 function SlideCanvas({ slide }: { slide: Slide }) {
   return (
-    <div className="mx-auto aspect-video w-full max-w-3xl rounded-xl border border-border-subtle bg-surface-raised p-10 shadow-md">
-      <p className="text-caption uppercase text-text-tertiary">{SLIDE_TYPE_LABEL[slide.type]}</p>
-      <h2 className="mt-2 text-heading-xl">{slide.title}</h2>
-      <div className="mt-6 whitespace-pre-line text-body-md text-text-primary">
+    <div className="border-border-subtle bg-surface-raised mx-auto aspect-video w-full max-w-3xl rounded-xl border p-10 shadow-md">
+      <p className="text-caption text-text-tertiary uppercase">{SLIDE_TYPE_LABEL[slide.type]}</p>
+      <h2 className="text-heading-xl mt-2">{slide.title}</h2>
+      <div className="text-body-md text-text-primary mt-6 whitespace-pre-line">
         {slide.bodyMarkdown}
       </div>
-      <div className="mt-8 flex items-center gap-2 rounded-md border border-border-subtle bg-surface-base p-3 text-body-sm text-text-secondary">
+      <div className="border-border-subtle bg-surface-base text-body-sm text-text-secondary mt-8 flex items-center gap-2 rounded-md border p-3">
         <Mic size={14} className="text-accent" aria-hidden />
         <span>Polly Neural · Joanna · {formatDuration(slide.durationSeconds)}</span>
       </div>
@@ -285,12 +270,18 @@ function SlideCanvas({ slide }: { slide: Slide }) {
   );
 }
 
-function SlideTab({ slide, onChange }: { slide: Slide; onChange: (patch: Partial<Slide>) => void }) {
+function SlideTab({
+  slide,
+  onChange,
+}: {
+  slide: Slide;
+  onChange: (patch: Partial<Slide>) => void;
+}) {
   return (
     <div className="space-y-5 pt-3">
       <FieldGroup label="Slide title" helperReviewed={slide.reviewedByUser}>
         <input
-          className="w-full rounded-md border border-border bg-surface-raised px-3 py-2 text-body-md focus:border-accent focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
+          className="border-border bg-surface-raised text-body-md focus:border-accent w-full rounded-md border px-3 py-2 focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
           value={slide.title}
           onChange={(e) => onChange({ title: e.target.value })}
         />
@@ -298,7 +289,7 @@ function SlideTab({ slide, onChange }: { slide: Slide; onChange: (patch: Partial
       <FieldGroup label="Body" helperReviewed={slide.reviewedByUser}>
         <textarea
           rows={6}
-          className="w-full rounded-md border border-border bg-surface-raised px-3 py-2 text-body-md focus:border-accent focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
+          className="border-border bg-surface-raised text-body-md focus:border-accent w-full rounded-md border px-3 py-2 focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
           value={slide.bodyMarkdown}
           onChange={(e) => onChange({ bodyMarkdown: e.target.value })}
         />
@@ -310,14 +301,14 @@ function SlideTab({ slide, onChange }: { slide: Slide; onChange: (patch: Partial
       >
         <textarea
           rows={6}
-          className="w-full rounded-md border border-border bg-surface-raised px-3 py-2 text-body-md focus:border-accent focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
+          className="border-border bg-surface-raised text-body-md focus:border-accent w-full rounded-md border px-3 py-2 focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
           value={slide.narrationScript}
           onChange={(e) => onChange({ narrationScript: e.target.value })}
         />
       </FieldGroup>
       <FieldGroup label="Alt text" help="WCAG 2.2 AA · required for non-decorative images.">
         <input
-          className="w-full rounded-md border border-border bg-surface-raised px-3 py-2 text-body-md focus:border-accent focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
+          className="border-border bg-surface-raised text-body-md focus:border-accent w-full rounded-md border px-3 py-2 focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"
           value={slide.altText}
           onChange={(e) => onChange({ altText: e.target.value })}
           placeholder="Describe any image on this slide for screen readers"
@@ -331,25 +322,25 @@ function VoiceTab({ slide }: { slide: Slide }) {
   return (
     <div className="space-y-5 pt-3">
       <FieldGroup label="Engine" help="Generative is more expressive but billed at a higher rate.">
-        <select className="h-10 w-full rounded-md border border-border bg-surface-raised px-3 text-body-md">
+        <select className="border-border bg-surface-raised text-body-md h-10 w-full rounded-md border px-3">
           <option>Neural</option>
           <option>Generative</option>
         </select>
       </FieldGroup>
       <FieldGroup label="Voice">
-        <select className="h-10 w-full rounded-md border border-border bg-surface-raised px-3 text-body-md">
+        <select className="border-border bg-surface-raised text-body-md h-10 w-full rounded-md border px-3">
           <option>Joanna (en-US, female)</option>
           <option>Matthew (en-US, male)</option>
           <option>Ruth (en-US, female)</option>
         </select>
       </FieldGroup>
-      <div className="rounded-md border border-border-subtle bg-surface-base p-3 text-body-sm text-text-secondary">
+      <div className="border-border-subtle bg-surface-base text-body-sm text-text-secondary rounded-md border p-3">
         <p>Generated audio · {formatDuration(slide.durationSeconds)}</p>
-        <div className="mt-2 h-12 rounded bg-accent-soft" aria-label="Audio waveform placeholder" />
+        <div className="bg-accent-soft mt-2 h-12 rounded" aria-label="Audio waveform placeholder" />
       </div>
       <button
         type="button"
-        className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md bg-accent px-3 text-body-sm font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+        className="bg-accent text-body-sm text-text-on-accent hover:bg-accent-hover inline-flex h-9 w-full items-center justify-center gap-2 rounded-md px-3 font-medium shadow-sm"
       >
         Regenerate narration audio
       </button>
@@ -368,7 +359,7 @@ function InteractionsTab({ slide }: { slide: Slide }) {
   return (
     <div className="space-y-3 pt-3">
       {items.length === 0 ? (
-        <p className="rounded-md border border-dashed border-border-subtle p-4 text-body-sm text-text-tertiary">
+        <p className="border-border-subtle text-body-sm text-text-tertiary rounded-md border border-dashed p-4">
           No interactions on this slide. Add one to keep learners engaged every 2–3 minutes.
         </p>
       ) : (
@@ -376,7 +367,7 @@ function InteractionsTab({ slide }: { slide: Slide }) {
           {items.map((label) => (
             <li
               key={label}
-              className="flex items-center justify-between rounded-md border border-border-subtle bg-surface-base px-3 py-2 text-body-sm"
+              className="border-border-subtle bg-surface-base text-body-sm flex items-center justify-between rounded-md border px-3 py-2"
             >
               <span>{label}</span>
               <button className="text-caption text-accent hover:underline">Edit</button>
@@ -386,7 +377,7 @@ function InteractionsTab({ slide }: { slide: Slide }) {
       )}
       <button
         type="button"
-        className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md border border-dashed border-border text-body-sm text-text-secondary hover:border-accent hover:text-accent"
+        className="border-border text-body-sm text-text-secondary hover:border-accent hover:text-accent inline-flex h-9 w-full items-center justify-center gap-2 rounded-md border border-dashed"
       >
         <Plus size={14} aria-hidden /> Add interaction
       </button>
@@ -404,15 +395,21 @@ function AITab() {
         ["Regenerate this slide", "From the same source materials, with the same constraints."],
         ["Improve clarity", "Tighten language, prefer plain words, keep meaning."],
         ["Make shorter", "Trim 30% while preserving the main idea."],
-        ["Apply Mayer's audit", "Check coherence, signaling, redundancy, and modality on this slide."],
-        ["Translate to plain language", "Flesch reading ease ≥ 60. Preserves clinical terminology."],
+        [
+          "Apply Mayer's audit",
+          "Check coherence, signaling, redundancy, and modality on this slide.",
+        ],
+        [
+          "Translate to plain language",
+          "Flesch reading ease ≥ 60. Preserves clinical terminology.",
+        ],
       ].map(([title, body]) => (
         <button
           key={title}
           type="button"
-          className="block w-full rounded-md border border-border-subtle bg-surface-base p-3 text-left transition-colors duration-state hover:border-accent"
+          className="border-border-subtle bg-surface-base duration-state hover:border-accent block w-full rounded-md border p-3 text-left transition-colors"
         >
-          <span className="block text-body-sm font-medium text-text-primary">{title}</span>
+          <span className="text-body-sm text-text-primary block font-medium">{title}</span>
           <span className="text-caption text-text-tertiary">{body}</span>
         </button>
       ))}
@@ -434,10 +431,10 @@ function FieldGroup({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <label className="text-body-sm font-medium text-text-primary">{label}</label>
+        <label className="text-body-sm text-text-primary font-medium">{label}</label>
         <AIHelperButton reviewed={helperReviewed} />
       </div>
-      {help ? <p className="mt-1 text-caption text-text-tertiary">{help}</p> : null}
+      {help ? <p className="text-caption text-text-tertiary mt-1">{help}</p> : null}
       <div className="mt-2">{children}</div>
     </div>
   );

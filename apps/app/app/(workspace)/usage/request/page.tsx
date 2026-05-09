@@ -1,5 +1,6 @@
 import { Banner, ProgressBar, Textarea } from "@kiris/ui";
 import { Sparkles, Mic } from "lucide-react";
+import Link from "next/link";
 import { getSession } from "@/lib/session";
 
 export const metadata = { title: "Request more usage" };
@@ -15,11 +16,11 @@ export default function RequestUsagePage() {
   const { usage } = getSession();
   return (
     <div className="mx-auto max-w-2xl">
-      <p className="text-caption uppercase text-text-tertiary">Usage</p>
-      <h1 className="mt-1 text-display-md">Request more this month</h1>
-      <p className="mt-2 text-body-md text-text-secondary">
-        Your team admin will be notified in-app and by email. They'll see your current usage and
-        the amount you're requesting before approving.
+      <p className="text-caption text-text-tertiary uppercase">Usage</p>
+      <h1 className="text-display-md mt-1">Request more this month</h1>
+      <p className="text-body-md text-text-secondary mt-2">
+        Your team admin will be notified in-app and by email. They&apos;ll see your current usage
+        and the amount you&apos;re requesting before approving.
       </p>
 
       <Banner variant="info" className="mt-8" title="No surprise fees">
@@ -33,9 +34,7 @@ export default function RequestUsagePage() {
       <form className="mt-8 space-y-6" method="get" action="/cap-requests">
         <input type="hidden" name="submitted" value="1" />
         <fieldset>
-          <legend className="text-body-sm font-medium text-text-primary">
-            Which allowance?
-          </legend>
+          <legend className="text-body-sm text-text-primary font-medium">Which allowance?</legend>
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             <KindOption
               icon={<Sparkles size={16} className="text-accent" aria-hidden />}
@@ -58,12 +57,12 @@ export default function RequestUsagePage() {
         </fieldset>
 
         <fieldset>
-          <legend className="text-body-sm font-medium text-text-primary">Amount</legend>
+          <legend className="text-body-sm text-text-primary font-medium">Amount</legend>
           <div className="mt-3 grid grid-cols-4 gap-2">
             {PRESETS.map((p, i) => (
               <label
                 key={p.value}
-                className="flex h-10 cursor-pointer items-center justify-center rounded-md border border-border bg-surface-raised text-body-sm text-text-primary transition-colors duration-state has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-accent"
+                className="border-border bg-surface-raised text-body-sm text-text-primary duration-state has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-accent flex h-10 cursor-pointer items-center justify-center rounded-md border transition-colors"
               >
                 <input
                   type="radio"
@@ -79,13 +78,10 @@ export default function RequestUsagePage() {
         </fieldset>
 
         <div>
-          <label
-            htmlFor="reason"
-            className="text-body-sm font-medium text-text-primary"
-          >
+          <label htmlFor="reason" className="text-body-sm text-text-primary font-medium">
             Why do you need more?
           </label>
-          <p className="mt-1 text-caption text-text-tertiary">
+          <p className="text-caption text-text-tertiary mt-1">
             One sentence is enough. Helps your admin decide quickly.
           </p>
           <Textarea
@@ -98,15 +94,15 @@ export default function RequestUsagePage() {
         </div>
 
         <div className="flex justify-end gap-3 pt-2">
-          <a
+          <Link
             href="/"
-            className="inline-flex h-10 items-center rounded-md px-4 text-body-md font-medium text-text-secondary hover:bg-accent-soft"
+            className="text-body-md text-text-secondary hover:bg-accent-soft inline-flex h-10 items-center rounded-md px-4 font-medium"
           >
             Cancel
-          </a>
+          </Link>
           <button
             type="submit"
-            className="inline-flex h-10 items-center rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+            className="bg-accent text-body-md text-text-on-accent hover:bg-accent-hover inline-flex h-10 items-center rounded-md px-5 font-medium shadow-sm"
           >
             Send request
           </button>
@@ -134,8 +130,8 @@ function KindOption({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="flex cursor-pointer flex-col rounded-lg border border-border bg-surface-raised p-4 transition-colors duration-state has-[:checked]:border-accent has-[:checked]:bg-accent-soft">
-      <span className="flex items-center gap-2 text-body-md font-medium text-text-primary">
+    <label className="border-border bg-surface-raised duration-state has-[:checked]:border-accent has-[:checked]:bg-accent-soft flex cursor-pointer flex-col rounded-lg border p-4 transition-colors">
+      <span className="text-body-md text-text-primary flex items-center gap-2 font-medium">
         <input
           type="radio"
           name={name}
@@ -146,7 +142,7 @@ function KindOption({
         {icon}
         {label}
       </span>
-      <span className="mt-2 text-caption text-text-tertiary">
+      <span className="text-caption text-text-tertiary mt-2">
         Used {used} of {allowance}
       </span>
       <ProgressBar

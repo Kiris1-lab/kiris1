@@ -40,19 +40,9 @@ export const dunningStateEnum = pgEnum("dunning_state", [
   "failed_d14",
   "failed_d21",
 ]);
-export const billingMethodEnum = pgEnum("billing_method", [
-  "card",
-  "ach",
-  "wire",
-  "invoice",
-]);
+export const billingMethodEnum = pgEnum("billing_method", ["card", "ach", "wire", "invoice"]);
 export const billingCycleEnum = pgEnum("billing_cycle", ["monthly", "annual"]);
-export const userRoleEnum = pgEnum("user_role", [
-  "org_admin",
-  "team_admin",
-  "editor",
-  "viewer",
-]);
+export const userRoleEnum = pgEnum("user_role", ["org_admin", "team_admin", "editor", "viewer"]);
 
 export const tenants = pgTable("tenants", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -68,9 +58,7 @@ export const tenants = pgTable("tenants", {
   hipaaBaaAcceptedBy: uuid("hipaa_baa_accepted_by"),
 
   aiCreditsPerSeatMonth: integer("ai_credits_per_seat_month").notNull().default(0),
-  narrationMinutesPerSeatMonth: integer("narration_minutes_per_seat_month")
-    .notNull()
-    .default(0),
+  narrationMinutesPerSeatMonth: integer("narration_minutes_per_seat_month").notNull().default(0),
   storageGbTotal: integer("storage_gb_total").notNull().default(0),
   autoApprovalPolicy: jsonb("auto_approval_policy_json").$type<Record<string, unknown>>(),
 

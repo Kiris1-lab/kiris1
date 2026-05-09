@@ -13,15 +13,15 @@ export default async function DashboardPage() {
     <>
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="text-caption uppercase text-text-tertiary">Modules</p>
-          <h1 className="mt-1 text-display-md">Your work</h1>
-          <p className="mt-2 text-body-md text-text-secondary">
+          <p className="text-caption text-text-tertiary uppercase">Modules</p>
+          <h1 className="text-display-md mt-1">Your work</h1>
+          <p className="text-body-md text-text-secondary mt-2">
             Pick up where you left off, or start something new.
           </p>
         </div>
         <Link
           href="/new"
-          className="inline-flex h-10 items-center gap-2 rounded-md bg-accent px-4 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+          className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-10 items-center gap-2 rounded-md px-4 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
         >
           <Plus size={16} aria-hidden />
           New module
@@ -37,7 +37,7 @@ export default async function DashboardPage() {
           action={
             <Link
               href="/new"
-              className="inline-flex h-10 items-center gap-2 rounded-md bg-accent px-4 text-body-md font-medium text-text-on-accent shadow-sm hover:bg-accent-hover"
+              className="bg-accent text-body-md text-text-on-accent hover:bg-accent-hover inline-flex h-10 items-center gap-2 rounded-md px-4 font-medium shadow-sm"
             >
               <Plus size={16} aria-hidden />
               Create your first module

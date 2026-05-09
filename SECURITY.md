@@ -29,7 +29,7 @@ These are enforced in code, in CI, and in code review.
    detections (≥ 0.85) hard-block.
 2. **Stripe is PHI-free.** Stripe sees identifiers, plan, usage counts. Never
    module content, never user-uploaded materials.
-3. **Tenant isolation via Postgres RLS.** App code is *not* the only barrier —
+3. **Tenant isolation via Postgres RLS.** App code is _not_ the only barrier —
    `tenant_id = current_setting('app.tenant_id')::uuid` on every PHI-bearing
    table. HIPAA-tier rows additionally require `app.hipaa_session = true`.
 4. **No client-side secrets.** Browsers must never see Anthropic, Polly,
@@ -45,12 +45,12 @@ These are enforced in code, in CI, and in code review.
 
 ## Data classification (DESIGN §6.2)
 
-| Class                       | Examples                                       | Where it lives                       |
-| --------------------------- | ---------------------------------------------- | ------------------------------------ |
-| **PHI** (HIPAA tier only)   | EHR screenshots, narration referring patients  | HIPAA-scoped infra (CMK, S3 prefix)  |
-| **Non-PHI module content**  | Generic training, admin UI, policy text        | Standard infra                       |
-| **Identifying-not-PHI**     | User name, email, org, role, billing           | Stripe + Cognito                     |
-| **Operational**             | Latency, errors, aggregate counts              | CloudWatch, Datadog                  |
+| Class                      | Examples                                      | Where it lives                      |
+| -------------------------- | --------------------------------------------- | ----------------------------------- |
+| **PHI** (HIPAA tier only)  | EHR screenshots, narration referring patients | HIPAA-scoped infra (CMK, S3 prefix) |
+| **Non-PHI module content** | Generic training, admin UI, policy text       | Standard infra                      |
+| **Identifying-not-PHI**    | User name, email, org, role, billing          | Stripe + Cognito                    |
+| **Operational**            | Latency, errors, aggregate counts             | CloudWatch, Datadog                 |
 
 ## Vendor BAAs (HIPAA tier only — Phase 2)
 
@@ -76,10 +76,10 @@ Phase 1 (Standard tier) requires no BAAs.
 
 ## Audit retention
 
-| Tier     | Retention | Events                                                                            |
-| -------- | --------- | --------------------------------------------------------------------------------- |
-| Standard | 1 year    | login, module CRUD, export, share, billing, role change, PHI scrubber blocks      |
-| HIPAA    | 6 years   | all of above + AI generation, narration jobs, tier upgrades/downgrades            |
+| Tier     | Retention | Events                                                                       |
+| -------- | --------- | ---------------------------------------------------------------------------- |
+| Standard | 1 year    | login, module CRUD, export, share, billing, role change, PHI scrubber blocks |
+| HIPAA    | 6 years   | all of above + AI generation, narration jobs, tier upgrades/downgrades       |
 
 ## Internal staff access
 
@@ -133,6 +133,7 @@ The following are scaffolded and ready to flip:
   group at 7 years; HIPAA-tenant audit cross-replicates
 
 Phase 2 launch tasks (not yet started):
+
 - Anthropic BAA executed; API key issued for the BAA org
 - AWS BAA executed via Artifact
 - Per-tenant KMS CMK allocation worker

@@ -23,13 +23,13 @@ export function ProgressBar({
   return (
     <div className={cn("w-full", className)}>
       {label ? (
-        <div className="mb-1 flex items-center justify-between text-caption text-text-tertiary">
+        <div className="text-caption text-text-tertiary mb-1 flex items-center justify-between">
           <span>{label}</span>
           <span>{Math.round(pct)}%</span>
         </div>
       ) : null}
       <div
-        className="h-1.5 w-full overflow-hidden rounded-full bg-border-subtle"
+        className="bg-border-subtle h-1.5 w-full overflow-hidden rounded-full"
         role="progressbar"
         aria-valuenow={value}
         aria-valuemin={0}
@@ -37,7 +37,7 @@ export function ProgressBar({
         aria-label={label}
       >
         <div
-          className={cn("h-full transition-all duration-layout", fill)}
+          className={cn("duration-layout h-full transition-all", fill)}
           style={{ width: `${pct}%` }}
         />
       </div>

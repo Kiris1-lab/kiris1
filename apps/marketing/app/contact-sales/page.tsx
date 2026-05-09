@@ -1,4 +1,4 @@
-import { Input, Textarea } from "@kiris/ui";
+import { Container, Input, Textarea } from "@kiris/ui";
 import { Section, SectionEyebrow, SectionHeading } from "@/components/section";
 
 export const metadata = { title: "Contact sales" };
@@ -9,9 +9,9 @@ export default function ContactSalesPage() {
       <section className="bg-surface-base">
         <Container>
           <div className="max-w-3xl py-20">
-            <p className="text-caption uppercase text-accent">Contact sales</p>
-            <h1 className="mt-3 text-display-lg">For Enterprise needs only.</h1>
-            <p className="mt-5 text-body-lg text-text-secondary">
+            <p className="text-caption text-accent uppercase">Contact sales</p>
+            <h1 className="text-display-lg mt-3">For Enterprise needs only.</h1>
+            <p className="text-body-lg text-text-secondary mt-5">
               Most teams should{" "}
               <a href="/signup" className="underline">
                 sign up directly
@@ -36,8 +36,8 @@ export default function ContactSalesPage() {
             aria-describedby="contact-help"
           >
             <p id="contact-help" className="text-body-sm text-text-secondary">
-              We respond within one business day. We will never sell, share, or use this
-              information for any purpose other than responding to your inquiry.
+              We respond within one business day. We will never sell, share, or use this information
+              for any purpose other than responding to your inquiry.
             </p>
 
             <Field label="Work email" htmlFor="email">
@@ -58,7 +58,7 @@ export default function ContactSalesPage() {
 
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+              className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-10 items-center justify-center rounded-md px-5 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
             >
               Send to sales
             </button>
@@ -80,7 +80,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="text-body-sm font-medium text-text-primary">
+      <label htmlFor={htmlFor} className="text-body-sm text-text-primary font-medium">
         {label}
       </label>
       <div className="mt-1.5">{children}</div>

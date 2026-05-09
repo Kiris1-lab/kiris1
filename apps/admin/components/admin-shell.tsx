@@ -19,7 +19,11 @@ const NAV: { href: string; label: string; icon: React.ReactNode }[] = [
   { href: "/tenants", label: "Tenants", icon: <Building2 size={16} aria-hidden /> },
   { href: "/billing", label: "Billing", icon: <Banknote size={16} aria-hidden /> },
   { href: "/usage", label: "Usage", icon: <Database size={16} aria-hidden /> },
-  { href: "/support-sessions", label: "Support sessions", icon: <KeyRound size={16} aria-hidden /> },
+  {
+    href: "/support-sessions",
+    label: "Support sessions",
+    icon: <KeyRound size={16} aria-hidden />,
+  },
   { href: "/audit", label: "Audit log", icon: <ScrollText size={16} aria-hidden /> },
   { href: "/incidents", label: "Incidents", icon: <Activity size={16} aria-hidden /> },
   { href: "/cap-requests", label: "Cap requests", icon: <Inbox size={16} aria-hidden /> },
@@ -29,12 +33,12 @@ const NAV: { href: string; label: string; icon: React.ReactNode }[] = [
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const session = getInternalSession();
   return (
-    <div className="flex min-h-screen bg-surface-base">
+    <div className="bg-surface-base flex min-h-screen">
       <aside
-        className="hidden w-60 shrink-0 border-r border-border-subtle bg-surface-raised md:block"
+        className="border-border-subtle bg-surface-raised hidden w-60 shrink-0 border-r md:block"
         aria-label="Admin navigation"
       >
-        <div className="flex h-14 items-center gap-2 px-4 text-heading-sm">
+        <div className="text-heading-sm flex h-14 items-center gap-2 px-4">
           <ShieldCheck size={18} className="text-accent" aria-hidden />
           Kiris admin
         </div>
@@ -44,7 +48,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-body-sm text-text-secondary transition-colors duration-state hover:bg-accent-soft hover:text-accent"
+                  className="text-body-sm text-text-secondary duration-state hover:bg-accent-soft hover:text-accent flex items-center gap-2 rounded-md px-3 py-2 transition-colors"
                 >
                   {item.icon}
                   {item.label}
@@ -53,7 +57,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             ))}
           </ul>
         </nav>
-        <div className="absolute bottom-3 left-3 right-3 rounded-md border border-border-subtle bg-surface-base p-3 text-caption text-text-tertiary">
+        <div className="border-border-subtle bg-surface-base text-caption text-text-tertiary absolute bottom-3 left-3 right-3 rounded-md border p-3">
           <p className="text-text-primary">{session.name}</p>
           <p>{session.email}</p>
           <Badge variant="success" className="mt-2">
@@ -63,7 +67,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 items-center justify-between border-b border-border-subtle bg-surface-base px-4">
+        <header className="border-border-subtle bg-surface-base flex h-14 items-center justify-between border-b px-4">
           <span className="text-body-sm text-text-secondary">
             Internal · {session.role.replace("_", " ")} · read-only by default
           </span>

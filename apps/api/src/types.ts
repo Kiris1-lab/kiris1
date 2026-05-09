@@ -15,4 +15,8 @@ declare module "fastify" {
     };
     requestId: string;
   }
+
+  interface FastifyContextConfig {
+    audit?: boolean | { action?: string };
+  }
 }

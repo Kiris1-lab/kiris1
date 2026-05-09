@@ -28,10 +28,7 @@ import {
  * `failClosed: false` to fall open; this MUST NEVER be used on customer
  * user-input endpoints (DESIGN §6.9).
  */
-export async function scrubText(
-  text: string,
-  opts: ScrubberOptions = {},
-): Promise<ScrubberResult> {
+export async function scrubText(text: string, opts: ScrubberOptions = {}): Promise<ScrubberResult> {
   const start = process.hrtime.bigint();
   const low = opts.lowConfidenceThreshold ?? DEFAULT_LOW_THRESHOLD;
   const high = opts.highConfidenceThreshold ?? DEFAULT_HIGH_THRESHOLD;
@@ -67,8 +64,7 @@ export async function scrubText(
     }
   }
 
-  const decision =
-    maxConfidence >= high ? "block" : maxConfidence >= low ? "confirm" : "allow";
+  const decision = maxConfidence >= high ? "block" : maxConfidence >= low ? "confirm" : "allow";
 
   const elapsed = elapsedUs(start);
   return {
@@ -80,11 +76,7 @@ export async function scrubText(
   };
 }
 
-function recordEntity(
-  entity: Entity,
-  types: Set<string>,
-  observe: (confidence: number) => void,
-) {
+function recordEntity(entity: Entity, types: Set<string>, observe: (confidence: number) => void) {
   const typeName = entity.Type ?? entity.Category ?? "UNKNOWN";
   types.add(typeName);
   if (typeof entity.Score === "number") observe(entity.Score);

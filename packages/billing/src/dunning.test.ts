@@ -46,12 +46,6 @@ test("invoiced customer at day 30 is still failed_d14 (not yet d21)", () => {
 
 test("hard delete fires only past 51 days", () => {
   const now = new Date("2026-07-01");
-  assert.equal(
-    shouldHardDelete({ lastFailureAt: new Date(now.getTime() - 50 * DAY), now }),
-    false,
-  );
-  assert.equal(
-    shouldHardDelete({ lastFailureAt: new Date(now.getTime() - 52 * DAY), now }),
-    true,
-  );
+  assert.equal(shouldHardDelete({ lastFailureAt: new Date(now.getTime() - 50 * DAY), now }), false);
+  assert.equal(shouldHardDelete({ lastFailureAt: new Date(now.getTime() - 52 * DAY), now }), true);
 });

@@ -7,7 +7,7 @@ import * as schema from "./schema/index.js";
  * inside a transaction to push tenant context into RLS.
  */
 
-export type Database = ReturnType<typeof drizzle<typeof schema>>;
+export type Database = ReturnType<typeof drizzle<typeof schema, Pool | PoolClient>>;
 
 let _pool: Pool | undefined;
 
@@ -49,9 +49,7 @@ export async function withTenant<T>(
     await client.query("BEGIN");
     // SET LOCAL is transaction-scoped — released on COMMIT/ROLLBACK.
     await client.query(`SET LOCAL app.tenant_id = $1`, [ctx.tenantId]);
-    await client.query(`SET LOCAL app.hipaa_session = $1`, [
-      ctx.hipaaSession ? "true" : "false",
-    ]);
+    await client.query(`SET LOCAL app.hipaa_session = $1`, [ctx.hipaaSession ? "true" : "false"]);
     const tx = drizzle(client, { schema });
     const result = await fn(tx, client);
     await client.query("COMMIT");

@@ -1,8 +1,5 @@
 import { createHash } from "node:crypto";
-import {
-  TextractClient,
-  DetectDocumentTextCommand,
-} from "@aws-sdk/client-textract";
+import { TextractClient, DetectDocumentTextCommand } from "@aws-sdk/client-textract";
 import { scrubText } from "./text.js";
 import type { ScrubberOptions, ScrubberResult } from "./types.js";
 

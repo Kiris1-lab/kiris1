@@ -27,10 +27,8 @@ const stripeWebhookRoute: FastifyPluginAsync = async (app) => {
   const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
   // Stripe requires the raw body for signature verification.
-  app.addContentTypeParser(
-    "application/json",
-    { parseAs: "buffer" },
-    (_req, body, done) => done(null, body),
+  app.addContentTypeParser("application/json", { parseAs: "buffer" }, (_req, body, done) =>
+    done(null, body),
   );
 
   app.post(

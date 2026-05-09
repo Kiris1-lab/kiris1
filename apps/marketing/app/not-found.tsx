@@ -5,10 +5,10 @@ export default function NotFound() {
   return (
     <Container>
       <div className="mx-auto max-w-md py-32 text-center">
-        <p className="text-caption uppercase text-accent">404</p>
-        <h1 className="mt-3 text-display-md">Page not found.</h1>
-        <p className="mt-3 text-body-md text-text-secondary">
-          The page you're looking for has moved or doesn't exist.
+        <p className="text-caption text-accent uppercase">404</p>
+        <h1 className="text-display-md mt-3">Page not found.</h1>
+        <p className="text-body-md text-text-secondary mt-3">
+          The page you&apos;re looking for has moved or doesn&apos;t exist.
         </p>
         <div className="mt-8 flex justify-center gap-3">
           <CtaLink href="/" variant="primary">

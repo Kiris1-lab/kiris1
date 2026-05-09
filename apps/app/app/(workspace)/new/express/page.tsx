@@ -14,9 +14,9 @@ const DURATIONS = [
 export default function ExpressPage() {
   return (
     <div className="mx-auto max-w-3xl">
-      <p className="text-caption uppercase text-accent">Express AI</p>
-      <h1 className="mt-1 text-display-md">Tell Kiris what you need.</h1>
-      <p className="mt-2 text-body-md text-text-secondary">
+      <p className="text-caption text-accent uppercase">Express AI</p>
+      <h1 className="text-display-md mt-1">Tell Kiris what you need.</h1>
+      <p className="text-body-md text-text-secondary mt-2">
         Three short inputs. One generation. Lands in the editor in 60–180 seconds.
       </p>
 
@@ -58,21 +58,21 @@ export default function ExpressPage() {
           htmlFor="materials"
           help="Drop screenshots, PDFs, Word docs, or recordings. Or paste a URL. Or skip — Kiris can generate from the topic alone."
         >
-          <div className="rounded-lg border border-dashed border-border bg-surface-raised p-8 text-center">
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-md bg-accent-soft text-accent">
+          <div className="border-border bg-surface-raised rounded-lg border border-dashed p-8 text-center">
+            <div className="bg-accent-soft text-accent mx-auto flex h-10 w-10 items-center justify-center rounded-md">
               <UploadCloud size={18} aria-hidden />
             </div>
-            <p className="mt-3 text-body-md text-text-secondary">
+            <p className="text-body-md text-text-secondary mt-3">
               Drop files here, or{" "}
               <label
                 htmlFor="materials"
-                className="cursor-pointer font-medium text-accent underline"
+                className="text-accent cursor-pointer font-medium underline"
               >
                 browse
                 <input id="materials" name="materials" type="file" multiple className="sr-only" />
               </label>
             </p>
-            <p className="mt-1 text-caption text-text-tertiary">
+            <p className="text-caption text-text-tertiary mt-1">
               PDF, DOCX, PPTX, MP4, PNG, JPG · Max 100 MB per file
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function ExpressPage() {
             id="duration"
             name="duration"
             defaultValue="auto"
-            className="h-10 w-full rounded-md border border-border bg-surface-raised px-3 text-body-md text-text-primary focus:border-accent focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)] focus-visible:outline-offset-1"
+            className="border-border bg-surface-raised text-body-md text-text-primary focus:border-accent h-10 w-full rounded-md border px-3 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus-ring)]"
           >
             {DURATIONS.map((d) => (
               <option key={d.value} value={d.value}>
@@ -108,13 +108,13 @@ export default function ExpressPage() {
         </Field>
 
         <div className="flex items-center justify-between gap-4 pt-2">
-          <p className="flex items-center gap-2 text-body-sm text-text-secondary">
+          <p className="text-body-sm text-text-secondary flex items-center gap-2">
             <ShieldAlert size={14} className="text-accent" aria-hidden />
             PHI scrub will run before generation
           </p>
           <button
             type="submit"
-            className="inline-flex h-11 items-center gap-2 rounded-md bg-accent px-5 text-body-md font-medium text-text-on-accent shadow-sm transition-colors duration-state hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
+            className="bg-accent text-body-md text-text-on-accent duration-state hover:bg-accent-hover inline-flex h-11 items-center gap-2 rounded-md px-5 font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]"
           >
             Generate module
           </button>
@@ -137,10 +137,10 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="text-body-sm font-medium text-text-primary">
+      <label htmlFor={htmlFor} className="text-body-sm text-text-primary font-medium">
         {label}
       </label>
-      {help ? <p className="mt-1 text-caption text-text-tertiary">{help}</p> : null}
+      {help ? <p className="text-caption text-text-tertiary mt-1">{help}</p> : null}
       <div className="mt-2">{children}</div>
     </div>
   );

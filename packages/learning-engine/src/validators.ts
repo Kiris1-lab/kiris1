@@ -69,9 +69,7 @@ export function validateModule(mod: ModuleForValidation): ValidationFinding[] {
 
   for (const slide of mod.slides) {
     // Cognitive load: ≤ 7 items per slide.
-    const bullets = slide.bodyMarkdown
-      .split("\n")
-      .filter((l) => /^\s*([-*+]|\d+\.)\s+/.test(l));
+    const bullets = slide.bodyMarkdown.split("\n").filter((l) => /^\s*([-*+]|\d+\.)\s+/.test(l));
     if (bullets.length > MAX_ITEMS_PER_SLIDE) {
       findings.push({
         severity: "error",
@@ -83,10 +81,7 @@ export function validateModule(mod: ModuleForValidation): ValidationFinding[] {
 
     // Redundancy principle: narration must not duplicate body text.
     if (slide.bodyMarkdown && slide.narrationScript) {
-      const overlap = jaccardOverlap(
-        tokenize(slide.bodyMarkdown),
-        tokenize(slide.narrationScript),
-      );
+      const overlap = jaccardOverlap(tokenize(slide.bodyMarkdown), tokenize(slide.narrationScript));
       if (overlap > 0.7) {
         findings.push({
           severity: "warning",
@@ -111,8 +106,9 @@ export function validateModule(mod: ModuleForValidation): ValidationFinding[] {
     }
 
     // Accessibility: alt text required when the slide implies an image.
-    const mentionsImage =
-      /\b(image|screenshot|diagram|figure|chart|photo)\b/i.test(slide.bodyMarkdown);
+    const mentionsImage = /\b(image|screenshot|diagram|figure|chart|photo)\b/i.test(
+      slide.bodyMarkdown,
+    );
     if (mentionsImage && !slide.altText.trim()) {
       findings.push({
         severity: "error",

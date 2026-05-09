@@ -18,7 +18,4 @@
 export { scrubText } from "./text.js";
 export { scrubImage } from "./image.js";
 export type { ScrubberDecision, ScrubberOptions, ScrubberResult } from "./types.js";
-export {
-  DEFAULT_HIGH_THRESHOLD,
-  DEFAULT_LOW_THRESHOLD,
-} from "./types.js";
+export { DEFAULT_HIGH_THRESHOLD, DEFAULT_LOW_THRESHOLD } from "./types.js";

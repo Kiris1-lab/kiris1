@@ -43,36 +43,32 @@ export function GenerationProgress({
   return (
     <div className="mx-auto max-w-xl">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent-soft text-accent">
+        <div className="bg-accent-soft text-accent flex h-10 w-10 items-center justify-center rounded-md">
           <Sparkles size={20} aria-hidden className="animate-pulse" />
         </div>
         <div>
-          <p className="text-caption uppercase text-accent">Express AI</p>
+          <p className="text-caption text-accent uppercase">Express AI</p>
           <h1 className="text-heading-xl">Generating your module…</h1>
         </div>
       </div>
-      <p className="mt-3 text-body-md text-text-secondary">
-        Most modules generate in 60–180 seconds. You can safely wait here — we'll land you in the
-        editor automatically.
+      <p className="text-body-md text-text-secondary mt-3">
+        Most modules generate in 60–180 seconds. You can safely wait here — we&apos;ll land you in
+        the editor automatically.
       </p>
 
-      <ol
-        className="mt-8 space-y-3"
-        aria-live="polite"
-        aria-label="Generation progress"
-      >
+      <ol className="mt-8 space-y-3" aria-live="polite" aria-label="Generation progress">
         {STEPS.map((label, i) => {
           const done = i < step;
           const active = i === step;
           return (
-            <li key={label} className="flex items-start gap-3 text-body-md">
+            <li key={label} className="text-body-md flex items-start gap-3">
               <span
                 className={
                   done
-                    ? "mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-text-on-accent"
+                    ? "bg-accent text-text-on-accent mt-0.5 flex h-5 w-5 items-center justify-center rounded-full"
                     : active
-                      ? "mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border border-accent text-accent"
-                      : "mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border border-border-subtle text-text-tertiary"
+                      ? "border-accent text-accent mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border"
+                      : "border-border-subtle text-text-tertiary mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border"
                 }
                 aria-hidden
               >

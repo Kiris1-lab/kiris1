@@ -36,12 +36,12 @@ export function computeDunningState({
 }: DunningInputs): DunningState {
   if (!lastFailureAt) return "current";
   const days = Math.floor((now.getTime() - lastFailureAt.getTime()) / DAY_MS);
-  // Invoiced customers: longer timeline; suspension at day 60.
-  const scale = isInvoiced ? 60 / 21 : 1;
-  if (days >= 21 * scale) return "failed_d21";
-  if (days >= 14 * scale) return "failed_d14";
-  if (days >= 7 * scale) return "failed_d7";
-  if (days >= 3 * scale) return "failed_d3";
+  // Invoiced customers get the same early stages but a delayed suspension at day 60.
+  const suspensionThreshold = isInvoiced ? 60 : 21;
+  if (days >= suspensionThreshold) return "failed_d21";
+  if (days >= 14) return "failed_d14";
+  if (days >= 7) return "failed_d7";
+  if (days >= 3) return "failed_d3";
   return "failed_d0";
 }
 
