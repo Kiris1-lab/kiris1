@@ -39,11 +39,27 @@ pnpm --filter @kiris/marketing dev
 
 ## Deploying to Vercel
 
-1. Connect this repo to Vercel.
-2. Root directory: `apps/marketing`.
-3. Build command: `pnpm install --frozen-lockfile && pnpm --filter @kiris/marketing build`
-4. Output: `.next` (default).
-5. Required env vars (see root `.env.example`):
+The marketing site deploys from the **repo root**, not from `apps/marketing/`.
+All build configuration lives in the root `vercel.json`. This is required so
+Vercel can run a workspace-aware `pnpm install` before Next.js framework
+detection — installing only inside `apps/marketing` leaves `next` unresolved
+because pnpm hoists workspace deps to the repo-root `node_modules`.
+
+Vercel project settings:
+
+1. **Root Directory**: `.` (repo root). Leave the "Include source files
+   outside of the Root Directory" checkbox at its default — `vercel.json`
+   already covers this.
+2. **Framework Preset**: Next.js (or "Other"; the root `vercel.json` pins
+   `framework: "nextjs"` so the preset is informational).
+3. **Build & Output Settings**: leave all fields blank / on "Override = off".
+   `vercel.json` provides `installCommand`, `buildCommand`, and
+   `outputDirectory` (`apps/marketing/.next`).
+4. **Node.js Version**: 20.x.
+5. **Required env vars** (see root `.env.example`):
    - `NEXT_PUBLIC_SITE_URL`
    - `NEXT_PUBLIC_APP_URL`
    - `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (optional)
+
+Only the marketing site is deployed to Vercel. `apps/app`, `apps/admin`,
+and `apps/api` are deployed to AWS — do not add them as Vercel projects.
