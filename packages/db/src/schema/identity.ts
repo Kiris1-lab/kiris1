@@ -56,6 +56,9 @@ export const tenants = pgTable("tenants", {
   hipaaEnabledAt: timestamp("hipaa_enabled_at", { withTimezone: true }),
   hipaaBaaVersion: text("hipaa_baa_version"),
   hipaaBaaAcceptedBy: uuid("hipaa_baa_accepted_by"),
+  // Customer-managed KMS key for this tenant's HIPAA-tier PHI. Allocated on
+  // upgrade by a separate worker; PHI uploads must block until populated.
+  hipaaKmsKeyArn: text("hipaa_kms_key_arn"),
 
   aiCreditsPerSeatMonth: integer("ai_credits_per_seat_month").notNull().default(0),
   narrationMinutesPerSeatMonth: integer("narration_minutes_per_seat_month").notNull().default(0),

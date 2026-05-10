@@ -150,6 +150,9 @@ export const slides = pgTable(
     reviewedByUser: boolean("reviewed_by_user").notNull().default(false),
     aiConfidenceScore: real("ai_confidence_score").notNull().default(0),
     durationSeconds: integer("duration_seconds").notNull().default(0),
+    // Mirrors modules.storage_class so the hipaa_session_gate RLS policy can
+    // be applied row-wise to slides without a parent-table join.
+    storageClass: text("storage_class").notNull().default("standard"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
@@ -192,6 +195,7 @@ export const aiGenerations = pgTable("ai_generations", {
   outputTokens: integer("output_tokens").notNull().default(0),
   costUsdMicros: bigint("cost_usd_micros", { mode: "number" }).notNull().default(0),
   requestId: text("request_id").notNull(), // anthropic request_id; never the body
+  storageClass: text("storage_class").notNull().default("standard"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -211,6 +215,7 @@ export const narrationJobs = pgTable("narration_jobs", {
   charCount: integer("char_count").notNull(),
   status: text("status").notNull().default("pending"),
   pollyRequestId: text("polly_request_id"),
+  storageClass: text("storage_class").notNull().default("standard"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

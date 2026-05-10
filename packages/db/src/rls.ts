@@ -30,6 +30,14 @@ const PHI_TABLES = [
 const TENANT_TABLES = [...PHI_TABLES, "users", "audit_log", "invoices", "payment_methods"] as const;
 
 /**
+ * Tables RLS-checks but uses a *nullable* tenant_id (admin reads scoped via
+ * `app.tenant_id` set on the session, NULL allowed for un-tenanted rows like
+ * Stripe webhook events that arrive before customer linkage). Kept separate
+ * from TENANT_TABLES because the policy's USING clause differs.
+ */
+const NULLABLE_TENANT_TABLES = ["billing_events"] as const;
+
+/**
  * Returns the SQL needed to enable RLS on every relevant table and create the
  * tenant-isolation policy. Idempotent — uses CREATE POLICY IF NOT EXISTS where
  * supported, otherwise DROP + CREATE.
@@ -49,6 +57,28 @@ export function buildRlsSql(): string {
       `CREATE POLICY tenant_isolation ON ${table}`,
       `  USING (tenant_id = current_setting('app.tenant_id', true)::uuid)`,
       `  WITH CHECK (tenant_id = current_setting('app.tenant_id', true)::uuid);`,
+      "",
+    );
+  }
+
+  // billing_events accepts NULL tenant_id at write time (Stripe events arrive
+  // before customer linkage) but constrains reads to the current tenant or
+  // unlinked rows. Admins read these via the read-replica role with a separate
+  // view; tenant sessions never see another tenant's events.
+  for (const table of NULLABLE_TENANT_TABLES) {
+    lines.push(`ALTER TABLE ${table} ENABLE ROW LEVEL SECURITY;`);
+    lines.push(`ALTER TABLE ${table} FORCE ROW LEVEL SECURITY;`);
+    lines.push(`DROP POLICY IF EXISTS tenant_isolation_or_null ON ${table};`);
+    lines.push(
+      `CREATE POLICY tenant_isolation_or_null ON ${table}`,
+      `  USING (`,
+      `    tenant_id IS NULL`,
+      `    OR tenant_id = current_setting('app.tenant_id', true)::uuid`,
+      `  )`,
+      `  WITH CHECK (`,
+      `    tenant_id IS NULL`,
+      `    OR tenant_id = current_setting('app.tenant_id', true)::uuid`,
+      `  );`,
       "",
     );
   }
@@ -89,3 +119,27 @@ export function buildRlsSql(): string {
 }
 
 export const RLS_SQL = buildRlsSql();
+
+/**
+ * The set of tables that MUST have an RLS policy. Used by CI / startup
+ * checks to assert no PHI table can ship without a tenant_isolation policy.
+ */
+export const RLS_REQUIRED_TABLES = [...TENANT_TABLES, ...NULLABLE_TENANT_TABLES] as const;
+
+/**
+ * Returns the SQL needed to verify every required table has an active
+ * tenant_isolation policy. Runs against pg_policies. Intended to be called
+ * from a CI step or startup probe.
+ */
+export function buildRlsAssertSql(): string {
+  const tables = RLS_REQUIRED_TABLES.map((t) => `'${t}'`).join(", ");
+  return `
+    SELECT t.table_name
+    FROM (VALUES ${RLS_REQUIRED_TABLES.map((t) => `('${t}')`).join(", ")}) AS t(table_name)
+    LEFT JOIN pg_policies p
+      ON p.tablename = t.table_name
+      AND (p.policyname = 'tenant_isolation' OR p.policyname = 'tenant_isolation_or_null')
+    WHERE p.policyname IS NULL
+      AND t.table_name IN (${tables});
+  `;
+}

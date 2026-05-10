@@ -71,7 +71,7 @@ export function routeStripeEvent(event: Stripe.Event): SideEffect[] {
           kind: "invoice.upserted",
           payload: {
             stripeInvoiceId: inv.id,
-            customerId: inv.customer,
+            customerId: typeof inv.customer === "string" ? inv.customer : null,
             subtotalUsdCents: inv.subtotal,
             taxUsdCents: inv.tax ?? 0,
             totalUsdCents: inv.total,

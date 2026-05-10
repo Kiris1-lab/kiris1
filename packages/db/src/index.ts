@@ -7,5 +7,5 @@
  */
 
 export { getDb, getPool, withTenant, type Database } from "./client.js";
-export { RLS_SQL, buildRlsSql } from "./rls.js";
+export { RLS_SQL, buildRlsSql, buildRlsAssertSql, RLS_REQUIRED_TABLES } from "./rls.js";
 export * as schema from "./schema/index.js";
