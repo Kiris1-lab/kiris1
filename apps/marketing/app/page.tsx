@@ -3,6 +3,8 @@ import {
   Check,
   CheckCircle2,
   FileText,
+  Headphones,
+  Loader2,
   Mic,
   Play,
   ShieldCheck,
@@ -19,6 +21,20 @@ import { SEAT_PLANS } from "@kiris/billing/plans";
  *   1. "Build a finished hospital training module before your coffee gets cold"  (active)
  *   2. "Type a topic. Get a finished training module in 10 minutes"
  *   3. "The fastest way to build hospital training that actually teaches"
+ */
+
+/*
+ * Headline options for review (pick one, delete the others before shipping):
+ *
+ *   1. "Build a finished training module in the time it takes to make coffee."
+ *      — concrete, time-collapsing, human; pairs with the Coffee/timer mental
+ *        image. Strongest for nurse educators.
+ *
+ *   2. "Type a topic. Hand your team a finished training module 10 minutes later."
+ *      — most literal description of the magic moment; very plain.
+ *
+ *   3. "From sticky notes to a hospital training module — before lunch."
+ *      — most evocative; risks reading as cute rather than serious.
  */
 
 export default function HomePage() {
@@ -760,5 +776,63 @@ function FinalCta() {
         </p>
       </div>
     </Section>
+  );
+}
+
+function GenStep({
+  state,
+  label,
+  detail,
+}: {
+  state: "done" | "active" | "pending";
+  label: string;
+  detail: string;
+}) {
+  const isActive = state === "active";
+  const isDone = state === "done";
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-md border px-3 py-2",
+        isActive
+          ? "border-accent bg-accent-soft"
+          : "border-border-subtle bg-surface-base",
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          "flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
+          isDone ? "bg-accent text-text-on-accent" : "",
+          isActive ? "text-accent" : "",
+          !isDone && !isActive ? "border-border-subtle border text-text-tertiary" : "",
+        )}
+      >
+        {isDone ? <Check size={14} /> : isActive ? <Loader2 size={14} className="animate-spin" /> : null}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p
+          className={cn(
+            "text-body-sm font-medium",
+            isActive ? "text-accent" : "text-text-primary",
+            !isDone && !isActive ? "text-text-tertiary" : "",
+          )}
+        >
+          {label}
+        </p>
+        <p className="text-caption text-text-tertiary truncate">{detail}</p>
+      </div>
+      <span
+        className={cn(
+          "text-caption",
+          isDone ? "text-text-tertiary" : "",
+          isActive ? "text-accent animate-pulse" : "",
+          !isDone && !isActive ? "text-text-tertiary" : "",
+        )}
+        aria-hidden
+      >
+        {isDone ? "✓" : isActive ? "…" : ""}
+      </span>
+    </div>
   );
 }
