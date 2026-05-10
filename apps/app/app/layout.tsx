@@ -1,6 +1,7 @@
 import "@kiris/ui/globals.css";
 import "./globals.css";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import localFont from "next/font/local";
 import { SkipLink } from "@kiris/ui";
 
@@ -25,7 +26,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Forces dynamic rendering so middleware's per-request nonce CSP can
+  // protect Next's bootstrap scripts. Without this, statically-rendered
+  // pages have un-nonced inline scripts that the CSP blocks → blank page
+  // after a flash of content.
+  await headers();
+
   return (
     <html lang="en" className={inter.variable}>
       <body>
