@@ -33,7 +33,10 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
     const ct = res.headers.get("content-type") ?? "";
     if (ct.startsWith("application/json")) {
       const body = (await res.json()) as { downloadUrl: string };
-      return NextResponse.redirect(body.downloadUrl, 303);
+      const redirect = NextResponse.redirect(body.downloadUrl, 303);
+      // The presigned URL is ≤ 5 minutes — no proxy should cache it.
+      redirect.headers.set("cache-control", "no-store");
+      return redirect;
     }
     return new NextResponse(res.body, {
       status: 200,
@@ -41,6 +44,7 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
         "content-type": ct || "application/zip",
         "content-disposition":
           res.headers.get("content-disposition") ?? `attachment; filename="${id}.zip"`,
+        "cache-control": "no-store",
       },
     });
   }
@@ -76,6 +80,7 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
     headers: {
       "content-type": "application/zip",
       "content-disposition": `attachment; filename="${safeName(mod.title)}-scorm12.zip"`,
+      "cache-control": "no-store",
     },
   });
 }

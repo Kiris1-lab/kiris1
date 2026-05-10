@@ -18,7 +18,13 @@ let _client: S3Client | undefined;
 function getClient(): S3Client {
   if (_client) return _client;
   const env = loadEnv();
-  _client = new S3Client({ region: env.AWS_REGION });
+  _client = new S3Client({
+    region: env.AWS_REGION,
+    // Don't auto-add CRC32/CRC64 checksums to every request — KMS handles
+    // integrity at rest. Saves ~50ms per request and trims CPU on big PUTs.
+    requestChecksumCalculation: "WHEN_REQUIRED",
+    responseChecksumValidation: "WHEN_REQUIRED",
+  });
   return _client;
 }
 

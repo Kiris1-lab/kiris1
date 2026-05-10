@@ -4,12 +4,55 @@
  * output or kick off a retry / critic pass.
  */
 
+import { z } from "zod";
 import {
   BLOOM_DISCOURAGED_VERBS,
   KNOWLEDGE_CHECK_INTERVAL_SEC,
   MAX_ITEMS_PER_SLIDE,
   MIN_FLESCH_READING_EASE,
 } from "./constants.js";
+
+/**
+ * Strict shape the model is contracted to return for a generated module.
+ * Used as a JSON-schema-style envelope check before validateModule's
+ * pedagogy lints run; persistence MUST NOT happen until parse succeeds.
+ */
+export const ModuleEnvelopeSchema = z.object({
+  estimatedDurationSeconds: z
+    .number()
+    .int()
+    .nonnegative()
+    .max(60 * 60 * 4),
+  learningObjectives: z
+    .array(
+      z.object({
+        id: z.string().min(1).max(64),
+        text: z.string().min(1).max(500),
+        bloom: z.string().max(64).optional(),
+      }),
+    )
+    .max(20),
+  slides: z
+    .array(
+      z.object({
+        id: z.string().min(1).max(64),
+        type: z.string().min(1).max(64),
+        bodyMarkdown: z.string().max(20000).default(""),
+        narrationScript: z.string().max(20000).default(""),
+        altText: z.string().max(2000).default(""),
+        durationSeconds: z
+          .number()
+          .int()
+          .nonnegative()
+          .max(60 * 30)
+          .default(0),
+      }),
+    )
+    .min(1)
+    .max(200),
+});
+
+export type ModuleEnvelope = z.infer<typeof ModuleEnvelopeSchema>;
 
 export interface ValidationFinding {
   severity: "error" | "warning";

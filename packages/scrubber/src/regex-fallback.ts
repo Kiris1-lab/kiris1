@@ -12,9 +12,22 @@ const MRN = /\bMRN[:#]?\s*\d{4,}\b/i;
 const SSN = /\b\d{3}-\d{2}-\d{4}\b/;
 const DOB = /\b(?:DOB|date\s*of\s*birth)[:.]?\s*\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/i;
 const PHONE = /\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/;
-const EMAIL = /\b[A-Za-z0-9._%+-]+@(?!example\.|kiris\.ai)[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
-const ADDRESS_HINT = /\b\d{2,5}\s+[A-Z][a-z]+\s+(St|Ave|Blvd|Rd|Drive|Ln|Way|Ct)\b/;
-const EHR_BANNERS = /\b(Epic|Cerner|Meditech|Allscripts|Athena|eClinicalWorks|NextGen)\b/;
+const EMAIL = /\b[A-Za-z0-9._%+-]+@(?!example\.com|kiris\.ai)[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
+// Street-address cue requires a unit cardinal/ordinal directional or a
+// recognized suffix bordered by word boundaries — reduces "Epic 12 Sep" type
+// false positives that the old pattern caught.
+const ADDRESS_HINT =
+  /\b\d{2,5}\s+(?:[NSEW]\.?\s+)?[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\s+(St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Drive|Dr|Ln|Lane|Way|Ct|Court|Pl|Place)\b/;
+// EHR brand alone is a weak signal. Require nearby chrome cues
+// (Patient/Chart/MRN/Encounter/Visit/Order) within 40 chars.
+const EHR_BANNERS =
+  /\b(Epic|Cerner|Meditech|Allscripts|Athena|eClinicalWorks|NextGen)\b[^\n]{0,40}\b(Patient|Chart|MRN|Encounter|Visit|Order|Allergies|Meds?|Lab|Result)\b/i;
+// US National Provider Identifier: 10 digits with a Luhn check. We don't
+// validate Luhn here — false positives are tolerable for a pre-filter.
+const NPI = /\b(?:NPI[:#]?\s*)?\d{10}\b/;
+// ICD-10-CM: A00.0 - Z99.99 plus the more recent X-class extensions. Require
+// a leading code prefix so we don't catch generic letter-number tokens.
+const ICD10 = /\b[A-TV-Z]\d{2}(?:\.[0-9A-Z]{1,4})?\b/;
 
 const RULES: { pattern: RegExp; type: string; confidence: number }[] = [
   { pattern: MRN, type: "MEDICAL_RECORD_NUMBER", confidence: 0.95 },
@@ -24,6 +37,8 @@ const RULES: { pattern: RegExp; type: string; confidence: number }[] = [
   { pattern: EMAIL, type: "EMAIL", confidence: 0.55 },
   { pattern: ADDRESS_HINT, type: "ADDRESS", confidence: 0.6 },
   { pattern: EHR_BANNERS, type: "EHR_CHROME", confidence: 0.7 },
+  { pattern: NPI, type: "NPI", confidence: 0.5 },
+  { pattern: ICD10, type: "ICD10", confidence: 0.4 },
 ];
 
 export interface RegexFinding {
