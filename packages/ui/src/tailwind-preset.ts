@@ -72,6 +72,11 @@ const preset: Partial<Config> = {
         app: "1440px",
         reading: "720px",
       },
+      spacing: {
+        // 4.5rem — sized for the marketing header. Default Tailwind jumps
+        // straight from h-16 (4rem) to h-20 (5rem); 72px is the sweet spot.
+        18: "4.5rem",
+      },
       transitionTimingFunction: {
         enter: "cubic-bezier(0.16, 1, 0.3, 1)",
         "in-out-soft": "cubic-bezier(0.4, 0, 0.2, 1)",
