@@ -13,6 +13,7 @@ const preset: Partial<Config> = {
           base: "var(--surface-base)",
           raised: "var(--surface-raised)",
           overlay: "var(--surface-overlay)",
+          sunken: "var(--surface-sunken)",
           inverse: "var(--surface-inverse)",
         },
         text: {
@@ -20,6 +21,7 @@ const preset: Partial<Config> = {
           secondary: "var(--text-secondary)",
           tertiary: "var(--text-tertiary)",
           "on-accent": "var(--text-on-accent)",
+          "on-inverse": "var(--text-on-inverse)",
         },
         border: {
           subtle: "var(--border-subtle)",
@@ -31,6 +33,10 @@ const preset: Partial<Config> = {
           hover: "var(--accent-primary-hover)",
           pressed: "var(--accent-primary-pressed)",
           soft: "var(--accent-soft)",
+        },
+        highlight: {
+          DEFAULT: "var(--highlight)",
+          soft: "var(--highlight-soft)",
         },
         status: {
           success: "var(--status-success)",
@@ -65,6 +71,11 @@ const preset: Partial<Config> = {
         marketing: "1280px",
         app: "1440px",
         reading: "720px",
+      },
+      spacing: {
+        // 4.5rem — sized for the marketing header. Default Tailwind jumps
+        // straight from h-16 (4rem) to h-20 (5rem); 72px is the sweet spot.
+        18: "4.5rem",
       },
       transitionTimingFunction: {
         enter: "cubic-bezier(0.16, 1, 0.3, 1)",

@@ -4,40 +4,48 @@
  * Components reference TOKEN NAMES, never raw hex. Light mode only in v1
  * (DESIGN §16.2 — dark mode is a v2 feature).
  *
- * Brand accent: deep clinical blue (#1E3A5F). Decision per founder review.
+ * Brand accent: deep teal-ink (#0F4C46). Highlight: warm amber (#B85A1F),
+ * used sparingly for AI/magic moments — icons and display-size eyebrows
+ * only, never as a button fill behind body text.
  */
 
 export const colors = {
   surface: {
-    base: "#FAFAFA",
+    base: "#F7F5F0",
     raised: "#FFFFFF",
     overlay: "#FFFFFF",
-    inverse: "#0A0A0B",
+    sunken: "#EFECE5",
+    inverse: "#0E1014",
   },
   text: {
-    primary: "#0A0A0B",
-    secondary: "#52525B",
-    tertiary: "#A1A1AA",
+    primary: "#16181D",
+    secondary: "#4A4D55",
+    tertiary: "#8A8D95",
     onAccent: "#FFFFFF",
+    onInverse: "#F7F5F0",
   },
   border: {
-    subtle: "#E4E4E7",
-    default: "#D4D4D8",
-    strong: "#A1A1AA",
+    subtle: "#E6E2D8",
+    default: "#D1CCC0",
+    strong: "#8A8D95",
   },
   accent: {
-    primary: "#1E3A5F",
-    primaryHover: "#16304F",
-    primaryPressed: "#0F2640",
-    soft: "#E8EEF5",
+    primary: "#0F4C46",
+    primaryHover: "#0B3D38",
+    primaryPressed: "#082B27",
+    soft: "#E2EDEB",
+  },
+  highlight: {
+    DEFAULT: "#B85A1F",
+    soft: "#FCEDDC",
   },
   status: {
-    success: "#16A34A",
-    warning: "#D97706",
-    danger: "#DC2626",
-    info: "#0EA5E9",
+    success: "#15803D",
+    warning: "#B45309",
+    danger: "#B91C1C",
+    info: "#0369A1",
   },
-  focusRing: "#1E3A5F",
+  focusRing: "#0F4C46",
 } as const;
 
 export const space = {

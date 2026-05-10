@@ -2,37 +2,45 @@
 /* Light mode only in v1. Dark mode = v2. */
 
 :root {
-  /* Surface */
-  --surface-base: #fafafa;
+  /* Surface — warm ivory base, not cold off-white */
+  --surface-base: #f7f5f0;
   --surface-raised: #ffffff;
   --surface-overlay: #ffffff;
-  --surface-inverse: #0a0a0b;
+  --surface-sunken: #efece5;
+  --surface-inverse: #0e1014;
 
-  /* Text */
-  --text-primary: #0a0a0b;
-  --text-secondary: #52525b;
-  --text-tertiary: #a1a1aa;
+  /* Text — slightly warm off-black, not pure black */
+  --text-primary: #16181d;
+  --text-secondary: #4a4d55;
+  --text-tertiary: #8a8d95;
   --text-on-accent: #ffffff;
+  --text-on-inverse: #f7f5f0;
 
   /* Border */
-  --border-subtle: #e4e4e7;
-  --border-default: #d4d4d8;
-  --border-strong: #a1a1aa;
+  --border-subtle: #e6e2d8;
+  --border-default: #d1ccc0;
+  --border-strong: #8a8d95;
 
-  /* Accent — deep clinical blue */
-  --accent-primary: #1e3a5f;
-  --accent-primary-hover: #16304f;
-  --accent-primary-pressed: #0f2640;
-  --accent-soft: #e8eef5;
+  /* Accent — deep teal-ink (calm, clinical, NOT generic blue) */
+  --accent-primary: #0f4c46;
+  --accent-primary-hover: #0b3d38;
+  --accent-primary-pressed: #082b27;
+  --accent-soft: #e2edeb;
 
-  /* Status */
-  --status-success: #16a34a;
-  --status-warning: #d97706;
-  --status-danger: #dc2626;
-  --status-info: #0ea5e9;
+  /* Highlight — warm amber, used SPARINGLY for AI/magic moments.
+     Contrast on ivory: ~5.1:1 (AA for normal text). Never used as a button
+     fill behind body text — icons + eyebrows + display-size only. */
+  --highlight: #b85a1f;
+  --highlight-soft: #fcedDC;
+
+  /* Status — slightly desaturated to fit the warmer palette */
+  --status-success: #15803d;
+  --status-warning: #b45309;
+  --status-danger: #b91c1c;
+  --status-info: #0369a1;
 
   /* Focus */
-  --focus-ring: #1e3a5f;
+  --focus-ring: #0f4c46;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
