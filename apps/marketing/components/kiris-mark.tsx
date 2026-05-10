@@ -14,17 +14,9 @@ export function KirisMark({
    *  teal strokes (rare, used inside dark surfaces). */
   variant?: "filled" | "outlined";
 }) {
-  const strokeColor =
-    variant === "filled" ? "var(--text-on-accent)" : "var(--accent-primary)";
+  const strokeColor = variant === "filled" ? "var(--text-on-accent)" : "var(--accent-primary)";
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 32 32"
-      role="img"
-      aria-label="Kiris"
-      fill="none"
-    >
+    <svg width={size} height={size} viewBox="0 0 32 32" role="img" aria-label="Kiris" fill="none">
       {variant === "filled" ? (
         <rect x="2.5" y="2.5" width="27" height="27" rx="7" fill="var(--accent-primary)" />
       ) : (
