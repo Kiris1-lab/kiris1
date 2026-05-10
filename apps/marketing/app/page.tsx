@@ -1,104 +1,162 @@
 import {
+  Check,
   CheckCircle2,
   FileText,
+  Headphones,
+  Loader2,
   Mic,
   ShieldCheck,
   Sparkles,
   UploadCloud,
+  Wand2,
   Workflow,
+  X,
 } from "lucide-react";
-import { Badge, Card, CardBody, Container, TierBadge } from "@kiris/ui";
+import { Badge, Card, CardBody, Container, cn } from "@kiris/ui";
 import { CtaLink } from "@/components/cta-link";
 import { Section, SectionEyebrow, SectionHeading } from "@/components/section";
 import { STANDARD_PLANS } from "@kiris/billing/plans";
 
+/*
+ * Headline options for review (pick one, delete the others before shipping):
+ *
+ *   1. "Build a finished training module in the time it takes to make coffee."
+ *      — concrete, time-collapsing, human; pairs with the Coffee/timer mental
+ *        image. Strongest for nurse educators.
+ *
+ *   2. "Type a topic. Hand your team a finished training module 10 minutes later."
+ *      — most literal description of the magic moment; very plain.
+ *
+ *   3. "From sticky notes to a hospital training module — before lunch."
+ *      — most evocative; risks reading as cute rather than serious.
+ */
+
 export default function HomePage() {
   return (
     <>
-      {/* Hero — DESIGN §16.10. Full-bleed off-white, large display text on the left. */}
+      {/* Hero — leads with the AI-magic moment, not credentials. */}
       <section className="bg-surface-base">
         <Container>
           <div className="grid items-center gap-12 py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
             <div className="lg:col-span-7">
-              <div className="flex items-center gap-2">
-                <TierBadge tier="standard" />
-                <Badge variant="outline">HIPAA tier available</Badge>
-              </div>
-              <h1 className="text-display-xl text-text-primary mt-5">
-                Polished hospital training, in under ten minutes.
+              <h1 className="text-display-xl text-text-primary mt-2">
+                Build a finished training module in the time it takes to make coffee.
               </h1>
               <p className="text-body-lg text-text-secondary mt-6 max-w-xl">
-                Drop in screenshots, recordings, and bullet points. Kiris generates a narrated,
-                accessible, SCORM-ready module — designed for the way clinical educators actually
-                work.
+                Drop in your notes, slides, or screenshots. Kiris writes the script, narrates it,
+                builds the quiz, and hands you a file your hospital&apos;s training system can use
+                — in under 10 minutes.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <CtaLink href="/signup" size="lg" withArrow>
-                  Get started
+                <CtaLink href="/product" size="lg" withArrow>
+                  See it build a module
                 </CtaLink>
-                <CtaLink href="/pricing" size="lg" variant="secondary">
-                  See pricing
+                <CtaLink href="/signup" size="lg" variant="secondary">
+                  Start free trial
                 </CtaLink>
               </div>
-              <p className="text-body-sm text-text-tertiary mt-6">
-                Card required. Cancel anytime. No contracts.
+              <p className="text-caption text-text-tertiary mt-4">
+                Card required. Cancel anytime.
               </p>
             </div>
             <div className="lg:col-span-5">
-              <HeroVisual />
+              <HeroGenerationVisual />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Trust strip */}
+      {/* Outcome strip — replaces the LMS-vendor trust strip with the three things
+          a non-expert wants to know in 5 seconds. */}
       <section className="border-border-subtle bg-surface-raised border-y">
         <Container>
-          <div className="text-body-sm text-text-secondary flex flex-wrap items-center justify-between gap-x-12 gap-y-4 py-6">
-            <p className="text-caption text-text-tertiary uppercase tracking-wider">
-              Built for hospital LMSs
-            </p>
-            <ul className="text-text-primary flex flex-wrap items-center gap-x-8 gap-y-2 font-medium">
-              <li>HealthStream</li>
-              <li>Cornerstone</li>
-              <li>Relias</li>
-              <li>Workday Learning</li>
-              <li>Any SCORM 1.2 / xAPI LMS</li>
-            </ul>
+          <div className="grid gap-8 py-12 sm:grid-cols-3">
+            <Outcome
+              stat="10 min"
+              /* TODO: validate stat — replace with measured median time-to-export. */
+              line="from blank page to finished module"
+            />
+            <Outcome
+              stat="0"
+              /* TODO: validate stat — confirm with first 10 customers. */
+              line="instructional-design experience required"
+            />
+            <Outcome
+              stat="Any LMS"
+              line="SCORM 1.2, xAPI, MP4 — works with HealthStream, Cornerstone, Relias, Workday"
+            />
           </div>
         </Container>
       </section>
 
-      {/* Three-up feature grid */}
+      {/* The "ohhh" moment for non-experts. */}
       <Section>
-        <SectionEyebrow>Why Kiris</SectionEyebrow>
-        <SectionHeading sub="Two authoring modes, one polished output. Built on real learning science. Designed for non-designers.">
-          Hospital training that doesn&apos;t take three weeks.
+        <SectionEyebrow>The shift</SectionEyebrow>
+        <SectionHeading sub="Hospital training is usually a six-week side project nobody wants. Here's what changes when an AI handles the drafting.">
+          The old way vs. Kiris.
         </SectionHeading>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <FeatureCard
-            icon={<Sparkles aria-hidden size={20} />}
-            title="Express AI"
-            body="Drop materials, describe the audience, click generate. Kiris produces a complete, narrated module in 60–180 seconds."
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <ContrastCard
+            tone="muted"
+            label="The old way"
+            items={[
+              "Weeks of nights and weekends",
+              "Hire an instructional designer",
+              "Record yourself narrating slide by slide",
+              "Hope it passes accessibility review",
+              "Fight the LMS export",
+            ]}
           />
-          <FeatureCard
-            icon={<Workflow aria-hidden size={20} />}
-            title="Guided AI"
-            body="Build the outline you want. Use the ✨ helper on every field to polish, regenerate, and translate. Stay in control."
-          />
-          <FeatureCard
-            icon={<ShieldCheck aria-hidden size={20} />}
-            title="Hospital-shaped controls"
-            body="Per-seat caps, admin approval queues, role-based folders, transparent overage rates. No surprise bills."
+          <ContrastCard
+            tone="accent"
+            label="With Kiris"
+            items={[
+              "Drop in what you already have",
+              "AI writes a structured module",
+              "Studio-quality narration in one click",
+              "WCAG 2.2 AA by default",
+              "One-click SCORM export",
+            ]}
           />
         </div>
       </Section>
 
-      {/* How it works — 3 steps */}
+      {/* The magic moment — Express AI as a single hero feature. */}
       <Section raised>
+        <SectionEyebrow>AI-powered</SectionEyebrow>
+        <SectionHeading sub="Express AI takes three short answers — what it's about, who it's for, what materials you have — and writes a full narrated module in 60–180 seconds. Then you edit anything you want.">
+          Type a topic. Get a finished module.
+        </SectionHeading>
+        <div className="mt-12 grid items-center gap-6 md:grid-cols-3">
+          <FlowStep
+            icon={<FileText size={20} aria-hidden />}
+            label="You type three things"
+            body="Topic, audience, any materials you have on hand. Bullet points are fine."
+          />
+          <FlowArrow />
+          <FlowStep
+            icon={<Sparkles size={20} aria-hidden />}
+            label="Kiris drafts the module"
+            body="Hook, learning objectives, slides, knowledge checks, and a narration script."
+            highlight
+          />
+          <div className="md:hidden" aria-hidden />
+          <FlowArrow className="md:col-start-2" />
+          <div className="md:hidden" aria-hidden />
+          <FlowStep
+            icon={<Mic size={20} aria-hidden />}
+            label="One click to narrate"
+            body="Neural voices read your script with natural intonation. Preview, then export."
+            className="md:col-start-3"
+          />
+        </div>
+      </Section>
+
+      {/* How it works — kept; copy edits to drop the jargon. */}
+      <Section>
         <SectionEyebrow>How it works</SectionEyebrow>
-        <SectionHeading sub="The same three steps, whether you're a nurse educator or a compliance officer.">
-          From rough materials to a SCORM module in three steps.
+        <SectionHeading sub="Whether you're a nurse educator or a compliance officer, it's the same three steps.">
+          Rough materials in, polished module out.
         </SectionHeading>
         <ol className="mt-12 grid gap-6 md:grid-cols-3">
           <StepCard
@@ -111,23 +169,85 @@ export default function HomePage() {
             n={2}
             icon={<FileText size={20} aria-hidden />}
             title="Review, edit, polish"
-            body="Direct-manipulation editor. Click any text to edit. Press ✨ for AI helpers. Mayer's principles applied automatically."
+            body={
+              <>
+                Click any text to edit. Press the ✨ helper for AI rewrites. Designed using{" "}
+                <a
+                  href="/product#learning-science"
+                  className="text-accent underline-offset-2 hover:underline"
+                >
+                  proven learning science
+                </a>{" "}
+                so the structure works without you having to fuss with it.
+              </>
+            }
           />
           <StepCard
             n={3}
             icon={<Mic size={20} aria-hidden />}
             title="Narrate and export"
-            body="Clinical-grade AWS Polly Neural and Generative voices. Export SCORM, xAPI, or MP4."
+            body="AWS Polly Neural and Generative voices. Export SCORM 1.2, xAPI 1.0.3, or MP4."
           />
         </ol>
       </Section>
 
-      {/* Pricing teaser */}
+      {/* Reassurance for the busy non-expert. */}
+      <Section raised>
+        <SectionEyebrow>If you don&apos;t have time to learn new software</SectionEyebrow>
+        <SectionHeading sub="Kiris is built for the educator who has 90 minutes between meetings and a module due Friday.">
+          You&apos;re the expert. We handle the production.
+        </SectionHeading>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <FeatureCard
+            icon={<Wand2 aria-hidden size={20} />}
+            title="No design skills needed"
+            body="Kiris handles layout, accessibility, and pacing. You handle the message."
+          />
+          <FeatureCard
+            icon={<Headphones aria-hidden size={20} />}
+            title="Sounds human, not robotic"
+            body="AWS Polly's neural voices read your script with natural intonation. Preview before you ship."
+          />
+          <FeatureCard
+            icon={<Workflow aria-hidden size={20} />}
+            title="Works with your LMS"
+            body="One-click SCORM 1.2, xAPI 1.0.3, or MP4. If your LMS takes one of those, you're done."
+          />
+        </div>
+      </Section>
+
+      {/* Compliance / trust — present but no longer leading. For evaluators. */}
+      <section className="border-border-subtle bg-surface-base border-y">
+        <Container>
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-8">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <ShieldCheck size={18} className="text-accent" aria-hidden />
+              <TrustItem>HIPAA tier available</TrustItem>
+              <TrustItem>WCAG 2.2 AA</TrustItem>
+              <TrustItem>PHI scrubbed pre-flight</TrustItem>
+              <TrustItem>Hospital-shaped admin controls</TrustItem>
+            </div>
+            <CtaLink href="/security" variant="ghost" withArrow>
+              See security details
+            </CtaLink>
+          </div>
+        </Container>
+      </section>
+
+      {/* Pricing teaser — kept; one new line above to set expectations. */}
       <Section>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <SectionEyebrow>Pricing</SectionEyebrow>
-            <SectionHeading sub="Every plan and price is on this site. No contracts, no trials, no surprises.">
+            <SectionHeading
+              sub={
+                <>
+                  Start with a 7-day trial.{" "}
+                  {/* TODO: confirm trial terms */}
+                  No contracts, no demos required, no &ldquo;contact us for pricing.&rdquo;
+                </>
+              }
+            >
               Simple, transparent pricing.
             </SectionHeading>
           </div>
@@ -186,14 +306,14 @@ export default function HomePage() {
       {/* Final CTA */}
       <Section raised>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-display-md">Designed for non-designers.</h2>
+          <h2 className="text-display-md">Your next training module is 10 minutes away.</h2>
           <p className="text-body-lg text-text-secondary mt-4">
-            A nurse educator with no instructional-design background can ship a polished module
-            before lunch.
+            Drop in what you have. Walk away. Come back to a finished, narrated module ready for
+            your LMS.
           </p>
           <div className="mt-8 flex justify-center gap-3">
             <CtaLink href="/signup" size="lg" withArrow>
-              Get started
+              Start free trial
             </CtaLink>
             <CtaLink href="/product" size="lg" variant="secondary">
               See how it works
@@ -203,6 +323,119 @@ export default function HomePage() {
       </Section>
     </>
   );
+}
+
+function Outcome({ stat, line }: { stat: string; line: string }) {
+  return (
+    <div>
+      <p className="text-display-md text-text-primary">{stat}</p>
+      <p className="text-body-md text-text-secondary mt-2">{line}</p>
+    </div>
+  );
+}
+
+function ContrastCard({
+  tone,
+  label,
+  items,
+}: {
+  tone: "muted" | "accent";
+  label: string;
+  items: string[];
+}) {
+  const isAccent = tone === "accent";
+  return (
+    <Card className={cn(isAccent ? "border-accent" : "")}>
+      <CardBody>
+        <p
+          className={cn(
+            "text-caption uppercase",
+            isAccent ? "text-accent" : "text-text-tertiary",
+          )}
+        >
+          {label}
+        </p>
+        <ul className="mt-4 space-y-3">
+          {items.map((item) => (
+            <li key={item} className="flex gap-3">
+              <span
+                aria-hidden
+                className={cn(
+                  "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+                  isAccent ? "bg-accent-soft text-accent" : "bg-surface-base text-text-tertiary",
+                )}
+              >
+                {isAccent ? <Check size={14} /> : <X size={14} />}
+              </span>
+              <span
+                className={cn(
+                  "text-body-md",
+                  isAccent ? "text-text-primary" : "text-text-secondary",
+                )}
+              >
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </CardBody>
+    </Card>
+  );
+}
+
+function FlowStep({
+  icon,
+  label,
+  body,
+  highlight = false,
+  className,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  body: string;
+  highlight?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex flex-col gap-3", className)}>
+      <div
+        className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-md",
+          highlight ? "bg-accent text-text-on-accent" : "bg-accent-soft text-accent",
+        )}
+      >
+        {icon}
+      </div>
+      <p className="text-heading-sm text-text-primary">{label}</p>
+      <p className="text-body-md text-text-secondary">{body}</p>
+    </div>
+  );
+}
+
+function FlowArrow({ className }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={cn(
+        "text-text-tertiary hidden items-center justify-center md:flex",
+        className,
+      )}
+    >
+      <svg width="40" height="12" viewBox="0 0 40 12" fill="none">
+        <path
+          d="M0 6 H34 M28 1 L34 6 L28 11"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function TrustItem({ children }: { children: React.ReactNode }) {
+  return <span className="text-body-sm text-text-primary">{children}</span>;
 }
 
 function FeatureCard({
@@ -236,7 +469,7 @@ function StepCard({
   n: number;
   icon: React.ReactNode;
   title: string;
-  body: string;
+  body: React.ReactNode;
 }) {
   return (
     <li>
@@ -256,46 +489,91 @@ function StepCard({
   );
 }
 
-function HeroVisual() {
+/**
+ * Faux generation panel — replaces the static module-preview mock with a
+ * progress-style visual that reinforces the magic-moment positioning. Pure
+ * CSS animation via Tailwind's animate-pulse on the in-progress row.
+ */
+function HeroGenerationVisual() {
   return (
     <div className="border-border-subtle bg-surface-raised relative overflow-hidden rounded-xl border shadow-lg">
       <div className="border-border-subtle text-caption text-text-tertiary flex items-center gap-2 border-b px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-[#fca5a5]" aria-hidden />
         <span className="h-2.5 w-2.5 rounded-full bg-[#fcd34d]" aria-hidden />
         <span className="h-2.5 w-2.5 rounded-full bg-[#86efac]" aria-hidden />
-        <span className="ml-3">Hand hygiene refresher · Module preview</span>
+        <span className="ml-3">Generating · Hand hygiene refresher</span>
       </div>
-      <div className="grid gap-4 p-6">
-        <div className="bg-accent-soft text-body-sm text-accent rounded-lg p-4">
-          <p className="font-semibold">Hook</p>
-          <p className="text-text-secondary mt-1">
-            &quot;It&apos;s 7:14 AM. You step into Mr. Reyes&apos;s room with your med pass
-            cart…&quot;
-          </p>
-        </div>
-        <div className="border-border-subtle grid gap-2 rounded-lg border p-4">
-          <p className="text-caption text-text-tertiary uppercase">Learning objectives</p>
-          <ul className="text-body-sm text-text-secondary space-y-1">
-            <li>· Identify the 5 moments for hand hygiene</li>
-            <li>· Demonstrate proper technique under 20 seconds</li>
-            <li>· Apply the 5 moments during your next shift</li>
-          </ul>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          {["Concept", "Demo", "Knowledge check"].map((label) => (
-            <div
-              key={label}
-              className="border-border-subtle bg-surface-base text-caption text-text-secondary rounded-md border p-3"
-            >
-              {label}
-            </div>
-          ))}
-        </div>
-        <div className="border-border-subtle text-body-sm text-text-secondary flex items-center gap-2 rounded-md border p-3">
-          <Mic size={16} aria-hidden className="text-accent" />
-          <span>Polly Neural · Joanna · 3 min 42 sec</span>
+      <div className="grid gap-3 p-6">
+        <GenStep state="done" label="Reading materials" detail="3 PDFs · 1 transcript" />
+        <GenStep state="done" label="Writing slides" detail="9 slides · 4 knowledge checks" />
+        <GenStep state="active" label="Recording narration" detail="Polly Neural · Joanna" />
+        <GenStep state="pending" label="Packaging SCORM" detail="ZIP, ready to upload" />
+        <div
+          className="border-border-subtle bg-surface-base text-caption text-text-tertiary mt-2 flex items-center justify-between rounded-md border px-3 py-2"
+          aria-hidden
+        >
+          <span>Estimated total</span>
+          <span className="text-text-primary font-medium">~ 8 min</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+function GenStep({
+  state,
+  label,
+  detail,
+}: {
+  state: "done" | "active" | "pending";
+  label: string;
+  detail: string;
+}) {
+  const isActive = state === "active";
+  const isDone = state === "done";
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-md border px-3 py-2",
+        isActive
+          ? "border-accent bg-accent-soft"
+          : "border-border-subtle bg-surface-base",
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          "flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
+          isDone ? "bg-accent text-text-on-accent" : "",
+          isActive ? "text-accent" : "",
+          !isDone && !isActive ? "border-border-subtle border text-text-tertiary" : "",
+        )}
+      >
+        {isDone ? <Check size={14} /> : isActive ? <Loader2 size={14} className="animate-spin" /> : null}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p
+          className={cn(
+            "text-body-sm font-medium",
+            isActive ? "text-accent" : "text-text-primary",
+            !isDone && !isActive ? "text-text-tertiary" : "",
+          )}
+        >
+          {label}
+        </p>
+        <p className="text-caption text-text-tertiary truncate">{detail}</p>
+      </div>
+      <span
+        className={cn(
+          "text-caption",
+          isDone ? "text-text-tertiary" : "",
+          isActive ? "text-accent animate-pulse" : "",
+          !isDone && !isActive ? "text-text-tertiary" : "",
+        )}
+        aria-hidden
+      >
+        {isDone ? "✓" : isActive ? "…" : ""}
+      </span>
     </div>
   );
 }
