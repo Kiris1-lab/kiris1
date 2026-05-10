@@ -1,6 +1,7 @@
 import "@kiris/ui/globals.css";
 import "./globals.css";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import localFont from "next/font/local";
 import { SkipLink } from "@kiris/ui";
 import { SiteHeader } from "@/components/site-header";
@@ -36,7 +37,16 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Reading the request headers forces dynamic rendering, which is required
+  // for the per-request nonce CSP set by middleware.ts to work. With static
+  // rendering, Next's bootstrap scripts have no nonce attribute baked in,
+  // so the CSP that arrives at request time blocks them and React fails to
+  // hydrate (resulting in a flash of content followed by a blank page).
+  // Next.js auto-applies the nonce from the x-nonce request header to its
+  // own bootstrap scripts once a route is dynamic.
+  await headers();
+
   return (
     <html lang="en" className={inter.variable}>
       <body>
