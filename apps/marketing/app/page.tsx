@@ -794,9 +794,7 @@ function GenStep({
     <div
       className={cn(
         "flex items-center gap-3 rounded-md border px-3 py-2",
-        isActive
-          ? "border-accent bg-accent-soft"
-          : "border-border-subtle bg-surface-base",
+        isActive ? "border-accent bg-accent-soft" : "border-border-subtle bg-surface-base",
       )}
     >
       <span
@@ -805,10 +803,14 @@ function GenStep({
           "flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
           isDone ? "bg-accent text-text-on-accent" : "",
           isActive ? "text-accent" : "",
-          !isDone && !isActive ? "border-border-subtle border text-text-tertiary" : "",
+          !isDone && !isActive ? "border-border-subtle text-text-tertiary border" : "",
         )}
       >
-        {isDone ? <Check size={14} /> : isActive ? <Loader2 size={14} className="animate-spin" /> : null}
+        {isDone ? (
+          <Check size={14} />
+        ) : isActive ? (
+          <Loader2 size={14} className="animate-spin" />
+        ) : null}
       </span>
       <div className="min-w-0 flex-1">
         <p
