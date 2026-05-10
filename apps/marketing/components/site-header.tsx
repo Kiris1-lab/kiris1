@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@kiris/ui";
-import { KirisMark } from "./kiris-mark";
+import { KirisWordmark } from "./kiris-mark";
 
 const NAV = [
   { href: "/product", label: "Product" },
@@ -15,13 +15,8 @@ export function SiteHeader() {
     <header className="border-border-subtle bg-surface-base/80 sticky top-0 z-40 w-full border-b backdrop-blur">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
-          <Link
-            href="/"
-            className="text-text-primary flex items-center gap-2 font-semibold"
-            aria-label="Kiris home"
-          >
-            <KirisMark />
-            <span className="text-heading-md">Kiris</span>
+          <Link href="/" className="flex items-center" aria-label="Kiris home">
+            <KirisWordmark size={24} />
           </Link>
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="text-body-sm text-text-secondary flex items-center gap-7">

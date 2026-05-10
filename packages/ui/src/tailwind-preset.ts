@@ -13,6 +13,7 @@ const preset: Partial<Config> = {
           base: "var(--surface-base)",
           raised: "var(--surface-raised)",
           overlay: "var(--surface-overlay)",
+          sunken: "var(--surface-sunken)",
           inverse: "var(--surface-inverse)",
         },
         text: {
@@ -20,6 +21,7 @@ const preset: Partial<Config> = {
           secondary: "var(--text-secondary)",
           tertiary: "var(--text-tertiary)",
           "on-accent": "var(--text-on-accent)",
+          "on-inverse": "var(--text-on-inverse)",
         },
         border: {
           subtle: "var(--border-subtle)",
@@ -31,6 +33,10 @@ const preset: Partial<Config> = {
           hover: "var(--accent-primary-hover)",
           pressed: "var(--accent-primary-pressed)",
           soft: "var(--accent-soft)",
+        },
+        highlight: {
+          DEFAULT: "var(--highlight)",
+          soft: "var(--highlight-soft)",
         },
         status: {
           success: "var(--status-success)",

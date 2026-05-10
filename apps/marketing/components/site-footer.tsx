@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@kiris/ui";
-import { KirisMark } from "./kiris-mark";
+import { KirisWordmark } from "./kiris-mark";
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
@@ -36,9 +36,8 @@ export function SiteFooter() {
       <Container>
         <div className="grid gap-10 py-14 md:grid-cols-4">
           <div>
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <KirisMark size={24} />
-              <span className="text-heading-sm">Kiris</span>
+            <Link href="/" className="inline-flex">
+              <KirisWordmark size={22} />
             </Link>
             <p className="text-body-sm text-text-secondary mt-3">
               Narrated, editable e-learning modules for hospitals.
