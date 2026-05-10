@@ -29,12 +29,16 @@ export interface SentryInitOptions {
 
 export function initSentry(opts: SentryInitOptions): void {
   if (!opts.dsn) return; // dev / preview environments may opt out
+  const environment = opts.environment ?? process.env.NODE_ENV ?? "development";
+  // Tracing is expensive — only sample in production. Dev/preview/CI
+  // never need a paid trace bucket consumed for noise.
+  const tracesSampleRate = environment === "production" ? 0.05 : 0;
   opts.init({
     dsn: opts.dsn,
-    environment: opts.environment ?? process.env.NODE_ENV ?? "development",
+    environment,
     release: opts.release ?? process.env.GIT_SHA,
     sendDefaultPii: false,
-    tracesSampleRate: 0.05,
+    tracesSampleRate,
     beforeSend(event: Record<string, unknown>) {
       return scrubValue(event) as Record<string, unknown>;
     },

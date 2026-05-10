@@ -2,10 +2,14 @@ import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { withTenant, schema } from "@kiris/db";
+import { getMonthToDateUsage } from "@kiris/metering";
 
 /**
  * Per-seat cap workflow — DESIGN §10.5.
  * Soft-warn at 80%, hard-block at 100%, request → admin queue.
+ *
+ * `currentUsage` is looked up server-side from `usage_daily`. The client
+ * cannot manipulate the auto-approval threshold by lying about its usage.
  */
 const capRequestsRoute: FastifyPluginAsync = async (app) => {
   app.get("/v1/cap-requests", { config: { audit: false } }, async (req) => {
@@ -24,7 +28,6 @@ const capRequestsRoute: FastifyPluginAsync = async (app) => {
   const createSchema = z.object({
     kind: z.enum(["ai_credits", "narration_minutes"]),
     requestedAmount: z.number().int().positive().max(10_000),
-    currentUsage: z.number().int().nonnegative(),
     reason: z.string().min(1).max(500),
   });
 
@@ -36,6 +39,18 @@ const capRequestsRoute: FastifyPluginAsync = async (app) => {
       if (!parsed.success) {
         return reply.code(400).send({ error: "invalid_body", issues: parsed.error.issues });
       }
+
+      // Look up current usage server-side. Client-supplied values are
+      // ignored — the auto-approval policy reads this row.
+      const usage = await getMonthToDateUsage(
+        req.auth.tenantId,
+        req.auth.userId,
+        req.auth.hipaaSession,
+      );
+      const eventType =
+        parsed.data.kind === "ai_credits" ? "ai_credit_used" : "narration_minute_used";
+      const currentUsage = Math.round(usage[eventType] ?? 0);
+
       const created = await withTenant(
         { tenantId: req.auth.tenantId, hipaaSession: req.auth.hipaaSession },
         async (db) => {
@@ -46,7 +61,7 @@ const capRequestsRoute: FastifyPluginAsync = async (app) => {
               userId: req.auth.userId,
               kind: parsed.data.kind,
               requestedAmount: parsed.data.requestedAmount,
-              currentUsage: parsed.data.currentUsage,
+              currentUsage,
               reason: parsed.data.reason,
             })
             .returning();

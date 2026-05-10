@@ -1,18 +1,41 @@
 import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
-import { eq, and, isNull, desc } from "drizzle-orm";
+import { eq, and, isNull, lt, desc } from "drizzle-orm";
 import { withTenant, schema } from "@kiris/db";
 
 /**
  * Module CRUD. Every read goes through `withTenant` so RLS sees the tenant
  * context. RLS would block a misrouted query anyway, but we never want to
  * rely on that as the only barrier.
+ *
+ * GET /v1/modules supports cursor pagination via `?after=<ISO timestamp>`.
+ * Cursor is the `updatedAt` of the last item from the previous page.
  */
+const MODULES_HARD_LIMIT = 50;
+
+const modulesListSchema = z.object({
+  after: z.string().datetime().optional(),
+  limit: z.coerce.number().int().min(1).max(MODULES_HARD_LIMIT).default(MODULES_HARD_LIMIT),
+});
+
 const modulesRoute: FastifyPluginAsync = async (app) => {
-  app.get("/v1/modules", { config: { audit: false } }, async (req) => {
+  app.get("/v1/modules", { config: { audit: false } }, async (req, reply) => {
+    const query = modulesListSchema.safeParse(req.query);
+    if (!query.success) {
+      return reply.code(400).send({ error: "invalid_query", issues: query.error.issues });
+    }
+    const { after, limit } = query.data;
+
     return withTenant(
       { tenantId: req.auth.tenantId, hipaaSession: req.auth.hipaaSession },
       async (db) => {
+        const where = after
+          ? and(
+              eq(schema.modules.tenantId, req.auth.tenantId),
+              isNull(schema.modules.deletedAt),
+              lt(schema.modules.updatedAt, new Date(after)),
+            )
+          : and(eq(schema.modules.tenantId, req.auth.tenantId), isNull(schema.modules.deletedAt));
         const rows = await db
           .select({
             id: schema.modules.id,
@@ -23,12 +46,12 @@ const modulesRoute: FastifyPluginAsync = async (app) => {
             estimatedDurationSeconds: schema.modules.estimatedDurationSeconds,
           })
           .from(schema.modules)
-          .where(
-            and(eq(schema.modules.tenantId, req.auth.tenantId), isNull(schema.modules.deletedAt)),
-          )
+          .where(where)
           .orderBy(desc(schema.modules.updatedAt))
-          .limit(100);
-        return { modules: rows };
+          .limit(limit);
+        const nextCursor =
+          rows.length === limit ? rows[rows.length - 1]?.updatedAt.toISOString() : null;
+        return { modules: rows, nextCursor };
       },
     );
   });

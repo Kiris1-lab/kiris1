@@ -1,6 +1,13 @@
 import type { FastifyPluginAsync } from "fastify";
+import { createHmac } from "node:crypto";
 import { z } from "zod";
-import { buildExpressPrompt, buildSlideHelperPrompt, validateModule } from "@kiris/learning-engine";
+import { loadEnv } from "../env.js";
+import {
+  buildExpressPrompt,
+  buildSlideHelperPrompt,
+  validateModule,
+  ModuleEnvelopeSchema,
+} from "@kiris/learning-engine";
 import { scrubText } from "@kiris/scrubber";
 import { withTenant, schema } from "@kiris/db";
 import { generate } from "../services/anthropic.js";
@@ -14,6 +21,15 @@ import { generate } from "../services/anthropic.js";
  *   - Logged in `ai_generations` with request_id only — never the prompt or
  *     response body.
  */
+function hashUserId(tenantId: string, userId: string): string | undefined {
+  const env = loadEnv();
+  if (!env.INTERNAL_SIGNING_KEY) return undefined;
+  return createHmac("sha256", env.INTERNAL_SIGNING_KEY)
+    .update(`${tenantId}:${userId}`)
+    .digest("hex")
+    .slice(0, 32);
+}
+
 const generateRoute: FastifyPluginAsync = async (app) => {
   const expressSchema = z.object({
     title: z.string().min(1).max(200),
@@ -71,10 +87,15 @@ const generateRoute: FastifyPluginAsync = async (app) => {
         system: prompt.system,
         user: prompt.user,
         maxTokens: 8192,
+        userIdHash: hashUserId(req.auth.tenantId, req.auth.userId),
       });
 
-      // Parse the JSON envelope. The model is instructed to return raw JSON.
-      const moduleJson = safeJsonParse(out.text);
+      // Parse the JSON envelope. The model is instructed to return raw JSON,
+      // then validated against ModuleEnvelopeSchema before persistence so a
+      // malformed response doesn't get stored or sent downstream.
+      const rawJson = safeJsonParse(out.text);
+      const envelope = rawJson ? ModuleEnvelopeSchema.safeParse(rawJson) : null;
+      const moduleJson = envelope?.success ? envelope.data : null;
       const findings = moduleJson ? validateModule(moduleJson) : [];
 
       try {
@@ -100,6 +121,8 @@ const generateRoute: FastifyPluginAsync = async (app) => {
       return {
         module: moduleJson,
         validation: findings,
+        envelopeValid: envelope?.success ?? false,
+        envelopeIssues: envelope && !envelope.success ? envelope.error.issues : [],
         usage: { inputTokens: out.inputTokens, outputTokens: out.outputTokens },
         requestId: out.requestId,
       };
@@ -154,6 +177,7 @@ const generateRoute: FastifyPluginAsync = async (app) => {
         system: prompt.system,
         user: prompt.user,
         maxTokens: 2048,
+        userIdHash: hashUserId(req.auth.tenantId, req.auth.userId),
       });
 
       try {
@@ -185,7 +209,7 @@ const generateRoute: FastifyPluginAsync = async (app) => {
   );
 };
 
-function safeJsonParse(s: string): any {
+function safeJsonParse(s: string): unknown {
   try {
     return JSON.parse(s);
   } catch {

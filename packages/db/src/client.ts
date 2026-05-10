@@ -55,7 +55,14 @@ export async function withTenant<T>(
     await client.query("COMMIT");
     return result;
   } catch (err) {
-    await client.query("ROLLBACK");
+    // Don't let a transient ROLLBACK failure mask the original error.
+    try {
+      await client.query("ROLLBACK");
+    } catch (rollbackErr) {
+      // Log via console.error — pino isn't available in this layer. Caller's
+      // observability picks it up via the original `err` re-throw.
+      console.error("withTenant: ROLLBACK failed", rollbackErr);
+    }
     throw err;
   } finally {
     client.release();

@@ -30,8 +30,11 @@ const NAV: { href: string; label: string; icon: React.ReactNode }[] = [
   { href: "/staff", label: "Staff", icon: <Users size={16} aria-hidden /> },
 ];
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
-  const session = getInternalSession();
+export async function AdminShell({ children }: { children: React.ReactNode }) {
+  const session = await getInternalSession();
+  // Middleware should have redirected to /sign-in already; render nothing if
+  // somehow we got here without a session.
+  if (!session) return null;
   return (
     <div className="bg-surface-base flex min-h-screen">
       <aside

@@ -27,21 +27,29 @@ const csrfPlugin: FastifyPluginAsync = async (app) => {
     const cfg = (req.routeOptions?.config ?? {}) as { csrf?: boolean; public?: boolean };
     if (cfg.csrf === false || cfg.public === true) return;
 
-    // Bearer-token requests (the dominant path): no CSRF risk.
-    const authHeader = req.headers.authorization;
-    if (typeof authHeader === "string" && authHeader.toLowerCase().startsWith("bearer ")) {
-      // Sec-Fetch-Site sanity check on top — not strictly required.
-      const site = req.headers["sec-fetch-site"];
-      if (typeof site === "string" && !ALLOWED_FETCH_SITES.has(site)) {
-        reply.code(403).send({ error: "csrf_blocked" });
-        return reply;
-      }
-      return;
+    // Sec-Fetch sanity check applies to every browser request, regardless of
+    // which credential carrier (bearer / cookie) is in use.
+    const site = req.headers["sec-fetch-site"];
+    if (typeof site === "string" && !ALLOWED_FETCH_SITES.has(site)) {
+      reply.code(403).send({ error: "csrf_blocked" });
+      return reply;
     }
 
-    // Cookie-bearing requests: require matching CSRF token.
+    const cookies = parseCookie(req.headers.cookie ?? "");
+    const sessionPresent = "kiris.session" in cookies || "kiris.csrf" in cookies;
+    const authHeader = req.headers.authorization;
+    const hasBearer =
+      typeof authHeader === "string" && authHeader.toLowerCase().startsWith("bearer ");
+
+    // Pure bearer with no Kiris session cookie → no CSRF risk.
+    if (hasBearer && !sessionPresent) return;
+
+    // Any Kiris session cookie in flight requires a matching CSRF token, even
+    // alongside a bearer header. Bearer presence does NOT bypass the check —
+    // an attacker controlling a cookie session shouldn't get a free pass by
+    // also setting an unrelated bearer.
     const headerToken = req.headers["x-kiris-csrf"];
-    const cookieToken = parseCookie(req.headers.cookie ?? "")["kiris.csrf"];
+    const cookieToken = cookies["kiris.csrf"];
     if (
       typeof headerToken !== "string" ||
       !cookieToken ||

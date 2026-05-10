@@ -2,6 +2,7 @@ import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { withTenant, schema } from "@kiris/db";
+import { allocateTenantCmk } from "../services/kms-allocator.js";
 
 /**
  * HIPAA tier upgrade — DESIGN §2.2.
@@ -86,15 +87,24 @@ const hipaaUpgradeRoute: FastifyPluginAsync = async (app) => {
         "HIPAA upgrade accepted",
       );
 
-      // TODO (Phase 2 deploy step): allocate per-tenant KMS CMK, Stripe
-      // subscription proration to the HIPAA-tier price. Both run async via
-      // worker queues so the request returns quickly.
+      // Allocate per-tenant CMK in the background. PHI upload paths gate on
+      // tenants.hipaa_kms_key_arn IS NOT NULL, so a transient KMS failure
+      // delays uploads but doesn't fail the BAA acceptance. A reconciler
+      // retries any tenant with hipaa_enabled = true AND hipaa_kms_key_arn
+      // IS NULL on a 5-minute interval.
+      allocateTenantCmk(req.auth.tenantId).catch((err: Error) => {
+        req.log.error(
+          { err: err.message, tenantId: req.auth.tenantId, kms_alloc_failed: true },
+          "tenant CMK allocation failed; reconciler will retry",
+        );
+      });
 
       return {
         ok: true,
         tier: "hipaa",
         baaVersion: BAA_VERSION,
         upgradedAt: updated.hipaaEnabledAt,
+        cmkPending: true,
       };
     },
   );

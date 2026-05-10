@@ -19,21 +19,28 @@ import capRequestsRoute from "./routes/cap-requests.js";
 import exportsRoute from "./routes/exports.js";
 import hipaaUpgradeRoute from "./routes/hipaa-upgrade.js";
 import stripeWebhookRoute from "./routes/stripe-webhook.js";
+import internalScheduledRoute from "./routes/internal-scheduled.js";
 
 /**
  * Kiris API server. Fastify, ESM, single-process.
  *
  * Plugin order matters:
  *   1. request-id  — every log line carries x-request-id
- *   2. cors / helmet / rate limit
+ *   2. cors / helmet
  *   3. auth        — populates req.auth (or rejects)
- *   4. audit       — writes after auth (so it has actor info)
- *   5. routes
+ *   4. rate-limit  — keyed by req.auth.userId; auth must run first
+ *   5. csrf        — bearer-path skip relies on auth having validated the bearer
+ *   6. audit       — writes after auth (so it has actor info)
+ *   7. routes
+ *
+ * Note on the Stripe webhook: it is registered with `{ config: { public: true } }`
+ * and uses signature verification. Its raw-body content-type parser is
+ * encapsulated to that route's plugin scope (see routes/stripe-webhook.ts) so
+ * other JSON routes still receive parsed objects.
  */
 async function build() {
   const env = loadEnv();
 
-  // Sentry — has BAA. PHI scrubbed via @kiris/observability before send.
   initSentry({
     dsn: env.SENTRY_DSN,
     environment: env.NODE_ENV,
@@ -43,7 +50,7 @@ async function build() {
 
   const app = Fastify({
     logger: { level: env.LOG_LEVEL },
-    bodyLimit: 5 * 1024 * 1024, // 5 MB; uploads use signed S3 URLs, not the API
+    bodyLimit: 5 * 1024 * 1024,
     disableRequestLogging: false,
     trustProxy: true,
   });
@@ -54,16 +61,13 @@ async function build() {
     credentials: true,
   });
   await app.register(helmet, { contentSecurityPolicy: false });
+  await app.register(authPlugin);
   await app.register(rateLimit, {
     max: 600,
     timeWindow: "1 minute",
-    keyGenerator: (req) => {
-      // Per user when authenticated, per IP otherwise.
-      return req.auth?.userId ?? req.ip;
-    },
+    keyGenerator: (req) => req.auth?.userId ?? req.ip,
   });
   await app.register(csrfPlugin);
-  await app.register(authPlugin);
   await app.register(auditPlugin);
 
   await app.register(healthRoute);
@@ -75,6 +79,7 @@ async function build() {
   await app.register(capRequestsRoute);
   await app.register(exportsRoute);
   await app.register(hipaaUpgradeRoute);
+  await app.register(internalScheduledRoute);
 
   return app;
 }
